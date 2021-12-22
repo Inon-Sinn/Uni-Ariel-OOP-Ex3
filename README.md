@@ -18,4 +18,5 @@
 [Yaron]()
 ### temp links for devs
 [pygame docs](https://www.pygame.org/docs/)
+[Ex2 project](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex2)
 
