@@ -16,5 +16,6 @@
 [Innon]()<br />
 [Yan](https://github.com/Yannnyan) <br />
 [Yaron]()
-
+### temp links for devs
+[pygame docs](https://www.pygame.org/docs/)
 
