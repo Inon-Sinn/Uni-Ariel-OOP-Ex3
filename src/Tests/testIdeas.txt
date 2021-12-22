@@ -1,0 +1,11 @@
+This text contains ideas for tests.
+// ideas are marked with *
+
+
+
+
+
+
+* implement time testing for GraphAlgo
+*
+
