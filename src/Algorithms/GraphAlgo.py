@@ -1,6 +1,10 @@
+import json
+from abc import ABC
 from typing import List
-
-from src import GraphInterface
+from src.api import GraphInterface
+from src.api.GraphInterface import EdgeDataInterface as edge
+from src.api.GraphInterface import NodeDataInterface as node
+from src.api.GraphInterface import GraphInterface as graph
 
 
 class GraphAlgo:
@@ -72,3 +76,25 @@ class GraphAlgo:
         @return: None
         """
         raise NotImplementedError
+
+
+class DiGraphAlgo(GraphAlgo):
+
+    def load_from_json(self, file_name: str) -> bool:
+        try:
+            with open(file_name, "r+") as f:
+                fromJson = json.load(f)
+                g = graph
+                for n in fromJson['nodes']:
+                    # nodeFromJson = node.NodeData(id=n["id"], pos=n["pos"])
+                    g.add_node(n["id"], n["pos"])
+                for e in fromJson['edges']:
+                    # edgeFromJson = edge.EdgeData(src=e["src"], dest=e["dest"], w=e["w"])
+                    g.add_edge(e["src"], e["dest"], e["w"])
+                return True
+        except IOError as err:
+            print(err)
+            return False
+
+    def save_to_json(self, file_name: str) -> bool:
+        pass

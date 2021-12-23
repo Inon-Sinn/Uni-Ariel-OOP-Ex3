@@ -120,8 +120,13 @@ class DiGraph(GraphInterface):
             return False
         if len(self.edges) == 0:
             self.edges[0] = e
+            self.nodes.get(id1).addEdge(e)
+            self.nodes.get(id2).addPointers(id1)
         else:
             self.edges[len(self.edges) - 1] = e
+            self.nodes.get(id1).addEdge(e)
+            if self.nodes.get(id2) != None:
+                self.nodes.get(id2).addPointers(id1)
         return True
 
     def add_node(self, node_id: int, pos: tuple = None) -> bool:

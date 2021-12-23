@@ -3,7 +3,7 @@ import math
 
 class NodeData:
     global id  # int
-    pos = {}  # geoLoc
+    pos = (0, 0, 0)  # geoLoc
     edgesConnected = {}  # dicionary/map
     pointingToMe = []  # list
 
@@ -43,7 +43,7 @@ class NodeData:
         return self.edgesConnected.get(dest)
 
     def getDistance(self, g):
-        return math.sqrt\
+        return math.sqrt \
             (math.pow(g.x - self.pos[0], 2) +
              math.pow(g.y - self.pos[1], 2) + math.pow(g.z - self.pos[2], 2))
 
@@ -59,8 +59,8 @@ class NodeData:
     def removeEdge(self, dest):
         self.edgesConnected.pop(dest)
 
-    def addEdge(self, e): #edgeData
-        self.edgesConnected[e.getDest] = e
+    def addEdge(self, e):  # edgeData
+        self.edgesConnected[e.getDestination] = e
 
     def getPointers(self):
         return self.pointingToMe
@@ -76,7 +76,7 @@ class NodeData:
         ans1 = "id:{id}\nweight:{weight}\npos:{pos}\nedges:{edges}" \
                "\npointers:{pointers}\nid:{id}".format \
             (id=self.id, weight=self.weight, pos=self.pos,
-             edges = self.edgesConnected, pointers = self.pointingToMe)
+             edges=self.edgesConnected, pointers=self.pointingToMe)
         return ans1
 
     def compareTo(self, node):
