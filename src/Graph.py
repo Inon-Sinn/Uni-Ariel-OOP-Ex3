@@ -18,23 +18,26 @@ class DWGraph(GraphInterface):
         return self.nodes
 
     def all_in_edges_of_node(self, id1: int) -> dict:
-        return self.nodes.get(id1).get_All_in_edges
+        return self.nodes.get(id1).get_All_in_edges()
 
     def all_out_edges_of_node(self, id1: int) -> dict:
-        return self.nodes.get(id1).get_All_out_edges
+        return self.nodes.get(id1).get_All_out_edges()
 
     def get_mc(self) -> int:
         return self.mc
 
     def add_edge(self, id1: int, id2: int, weight: float) -> bool:
+        if id1 == id2:
+            return False
         if self.nodes.get(id1) is None or self.nodes.get(id2) is None:
             return False
         src = self.nodes.get(id1)
         dest = self.nodes.get(id2)
-        if src.all_out_edges[id2] is None and dest.all_in_edges[id1] is None:
+        if src.all_out_edges.get(id2) is None and dest.all_in_edges.get(id1) is None:
             src.add_Out_edge(id2, weight)
             dest.add_In_edge(id1, weight)
             self.mc += 1
+            self.EdgeSize += 1
             return True
         return False
 
@@ -49,31 +52,46 @@ class DWGraph(GraphInterface):
         return False
 
     def remove_node(self, node_id: int) -> bool:
-        removedNode = self.nodes.pop(node_id)
-        if removedNode is None:
+        nodeToRemove = self.nodes.get(node_id)
+        if nodeToRemove is None:
             return False  # TODO check if i should return False if the id does not exist
-        for dest in removedNode.remove_Out_edge():
-            self.remove_edge(node_id, dest)
-        for src in removedNode.get_All_in_edges():
-            self.remove_edge(src, node_id)
+        for dest in nodeToRemove.get_All_out_edges():
+            self.getNode(dest).remove_In_edge(node_id)
+            self.EdgeSize -= 1
+        for src in nodeToRemove.get_All_in_edges():
+            self.getNode(src).remove_Out_edge(node_id)
+            self.EdgeSize -= 1
+        self.mc += 1
+        self.nodes.pop(node_id)
         return True
 
     def remove_edge(self, node_id1: int, node_id2: int) -> bool:
+        if node_id1 == node_id2:
+            return False
         if self.nodes.get(node_id1) is None or self.nodes.get(node_id2) is None:
             return False
         src = self.nodes.get(node_id1)
-        if src.remove_Out_edge(node_id2) is None:
-            return False
         dest = self.nodes.get(node_id2)
-        if dest.remove_In_edge(node_id1) is None:
+        try:
+            src.remove_Out_edge(node_id2)
+            dest.remove_In_edge(node_id1)
+        except:
             return False
+        self.mc += 1
+        self.EdgeSize -= 1
         return True
+
     def getNode(self, id):
         return self.nodes.get(id)
+
     def popNode(self, id):
-        return self.nodes.pop(id)
-    def addNode(self, key, value):
+        pop = self.nodes.get(id)
+        self.remove_node(id)
+        return pop
+
+    def addNode(self, key, value):  # TODO delete later
         self.nodes[key] = value
+
 
 class Node:
 
@@ -103,6 +121,7 @@ class Node:
 
     def remove_Out_edge(self, otherId):
         return self.all_out_edges.pop(otherId)
+
     def __copy__(self):
         node = Node()
         for node1 in node.all_out_edges:
@@ -110,6 +129,11 @@ class Node:
         for node1 in node.all_in_edges:
             node.add_in_edge(node1)
         return node
+
+    def __str__(self):
+        return "Id: {}\npos: {}\nIncoming Edges: {}\nOutgoing Edges: {}\n".format(self.Id, self.pos, self.all_in_edges,
+                                                                                  self.all_out_edges)
+
 
 def main():
     newGraph = DWGraph()
