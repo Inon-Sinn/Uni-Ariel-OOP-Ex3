@@ -6,7 +6,7 @@ from src.GraphInterface import GraphInterface
 from src.Graph import DWGraph
 from src.Graph import Node
 import Lib.queue as queue
-
+import heapq
 
 class DWGraphAlgo(GraphAlgoInterface):
 
@@ -107,8 +107,15 @@ class BFS:
                 return False
         return True
 
-
 class Dijkstra:
 
-    def __init__(self):
-        pass
+    def __init__(self, graph, startID):
+        # this dijkstra uses minq as implementation for pq
+        self.graph = graph
+        self.prioQ = []
+        startNode = graph.get_all_v.get(startID)
+        # iterating through all the nodes and setting their weights to infinity
+
+
+
+
