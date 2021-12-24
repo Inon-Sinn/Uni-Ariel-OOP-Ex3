@@ -1,6 +1,6 @@
 import json
 from typing import List
-from src import GraphInterface
+from src.GraphInterface import GraphInterface
 
 
 class GraphAlgo:
@@ -100,7 +100,7 @@ class GraphAlgo(GraphAlgo):
             return False
 
     def save_to_json(self, file_name: str) -> bool:
-        graph = GraphInterface.DiGraph()
+        graph = GraphInterface.DWGraph()
         ToJson = {}
         ToJson['edges'] = []
 
