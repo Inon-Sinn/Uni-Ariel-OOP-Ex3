@@ -53,6 +53,8 @@ class GraphInterface:
         @param weight: The weight of the edge
         @return: True if the edge was added successfully, False o.w.
         Note: If the edge already exists or one of the nodes dose not exists the functions will do nothing
+        >>> add_edge(1,1,1)
+        True
         """
         pass
 
@@ -149,3 +151,5 @@ class DiGraph(GraphInterface):
             else:
                 self.edges.pop(i)
         return False
+
+

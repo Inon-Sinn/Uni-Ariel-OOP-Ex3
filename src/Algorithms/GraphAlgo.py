@@ -4,8 +4,8 @@ from typing import List
 from src.api import GraphInterface
 from src.api.GraphInterface import EdgeDataInterface as edge
 from src.api.GraphInterface import NodeDataInterface as node
-from src.api.GraphInterface import GraphInterface as graph
-
+from src.api.GraphInterface import DiGraph
+from src.Algorithms import DijkstraAlgo
 
 class GraphAlgo:
 
@@ -78,23 +78,66 @@ class GraphAlgo:
         raise NotImplementedError
 
 
-class DiGraphAlgo(GraphAlgo):
+class GraphAlgo(GraphAlgo):
+    def get_graph(self) -> GraphInterface:
+        """
+        :return: the directed graph on which the algorithm works on.
+        """
+        file_name = "A0.json"  # ?
+        g = self.load_from_json(file_name)
 
     def load_from_json(self, file_name: str) -> bool:
+        graph = GraphInterface.DiGraph()
         try:
             with open(file_name, "r+") as f:
                 fromJson = json.load(f)
-                g = graph
+                # g = graph
                 for n in fromJson['nodes']:
                     # nodeFromJson = node.NodeData(id=n["id"], pos=n["pos"])
-                    g.add_node(n["id"], n["pos"])
+                    graph.add_node(n["id"], n["pos"])
                 for e in fromJson['edges']:
                     # edgeFromJson = edge.EdgeData(src=e["src"], dest=e["dest"], w=e["w"])
-                    g.add_edge(e["src"], e["dest"], e["w"])
+                    graph.add_edge(e["src"], e["dest"], e["w"])
                 return True
         except IOError as err:
             print(err)
             return False
 
     def save_to_json(self, file_name: str) -> bool:
-        pass
+        graph = GraphInterface.DiGraph()
+        ToJson = {}
+        ToJson['edges'] = []
+        for e in graph.edges:
+            ToJson['edges'].append({
+                'src': graph.edges.get(e).getSource,
+                'w': graph.edges.get(e).getWeight,
+                'dest': graph.edges.get(e).getDestination
+            })
+        for n in graph.nodes:
+            ToJson['nodes'].append({
+                'pos': graph.nodes.get(n).pos,
+                'id': graph.nodes.get(n).id,
+            })
+
+        with open(file_name, 'w') as outfile:
+            json.dump(ToJson, outfile)
+
+    def shortest_path(self, id1: int, id2: int) -> (float, list):
+        DijkstraAlgo.dijkstra(id1)
+        raise NotImplementedError
+
+    def TSP(self, node_lst: List[int]) -> (List[int], float):
+        """
+        Finds the shortest path that visits all the nodes in the list
+        :param node_lst: A list of nodes id's
+        :return: A list of the nodes id's in the path, and the overall distance
+        """
+
+    def centerPoint(self) -> (int, float):
+        """
+        Finds the node that has the shortest distance to it's farthest node.
+        :return: The nodes id, min-maximum distance
+        """
+
+    def plot_graph(self) -> None:
+        raise NotImplementedError

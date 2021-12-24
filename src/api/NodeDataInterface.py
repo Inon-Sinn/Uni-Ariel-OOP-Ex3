@@ -6,6 +6,7 @@ class NodeData:
     pos = (0, 0, 0)  # geoLoc
     edgesConnected = {}  # dicionary/map
     pointingToMe = []  # list
+    tag = 0 #int
 
     def __init__(self, id, pos):
         self.id = id
@@ -36,7 +37,7 @@ class NodeData:
     def getTag(self):
         return self.tag
 
-    def setTag(self, tag):
+    def setTag(self, tag): #0, 1, 2
         self.tag = tag
 
     def getEdge(self, dest):
