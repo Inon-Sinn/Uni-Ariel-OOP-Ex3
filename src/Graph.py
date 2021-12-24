@@ -68,12 +68,18 @@ class DWGraph(GraphInterface):
         if dest.remove_In_edge(node_id1) is None:
             return False
         return True
-
+    def getNode(self, id):
+        return self.nodes.get(id)
+    def popNode(self, id):
+        return self.nodes.pop(id)
+    def addNode(self, key, value):
+        self.nodes[key] = value
 
 class Node:
 
     def __init__(self, Id, pos):
         self.Id = Id
+        self.tag = -1
         self.pos = pos  # Need to get Tuple of the pos, build it when we get the json
         # The edges which destination is this node, key: source node id, value: weight of the edge
         self.all_in_edges = {}
@@ -97,7 +103,13 @@ class Node:
 
     def remove_Out_edge(self, otherId):
         return self.all_out_edges.pop(otherId)
-
+    def __copy__(self):
+        node = Node()
+        for node1 in node.all_out_edges:
+            node.add_Out_edge(node1)
+        for node1 in node.all_in_edges:
+            node.add_in_edge(node1)
+        return node
 
 def main():
     newGraph = DWGraph()
