@@ -1,5 +1,5 @@
 # from GraphAlgo import GraphAlgo
-from src.api.GraphInterface import DiGraph
+from src.GraphInterface import DiGraph
 # from src.api.GraphAlgoInterface import GraphAlgo
 
 def check():
