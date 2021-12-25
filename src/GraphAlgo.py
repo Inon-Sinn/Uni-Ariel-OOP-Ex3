@@ -67,14 +67,18 @@ class GraphAlgo(GraphAlgoInterface):
             return False
 
     def shortest_path(self, id1: int, id2: int) -> (float, list):
-        pass
+        dijkstra = Dijkstra()
+        paths = dijkstra.DjkstraAlgo(id1)
+        if paths.get(id2) is math.inf:
+            return float('inf'), []
+        return paths.get(id2), dijkstra.ShortestPath(id1, id2)
 
     def TSP(self, node_lst: List[int]) -> (List[int], float):
         super().TSP(node_lst)
 
     def centerPoint(self) -> (int, float):
-        if self.isConnected is False: # TODO check if returning None is correct in case that there is no Center
-            return None
+        if self.isConnected is False:  # TODO check if returning None is correct in case that there is no Center
+            return None  # next(iter(self.graph.get_all_v().keys())),math.inf
         super().centerPoint()
 
     def plot_graph(self) -> None:
@@ -102,6 +106,7 @@ class GraphAlgo(GraphAlgoInterface):
             for edge in self.graph.all_out_edges_of_node(node_id).items():
                 Reversed.add_edge(node_id, edge[0], edge[1])
         return Reversed
+
 
 class BFS:
     """This Class implements the BFS Algorithm,"""
@@ -163,22 +168,26 @@ class Dijkstra:
         self.MinHeap = []
         self.d = {}
         self.prev = {}
-        self.DjkstraAlgo()
 
-    def DjkstraAlgo(self):
+    def DjkstraAlgo(self, start_id) -> dict:
+        """
+        The Dijkstra algorithm
+        :param start_id: the id of the node on which the Dijkstra algorithm will run
+        :return: dict - A dict with the weight of the shortest path for every node from the given starting node
+        """
         # Iterating through all the nodes and setting their weights to infinity
         for node_id in self.graph.get_all_v():
             self.d[node_id] = math.inf
             self.prev[node_id] = None
-        start_id = next(iter(self.graph.get_all_v().keys()))  # TODO check if it works
         self.d[start_id] = 0
         heapq.heappush(self.MinHeap, start_id)
         while len(self.MinHeap) != 0:
             next_id = heapq.heappop(self.MinHeap)
             for edge in self.graph.all_out_edges_of_node(next_id).items():
-                self.relax(next_id,edge[0],edge[1])
+                self.relax(next_id, edge[0], edge[1])
+        return self.d
 
-    def relax(self, src, dest , weight):
+    def relax(self, src, dest, weight):
         """
         Relax, used be the Dijkstra algorithm,
         The Input is a Edge
@@ -187,13 +196,27 @@ class Dijkstra:
         :param weight: the weight of the edge
         """
         if self.d.get(dest) > (self.d.get(src) + weight):
-            for node_id in self.MinHeap: # TODO takes O(n) implement MinHeap to make it log(n)
+            for node_id in self.MinHeap:  # TODO takes O(n) implement MinHeap to make it log(n)
                 if self.MinHeap[node_id] == dest:
                     self.MinHeap[node_id] = self.d.get(src) + weight
                     heapq.heapify(self.MinHeap)
                     self.prev[dest] = src
                     break
 
-
-
-
+    def ShortestPath(self, src, dest) -> list:
+        """
+        An Auxiliray function that Return the shortest path between 2 given nodes in a form of a list
+        :param src: the id of the starting node
+        :param dest: the id of the end node
+        :return: list - the shotest path between the two nodes (them included)
+        """
+        Q = Queue(0)
+        Q.put(dest)
+        cur = dest
+        while self.prev.get(cur) is not src:
+            Q.put(self.prev.get(cur))
+            cur = self.prev.get(cur)
+        path = [src]
+        while Q.empty() is False:
+            path.append(Q.get_nowait())
+        return path
