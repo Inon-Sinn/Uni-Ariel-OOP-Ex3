@@ -120,7 +120,6 @@ class GraphAlgo(GraphAlgo):
             json.dump(ToJson, outfile)
 
     def shortest_path(self, id1: int, id2: int) -> (float, list):
-        #DijkstraAlgo.dijkstra(id1)
         raise NotImplementedError
 
     def TSP(self, node_lst: List[int]) -> (List[int], float):

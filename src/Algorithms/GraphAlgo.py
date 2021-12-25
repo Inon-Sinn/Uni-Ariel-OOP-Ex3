@@ -1,12 +1,11 @@
+import json
 from typing import List
 
-import Graph
+from src.DiGraph import DiGraph
 from src.GraphAlgoInterface import GraphAlgoInterface
 from src.GraphInterface import GraphInterface
-from src.Graph import DWGraph
-from src.Graph import Node
 import Lib.queue as queue
-import heapq
+
 
 class DWGraphAlgo(GraphAlgoInterface):
 
@@ -17,15 +16,18 @@ class DWGraphAlgo(GraphAlgoInterface):
         return self.graph
 
     def load_from_json(self, file_name: str) -> bool:
-        graph = DWGraph()
+        graph = DiGraph()
         try:
             with open(file_name, "r+") as f:
                 fromJson = json.load(f)
                 for n in fromJson['Nodes']:
-                    pos = tuple(float(s) for s in n["pos"].split())
-                    graph.add_node(n["id"], pos)
+                    try:
+                        pos = tuple(float(s) for s in n['pos'].split(','))
+                        graph.add_node(n['id'], pos)
+                    except KeyError:
+                        graph.add_node(n['id'])
                 for e in fromJson['Edges']:
-                    graph.add_edge(e["src"], e["dest"], e["w"])
+                    graph.add_edge(e['src'], e['dest'], e['w'])
         except IOError as err:
             print(err)
             return False
@@ -75,13 +77,13 @@ class BFS:
         self.grey = 1
         self.black = 2
         ## initialize the graph
-        self.graph = DWGraph()
+        self.graph = DiGraph()
         for node in graph.get_all_v():
             newnode = node.copy()
-            newnode.tag = white
+            newnode.tag = self.white
             self.graph = newnode
-        d[idOfStart] = 0
-        Q.put(idOfStart)
+        self.d[idOfStart] = 0
+        self.Q.put(idOfStart)
 
 #
 # Used by the BFS algorithm
@@ -91,19 +93,19 @@ class BFS:
     def BFS_VISIT(self, currentVisitNode):
         currNode = self.graph.getNode(currentVisitNode)
         for outNode in currNode.get_All_out_edges().keys():
-            if(outNode.tag == white):
+            if(outNode.tag == self.white):
                 outNode.tag = self.gray
-                d[outNode.id] = d.get(currNode.id) +1
-                prev[outNode.id] = currNode.id
+                self.d[outNode.id] = self.d.get(currNode.id) +1
+                self.prev[outNode.id] = currNode.id
                 self.Q.add(outNode.id)
-        currNode.tag = black
+        currNode.tag = self.black
     # An Auxiliary function used to check if the graph is connected
     # @return boolean -True: the graph is connected, False: the graph isn't connected
     #
 
     def Connected(self):
         for node in self.graph:
-            if(node.tag == white):
+            if(node.tag == self.white):
                 return False
         return True
 
