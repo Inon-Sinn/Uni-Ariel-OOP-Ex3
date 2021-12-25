@@ -1,14 +1,13 @@
+from DiGraph import DiGraph
 # from GraphAlgo import GraphAlgo
-from src.GraphInterface import DiGraph
-# from src.api.GraphAlgoInterface import GraphAlgo
 
 def check():
     """
     Graph: |V|=4 , |E|=5
     {0: 0: |edges out| 1 |edges in| 1, 1: 1: |edges out| 3 |edges in| 1, 2: 2: |edges out| 1 |edges in| 1, 3: 3: |edges out| 0 |edges in| 2}
-    {0: 1}
+    {0: 1} TODO check with the lecturer
     {0: 1.1, 2: 1.3, 3: 10}
-    (3.4, [0, 1, 2, 3])
+    (3.4, [0, 1, 2, 3]) - algo shortest path - last print of check0
     (2.8, [0, 1, 3])
     (inf, [])
     2.062180280059253 [1, 10, 7]
@@ -19,8 +18,8 @@ def check():
     ([1,3,4,2],3.5)
     """
     check0()
-    check1()
-    check2()
+    # check1()
+    # check2()
 
 
 def check0():

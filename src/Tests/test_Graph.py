@@ -1,12 +1,12 @@
 from unittest import TestCase
 
-from src.Graph import DWGraph
+from src.DiGraph import DiGraph
 
 
 class TestDWGraph(TestCase):
 
     def setUp(self) -> None:
-        self.Graph = DWGraph()
+        self.Graph = DiGraph()
 
     def test_v_size(self):
         self.assertEqual(self.Graph.v_size(), 0)

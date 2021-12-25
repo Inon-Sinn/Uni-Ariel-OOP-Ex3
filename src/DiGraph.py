@@ -1,7 +1,7 @@
 from src.GraphInterface import GraphInterface
 
 
-class DWGraph(GraphInterface):
+class DiGraph(GraphInterface):
 
     def __init__(self):
         self.mc = 0
@@ -81,6 +81,9 @@ class DWGraph(GraphInterface):
         self.EdgeSize -= 1
         return True
 
+    def __repr__(self):
+        return "Graph: |V|={} , |E|={}".format(self.v_size(), self.e_size())
+
     def getNode(self, id):
         return self.nodes.get(id)
 
@@ -130,13 +133,16 @@ class Node:
             node.add_in_edge(node1)
         return node
 
+    def __repr__(self):
+        return "{}: |edges out| {} |edges in| {}".format(self.Id, len(self.all_out_edges), len(self.all_in_edges))
+
     def __str__(self):
         return "Id: {}\npos: {}\nIncoming Edges: {}\nOutgoing Edges: {}\n".format(self.Id, self.pos, self.all_in_edges,
                                                                                   self.all_out_edges)
 
 
 def main():
-    newGraph = DWGraph()
+    newGraph = DiGraph()
     print(newGraph.EdgeSize)
 
 
