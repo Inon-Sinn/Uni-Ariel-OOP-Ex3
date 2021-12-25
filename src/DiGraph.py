@@ -84,16 +84,8 @@ class DiGraph(GraphInterface):
     def __repr__(self):
         return "Graph: |V|={} , |E|={}".format(self.v_size(), self.e_size())
 
-    def getNode(self, id):
-        return self.nodes.get(id)
-
-    def popNode(self, id):
-        pop = self.nodes.get(id)
-        self.remove_node(id)
-        return pop
-
-    def addNode(self, key, value):  # TODO delete later
-        self.nodes[key] = value
+    def getNode(self, Id):
+        return self.nodes.get(Id)
 
 
 class Node:
@@ -125,26 +117,9 @@ class Node:
     def remove_Out_edge(self, otherId):
         return self.all_out_edges.pop(otherId)
 
-    def __copy__(self):
-        node = Node()
-        for node1 in node.all_out_edges:
-            node.add_Out_edge(node1)
-        for node1 in node.all_in_edges:
-            node.add_in_edge(node1)
-        return node
-
     def __repr__(self):
         return "{}: |edges out| {} |edges in| {}".format(self.Id, len(self.all_out_edges), len(self.all_in_edges))
 
     def __str__(self):
         return "Id: {}\npos: {}\nIncoming Edges: {}\nOutgoing Edges: {}\n".format(self.Id, self.pos, self.all_in_edges,
                                                                                   self.all_out_edges)
-
-
-def main():
-    newGraph = DiGraph()
-    print(newGraph.EdgeSize)
-
-
-if __name__ == '__main__':
-    main()

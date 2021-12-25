@@ -71,16 +71,40 @@ class GraphAlgo(GraphAlgoInterface):
         super().TSP(node_lst)
 
     def centerPoint(self) -> (int, float):
+        if self.isConnected is False: # TODO check if returning None is correct in case that there is no Center
+            return None
         super().centerPoint()
 
     def plot_graph(self) -> None:
         pass
 
+    def isConnected(self) -> bool:
+        """An auxiliary function for center Point, Checks if the given Graph is Connected"""
+        if len(self.graph.get_all_v()) != 0:
+            firstRun = BFS(self.graph)
+            if firstRun.Connected() is False:
+                return False
+            SecondRun = BFS(self.reversedGraph())
+            if SecondRun.Connected() is False:
+                return False
+        return True
+
+    def reversedGraph(self) -> DiGraph:
+        """Return the Reverse Graph of the algorithms Graph"""
+        Reversed = DiGraph()
+        # Add all the node to the Reverse Graph
+        for node in self.graph.get_all_v().values():
+            Reversed.add_node(node.Id, node.pos)
+        # Add all the edges to the Reverse Graph
+        for node_id in self.graph.get_all_v().keys():
+            for edge in self.graph.all_out_edges_of_node(node_id).items():
+                Reversed.add_edge(node_id, edge[0], edge[1])
+        return Reversed
 
 class BFS:
     """This Class implements the BFS Algorithm,"""
 
-    def __init__(self, graph, id):
+    def __init__(self, graph):
         """
         Run the BFS Algorithm
         :param graph: a Graph that implements the GraphInterface
@@ -95,7 +119,9 @@ class BFS:
         self.gray = 1
         self.black = 2
 
-        self.BFS(id)
+        Id = next(iter(self.graph.get_all_v().keys()))  # TODO check if it works
+        if Id is not None:
+            self.BFS(Id)
 
     def BFS(self, node_id):
         """The BFS algorithm, the input is the id of a node from which the Algorithm will start"""
