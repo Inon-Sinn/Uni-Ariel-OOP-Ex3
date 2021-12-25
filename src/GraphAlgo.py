@@ -1,10 +1,12 @@
 import json
+import math
 from typing import List
 
 from src.DiGraph import DiGraph
 from src.GraphAlgoInterface import GraphAlgoInterface
 from src.GraphInterface import GraphInterface
 from queue import Queue
+import heapq
 
 
 class GraphAlgo(GraphAlgoInterface):
@@ -108,12 +110,11 @@ class BFS:
         """
         Run the BFS Algorithm
         :param graph: a Graph that implements the GraphInterface
-        :param id: id of the Node from which the algorithms should start
         """
         self.graph = DiGraph()
         self.Q = Queue(0)  # TODO check that 0 is infinite in help()
         self.d = {}
-        self.prev = {}
+        self.prev = {}  # TODO could be deleted if there is no use for it
         # constants
         self.white = 0
         self.gray = 1
@@ -121,9 +122,9 @@ class BFS:
 
         Id = next(iter(self.graph.get_all_v().keys()))  # TODO check if it works
         if Id is not None:
-            self.BFS(Id)
+            self.BFSAlgo(Id)
 
-    def BFS(self, node_id):
+    def BFSAlgo(self, node_id):
         """The BFS algorithm, the input is the id of a node from which the Algorithm will start"""
         for node in self.graph.get_all_v().values():
             node.tag = self.white
@@ -157,9 +158,42 @@ class BFS:
 
 class Dijkstra:
 
-    def __init__(self, graph, startID):
-        # this dijkstra uses minq as implementation for pq
+    def __init__(self, graph):
         self.graph = graph
-        self.prioQ = []
-        startNode = graph.get_all_v.get(startID)
-        # iterating through all the nodes and setting their weights to infinity
+        self.MinHeap = []
+        self.d = {}
+        self.prev = {}
+        self.DjkstraAlgo()
+
+    def DjkstraAlgo(self):
+        # Iterating through all the nodes and setting their weights to infinity
+        for node_id in self.graph.get_all_v():
+            self.d[node_id] = math.inf
+            self.prev[node_id] = None
+        start_id = next(iter(self.graph.get_all_v().keys()))  # TODO check if it works
+        self.d[start_id] = 0
+        heapq.heappush(self.MinHeap, start_id)
+        while len(self.MinHeap) != 0:
+            next_id = heapq.heappop(self.MinHeap)
+            for edge in self.graph.all_out_edges_of_node(next_id).items():
+                self.relax(next_id,edge[0],edge[1])
+
+    def relax(self, src, dest , weight):
+        """
+        Relax, used be the Dijkstra algorithm,
+        The Input is a Edge
+        :param src: the id of the source node
+        :param dest: the id of the destination node
+        :param weight: the weight of the edge
+        """
+        if self.d.get(dest) > (self.d.get(src) + weight):
+            for node_id in self.MinHeap: # TODO takes O(n) implement MinHeap to make it log(n)
+                if self.MinHeap[node_id] == dest:
+                    self.MinHeap[node_id] = self.d.get(src) + weight
+                    heapq.heapify(self.MinHeap)
+                    self.prev[dest] = src
+                    break
+
+
+
+

@@ -92,8 +92,8 @@ class Node:
 
     def __init__(self, Id, pos):
         self.Id = Id
-        self.tag = -1
-        self.pos = pos  # Need to get Tuple of the pos, build it when we get the json
+        self.tag = -1  # Used by the BFS algoirthm to color the node
+        self.pos = pos
         # The edges which destination is this node, key: source node id, value: weight of the edge
         self.all_in_edges = {}
         # The edges which source is this node, key: destination node id, value: weight of the edge
