@@ -4,7 +4,7 @@ from typing import List
 from src.DiGraph import DiGraph
 from src.GraphAlgoInterface import GraphAlgoInterface
 from src.GraphInterface import GraphInterface
-import Lib.queue as queue
+from queue import Queue
 
 
 class GraphAlgo(GraphAlgoInterface):
@@ -78,45 +78,53 @@ class GraphAlgo(GraphAlgoInterface):
 
 
 class BFS:
-    def __init__(self, graph, idOfStart):
-        self.Q = queue()
+    """This Class implements the BFS Algorithm,"""
+
+    def __init__(self, graph, id):
+        """
+        Run the BFS Algorithm
+        :param graph: a Graph that implements the GraphInterface
+        :param id: id of the Node from which the algorithms should start
+        """
+        self.graph = DiGraph()
+        self.Q = Queue(0)  # TODO check that 0 is infinite in help()
         self.d = {}
         self.prev = {}
         # constants
         self.white = 0
-        self.grey = 1
+        self.gray = 1
         self.black = 2
-        ## initialize the graph
-        self.graph = DiGraph()
-        for node in graph.get_all_v():
-            newnode = node.copy()
-            newnode.tag = self.white
-            self.graph = newnode
-        self.d[idOfStart] = 0
-        self.Q.put(idOfStart)
 
-    #
-    # Used by the BFS algorithm
-    # goes over all the sibling of a node and adds them to the Queue if they have the color white
-    # @param currentVisitNode int - the id of the node for which we used this function
-    #
-    def BFS_VISIT(self, currentVisitNode):
-        currNode = self.graph.getNode(currentVisitNode)
-        for outNode in currNode.get_All_out_edges().keys():
-            if (outNode.tag == self.white):
+        self.BFS(id)
+
+    def BFS(self, node_id):
+        """The BFS algorithm, the input is the id of a node from which the Algorithm will start"""
+        for node in self.graph.get_all_v().values():
+            node.tag = self.white
+            self.prev[node.Id] = None
+        self.graph.getNode(node_id).tag = self.gray
+        self.d[node_id] = 0
+        self.Q.put(node_id)
+        while self.Q.empty is False:
+            self.BFS_VISIT(self.Q.get_nowait())
+
+    def BFS_VISIT(self, node_id):
+        """Used By the BFS Algorithm, Goes over all the siblings of the given Node and adds them to the Queue if they
+        were not visited before( color white) """
+        currNode = self.graph.getNode(node_id)
+        for other_Node_id in currNode.get_All_out_edges():
+            outNode = self.graph.getNode(other_Node_id)
+            if outNode.tag == self.white:
                 outNode.tag = self.gray
-                self.d[outNode.id] = self.d.get(currNode.id) + 1
-                self.prev[outNode.id] = currNode.id
-                self.Q.add(outNode.id)
+                self.d[other_Node_id] = self.d.get(node_id) + 1
+                self.prev[other_Node_id] = node_id
+                self.Q.add(other_Node_id)
         currNode.tag = self.black
 
-    # An Auxiliary function used to check if the graph is connected
-    # @return boolean -True: the graph is connected, False: the graph isn't connected
-    #
-
     def Connected(self):
-        for node in self.graph:
-            if (node.tag == self.white):
+        """An Auxiliary Function used to check if the given Graph is connected"""
+        for node in self.graph.get_all_v().values():
+            if node.tag == self.white:
                 return False
         return True
 
