@@ -79,7 +79,12 @@ class GraphAlgo(GraphAlgoInterface):
     def centerPoint(self) -> (int, float):
         if self.isConnected is False:  # TODO check if returning None is correct in case that there is no Center
             return None  # next(iter(self.graph.get_all_v().keys())),math.inf
-        super().centerPoint()
+        center_id = 0
+        center_dis = math.inf
+        for node_id in self.graph.get_all_v():
+            dijk = Dijkstra()
+            dijk.DjkstraAlgo(node_id)
+            
 
     def plot_graph(self) -> None:
         pass
