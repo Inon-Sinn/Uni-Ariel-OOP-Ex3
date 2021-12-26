@@ -160,28 +160,30 @@ class BFS:
         :param graph: a Graph that implements the GraphInterface
         """
         self.graph = graph
-        self.Q = Queue(0)  # TODO check that 0 is infinite in help()
+        self.Q = Queue(self.graph.v_size())  # TODO check that 0 is infinite in help()
         self.d = {}
         self.prev = {}  # TODO could be deleted if there is no use for it
         # constants
         self.white = 0
         self.gray = 1
         self.black = 2
+        self.BFSAlgo()
 
-        Id = next(iter(self.graph.get_all_v().keys()))  # TODO check if it works
-        if Id is not None:
-            self.BFSAlgo(Id)
 
-    def BFSAlgo(self, node_id):
+    def BFSAlgo(self):
         """The BFS algorithm, the input is the id of a node from which the Algorithm will start"""
-        for node in self.graph.get_all_v().values():
-            node.tag = self.white
-            self.prev[node.Id] = None
-        self.graph.getNode(node_id).tag = self.gray
-        self.d[node_id] = 0
-        self.Q.put(node_id)
-        while not self.Q.empty:
-            self.BFS_VISIT(self.Q.get_nowait())
+        if self.graph.v_size() != 0:
+            self.d = {}
+            self.prev = {}
+            node_id = next(iter(self.graph.get_all_v().keys()))
+            for node in self.graph.get_all_v().values():
+                node.tag = self.white
+                self.prev[node.Id] = None
+            self.graph.getNode(node_id).tag = self.gray
+            self.d[node_id] = 0
+            self.Q.put(node_id)
+            while self.Q.empty() is False:
+                self.BFS_VISIT(self.Q.get_nowait())
 
     def BFS_VISIT(self, node_id):
         """Used By the BFS Algorithm, Goes over all the siblings of the given Node and adds them to the Queue if they

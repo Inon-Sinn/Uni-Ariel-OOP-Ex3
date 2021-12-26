@@ -101,14 +101,19 @@ class TestBFS(TestCase):
         algo.setUp()
         self.BFS = BFS(algo.GraphAlgo.get_graph())
 
-    def test_bfsalgo(self):
-        self.fail()
-
-    def test_bfs_visit(self):
-        self.fail()
-
     def test_connected(self):
-        self.fail()
+        """There is no need for other Tests Because connected includes them already"""
+        self.assertFalse(self.BFS.Connected())
+        self.BFS.graph.remove_node(4)
+        self.BFS.BFSAlgo()
+        self.assertTrue(self.BFS.Connected())
+        self.BFS.graph.remove_edge(2, 1)
+        self.BFS.BFSAlgo()
+        self.assertFalse(self.BFS.Connected())
+
+        # Check an empty Graph
+        self.BFS = BFS(DiGraph())
+        self.assertTrue(self.BFS.Connected())
 
 
 class TestDijkstra(TestCase):

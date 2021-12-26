@@ -92,7 +92,7 @@ class Node:
 
     def __init__(self, Id, pos):
         self.Id = Id
-        self.tag = -1  # Used by the BFS algoirthm to color the node
+        self.tag = 0  # Used by the BFS algoirthm to color the node
         self.pos = pos
         # The edges which destination is this node, key: source node id, value: weight of the edge
         self.all_in_edges = {}
@@ -122,5 +122,5 @@ class Node:
         return "{}: |edges out| {} |edges in| {}".format(self.Id, len(self.all_out_edges), len(self.all_in_edges))
 
     def __str__(self):
-        return "Id: {}\npos: {}\nIncoming Edges: {}\nOutgoing Edges: {}\n".format(self.Id, self.pos, self.all_in_edges,
+        return "Id: {}\nTag: {}\npos: {}\nIncoming Edges: {}\nOutgoing Edges: {}\n".format(self.Id,self.tag, self.pos, self.all_in_edges,
                                                                                   self.all_out_edges)
