@@ -1,4 +1,5 @@
-import DiGraph
+from src.DiGraph import Node
+
 
 class MinHeap:
 
@@ -14,15 +15,15 @@ class MinHeap:
         return self.heap.__len__()
 
     def swim(self, indexOfNode):
-        if(indexOfNode == 1):
+        if indexOfNode == 1:
             return
-        parentIndex = (int) (indexOfNode/2)
+        parentIndex = int(indexOfNode / 2)
         if self.heap[parentIndex] > self.heap[indexOfNode]:
             self.swap(indexOfNode, parentIndex)
             self.swim(parentIndex)
 
     def sink(self, parent):
-        if(parent >= self.size()):
+        if parent >= self.size():
             return
         leftChild = parent * 2
         rightChild = parent * 2 + 1
@@ -37,31 +38,30 @@ class MinHeap:
         else:
             minimumChild = leftChild if self.heap[leftChild] < self.heap[rightChild] else rightChild
             if self.heap[minimumChild] < self.heap[parent]:
-                self.swap(minimumChild,parent)
+                self.swap(minimumChild, parent)
                 self.sink(minimumChild)
 
-
     def insert(self, node):
-        if(node == None):
+        if node is None:
             raise RuntimeWarning("Cant add null to heap")
-        this.heap.append(node)
-        self.keyToIndex[node.id] = self.size()-1
-        self.swim(self.size()-1)
+        self.heap.append(node)
+        self.keyToIndex[node.id] = self.size() - 1
+        self.swim(self.size() - 1)
 
     def removeMin(self) -> Node:
-        self.swap(1,self.size()-1)
-        minimalNode = self.heap.pop(self.size()-1)
+        self.swap(1, self.size() - 1)
+        minimalNode = self.heap.pop(self.size() - 1)
         self.sink(1)
         return minimalNode
 
     def remove(self, index) -> Node:
-        self.swap(index,self.size()-1)
-        resNode = self.heap.pop(self.size-1)
+        self.swap(index, self.size() - 1)
+        resNode = self.heap.pop(self.size() - 1)
         self.sink(index)
         return resNode
 
     def isEmpty(self):
-        return (self.size() == 1)
+        return self.size() == 1
 
     def DecreaseKey(self, NodeId, weight):
         nodeIndex = self.keyToIndex.get(NodeId)

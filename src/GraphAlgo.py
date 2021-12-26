@@ -67,7 +67,7 @@ class GraphAlgo(GraphAlgoInterface):
             return False
 
     def shortest_path(self, id1: int, id2: int) -> (float, list):
-        dijkstra = Dijkstra()
+        dijkstra = Dijkstra(self.graph)
         # define paths as distance Of Shortest Paths
         paths = dijkstra.DjkstraAlgo(id1)
         if paths.get(id2) is math.inf:
@@ -75,15 +75,15 @@ class GraphAlgo(GraphAlgoInterface):
         return paths.get(id2), dijkstra.ShortestPath(id1, id2)
 
     def TSP(self, node_lst: List[int]) -> (List[int], float):
-        if(node_lst == None):
+        if node_lst is None:
             return None
-        if(node_lst.__len__() == 1):
+        if node_lst.__len__() == 1:
             return node_lst
         completePath = []
         currentPath = []
         currentCityIndex = node_lst.pop()
         found = False
-        while (node_lst.__len__() != 0):
+        while node_lst.__len__() != 0:
             nextCityIndex = 0
             removeIndex = 0
             minPathWeight = math.inf
@@ -97,7 +97,7 @@ class GraphAlgo(GraphAlgoInterface):
                     currentPath = ShortPathList
                     minPathWeight = shortPathWeight
                     found = True
-            if(found == False):
+            if not found:
                 return None
             found = False
             currentCityIndex = nextCityIndex
@@ -106,25 +106,23 @@ class GraphAlgo(GraphAlgoInterface):
 
         # remove dublicates lol
         for i in range(completePath.__len__()):
-            if completePath[i] == completePath[i-1]:
+            if completePath[i] == completePath[i - 1]:
                 completePath.remove(i)
         return completePath
 
-
     def centerPoint(self) -> (int, float):
-        if self.isConnected == False:  # TODO check if returning None is correct in case that there is no Center
+        if not self.isConnected:  # TODO check if returning None is correct in case that there is no Center
             return None  # next(iter(self.graph.get_all_v().keys())),math.inf
         center_id = 0
         center_dis = math.inf
         for node in self.graph.get_all_v().values():
-            dijk = Dijkstra()
+            dijk = Dijkstra(self.graph)
             dijk.DjkstraAlgo(node.Id)
             current_maxDis = dijk.MaxWeight()
             if current_maxDis < center_dis and current_maxDis != -1:
                 center_dis = current_maxDis
                 center_id = node.Id
-        return (center_id,center_dis)
-
+        return center_id, center_dis
 
     def plot_graph(self) -> None:
         pass
@@ -161,7 +159,7 @@ class BFS:
         Run the BFS Algorithm
         :param graph: a Graph that implements the GraphInterface
         """
-        self.graph = DiGraph()
+        self.graph = graph
         self.Q = Queue(0)  # TODO check that 0 is infinite in help()
         self.d = {}
         self.prev = {}  # TODO could be deleted if there is no use for it
@@ -182,7 +180,7 @@ class BFS:
         self.graph.getNode(node_id).tag = self.gray
         self.d[node_id] = 0
         self.Q.put(node_id)
-        while self.Q.empty == False:
+        while not self.Q.empty:
             self.BFS_VISIT(self.Q.get_nowait())
 
     def BFS_VISIT(self, node_id):
@@ -195,7 +193,7 @@ class BFS:
                 outNode.tag = self.gray
                 self.d[other_Node_id] = self.d.get(node_id) + 1
                 self.prev[other_Node_id] = node_id
-                self.Q.add(other_Node_id)
+                self.Q.put(other_Node_id)
         currNode.tag = self.black
 
     def Connected(self):
@@ -262,15 +260,15 @@ class Dijkstra:
             Q.put(self.prev.get(cur))
             cur = self.prev.get(cur)
         path = [src]
-        while Q.empty() == False:
+        while not Q.empty():
             path.append(Q.get_nowait())
         return path
 
-    def MaxWeight(self) -> (float):
-        max = 0
+    def MaxWeight(self) -> float:
+        Max = 0
         for weight in self.d.values():
-            if(weight > max):
-                max = weight
-            if (weight == math.inf):
+            if weight > Max:
+                Max = weight
+            if weight == math.inf:
                 return -1
-        return max
+        return Max
