@@ -68,23 +68,63 @@ class GraphAlgo(GraphAlgoInterface):
 
     def shortest_path(self, id1: int, id2: int) -> (float, list):
         dijkstra = Dijkstra()
+        # define paths as distance Of Shortest Paths
         paths = dijkstra.DjkstraAlgo(id1)
         if paths.get(id2) is math.inf:
             return float('inf'), []
         return paths.get(id2), dijkstra.ShortestPath(id1, id2)
 
     def TSP(self, node_lst: List[int]) -> (List[int], float):
-        super().TSP(node_lst)
+        if(node_lst == None):
+            return None
+        if(node_lst.__len__() == 1):
+            return node_lst
+        completePath = []
+        currentPath = []
+        currentCityIndex = node_lst.pop()
+        found = False
+        while (node_lst.__len__() != 0):
+            nextCityIndex = 0
+            removeIndex = 0
+            minPathWeight = math.inf
+            for i in range(node_lst.__len__()):
+                # define ShortPathWeight as the distance from the start node to node at index i
+                (shortPathWeight, ShortPathList) = self.shortest_path(currentCityIndex, node_lst[i])
+                # if there is a path shortPathWeight is real number, else it is infinity
+                if shortPathWeight < minPathWeight:
+                    nextCityIndex = node_lst[i]
+                    removeIndex = i
+                    currentPath = ShortPathList
+                    minPathWeight = shortPathWeight
+                    found = True
+            if(found == False):
+                return None
+            found = False
+            currentCityIndex = nextCityIndex
+            node_lst.remove(removeIndex)
+            completePath = currentPath.copy()
+
+        # remove dublicates lol
+        for i in range(completePath.__len__()):
+            if completePath[i] == completePath[i-1]:
+                completePath.remove(i)
+        return completePath
+
 
     def centerPoint(self) -> (int, float):
-        if self.isConnected is False:  # TODO check if returning None is correct in case that there is no Center
+        if self.isConnected == False:  # TODO check if returning None is correct in case that there is no Center
             return None  # next(iter(self.graph.get_all_v().keys())),math.inf
         center_id = 0
         center_dis = math.inf
-        for node_id in self.graph.get_all_v():
+        for node in self.graph.get_all_v().values():
             dijk = Dijkstra()
-            dijk.DjkstraAlgo(node_id)
-            
+            dijk.DjkstraAlgo(node.Id)
+            current_maxDis = dijk.MaxWeight()
+            if current_maxDis < center_dis and current_maxDis != -1:
+                center_dis = current_maxDis
+                center_id = node.Id
+        return (center_id,center_dis)
+
 
     def plot_graph(self) -> None:
         pass
@@ -225,3 +265,12 @@ class Dijkstra:
         while Q.empty() is False:
             path.append(Q.get_nowait())
         return path
+
+    def MaxWeight(self) -> (float):
+        max = 0
+        for weight in self.d.values():
+            if(weight > max):
+                max = weight
+            if (weight == math.inf):
+                return -1
+        return max

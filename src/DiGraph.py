@@ -117,6 +117,7 @@ class Node:
     def remove_Out_edge(self, otherId):
         return self.all_out_edges.pop(otherId)
 
+
     def __repr__(self):
         return "{}: |edges out| {} |edges in| {}".format(self.Id, len(self.all_out_edges), len(self.all_in_edges))
 

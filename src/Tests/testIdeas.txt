@@ -7,5 +7,5 @@ This text contains ideas for tests.
 
 
 * implement time testing for GraphAlgo
+* test how load and save works with no Nodes inside json and no nodes inside edges
 *
-
