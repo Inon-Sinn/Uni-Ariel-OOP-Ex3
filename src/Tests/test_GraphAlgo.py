@@ -79,7 +79,17 @@ class TestGraphAlgo(TestCase):
         # Test if we lost any Node or Edges
         self.assertEqual(Reversed.v_size(), self.GraphAlgo.get_graph().v_size())
         self.assertEqual(Reversed.e_size(), self.GraphAlgo.get_graph().e_size())
+        # Check if the edges were reversed or not
 
+        # The Real Edge
+        self.assertEqual(self.GraphAlgo.get_graph().all_out_edges_of_node(0).get(2), -1)
+        # The Reversed Edge
+        self.assertEqual(Reversed.all_out_edges_of_node(2).get(0), -1)
+
+        # Print the Reversed Graph if you would like to see with your own eyes
+        print("-------The Transposed Graph------")
+        for v in Reversed.get_all_v().values():
+            print(v)
 
 
 

@@ -147,7 +147,7 @@ class GraphAlgo(GraphAlgoInterface):
         # Add all the edges to the Reverse Graph
         for node_id in self.graph.get_all_v().keys():
             for edge in self.graph.all_out_edges_of_node(node_id).items():
-                Reversed.add_edge(node_id, edge[0], edge[1])
+                Reversed.add_edge(edge[0], node_id, edge[1])
         return Reversed
 
 
