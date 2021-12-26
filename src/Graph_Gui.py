@@ -1,3 +1,5 @@
+import math
+
 import pygame
 
 from src.DiGraph import DiGraph
@@ -65,6 +67,14 @@ class Graph_GUI:
                                    max_y)
                     pygame.draw.line(self.screen, pygame.Color(ArrowColor), (src_x, src_y), (dest_x, dest_y),
                                      width=ArrowWidth)
+                    pygame.draw.line(self.screen, pygame.Color(ArrowColor), (src_x, src_y), (dest_x, dest_y), ArrowWidth)
+                    # rotation = math.degrees(math.atan2(src_y - dest_y, dest_x - src_x)) + 90
+                    # pygame.draw.polygon(self.screen, pygame.Color(ArrowColor), (
+                    # (dest_x + 20 * math.sin(math.radians(rotation)), dest_y + 20 * math.cos(math.radians(rotation))), (
+                    # dest_x + 20 * math.sin(math.radians(rotation - 120)),
+                    # dest_y + 20 * math.cos(math.radians(rotation - 120))), (
+                    # dest_x + 20 * math.sin(math.radians(rotation + 120)),
+                    # dest_y + 20 * math.cos(math.radians(rotation + 120)))))
 
             # Draw the nodes
             for v in self.graph.get_all_v().values():
