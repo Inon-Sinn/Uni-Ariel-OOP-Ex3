@@ -4,7 +4,7 @@ from src.DiGraph import Node
 class MinHeap:
 
     def __init__(self):
-        # heap containing nodes
+        # heap containing node
         self.heap = []
         # the first value in the heap at index 0 is None
         self.heap.append(None)

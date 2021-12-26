@@ -205,6 +205,7 @@ class BFS:
 
 
 class Dijkstra:
+    """This Class implements the Dijkstra Algorithm"""
 
     def __init__(self, graph):
         self.graph = graph
