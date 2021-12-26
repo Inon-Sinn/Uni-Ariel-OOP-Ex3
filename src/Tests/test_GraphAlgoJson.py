@@ -7,7 +7,7 @@ from src.GraphAlgo import GraphAlgo
 class TestGraphAlgoJson(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.graphAlgo = GraphAlgo.GraphAlgo()
+        self.graphAlgo = GraphAlgo()
         self.datapath = "Uni-Ariel-OOP-Ex3/data"
         # example file is A1.json the first 5 nodes and edges
         self.positions = [(35.18753053591606, 32.10378225882353, 0.0), (35.18958953510896, 32.10785303529412, 0.0),
@@ -20,7 +20,7 @@ class TestGraphAlgoJson(unittest.TestCase):
             , 1.7155926739282625]
 
     def testLoadFromJson(self):
-        graph = DiGraph.DiGraph()
+        graph = DiGraph()
 
         for i in range(5):
             graph.add_node(self.ids[i], self.positions[i])

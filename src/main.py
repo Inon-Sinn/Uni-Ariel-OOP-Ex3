@@ -5,7 +5,7 @@ def check():
     """
     Graph: |V|=4 , |E|=5
     {0: 0: |edges out| 1 |edges in| 1, 1: 1: |edges out| 3 |edges in| 1, 2: 2: |edges out| 1 |edges in| 1, 3: 3: |edges out| 0 |edges in| 2}
-    {0: 1} TODO check with the lecturer
+    {0: 1}
     {0: 1.1, 2: 1.3, 3: 10}
     (3.4, [0, 1, 2, 3]) - algo shortest path - last print of check0
     (2.8, [0, 1, 3])
@@ -39,7 +39,7 @@ def check0():
     g.add_edge(1, 3, 10)
     print(g)  # prints the __repr__ (func output)
     print(g.get_all_v())  # prints a dict with all the graph's vertices.
-    print(g.all_in_edges_of_node(0))
+    print(g.all_in_edges_of_node(1))
     print(g.all_out_edges_of_node(1))
     # g_algo = GraphAlgo(g)
     # print(g_algo.shortest_path(0, 3))
