@@ -69,7 +69,7 @@ class GraphAlgo(GraphAlgoInterface):
     def shortest_path(self, id1: int, id2: int) -> (float, list):
         dijkstra = Dijkstra(self.graph)
         # define paths as distance Of Shortest Paths
-        paths = dijkstra.DjkstraAlgo(id1)
+        paths = dijkstra.DijkstraAlgo(id1)
         if paths.get(id2) is math.inf:
             return float('inf'), []
         return paths.get(id2), dijkstra.ShortestPath(id1, id2)
@@ -117,7 +117,7 @@ class GraphAlgo(GraphAlgoInterface):
         center_dis = math.inf
         for node in self.graph.get_all_v().values():
             dijk = Dijkstra(self.graph)
-            dijk.DjkstraAlgo(node.Id)
+            dijk.DijkstraAlgo(node.Id)
             current_maxDis = dijk.MaxWeight()
             if current_maxDis < center_dis and current_maxDis != -1:
                 center_dis = current_maxDis
@@ -169,7 +169,6 @@ class BFS:
         self.black = 2
         self.BFSAlgo()
 
-
     def BFSAlgo(self):
         """The BFS algorithm, the input is the id of a node from which the Algorithm will start"""
         if self.graph.v_size() != 0:
@@ -215,7 +214,7 @@ class Dijkstra:
         self.d = {}
         self.prev = {}
 
-    def DjkstraAlgo(self, start_id) -> dict:
+    def DijkstraAlgo(self, start_id) -> dict:
         """
         The Dijkstra algorithm
         :param start_id: the id of the node on which the Dijkstra algorithm will run

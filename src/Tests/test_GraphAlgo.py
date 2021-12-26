@@ -127,11 +127,28 @@ class TestBFS(TestCase):
 
 
 class TestDijkstra(TestCase):
-    def test_djkstra_algo(self):
-        self.fail()
 
-    def test_relax(self):
-        self.fail()
+    def setUp(self) -> None:
+        g = DiGraph()
+        g.add_node(0)
+        g.add_node(1)
+        g.add_node(2)
+        g.add_node(3)
+        g.add_edge(0, 1, 10)
+        g.add_edge(0, 2, 5)
+        g.add_edge(1, 2, 3)
+        g.add_edge(2, 1, 4)
+        g.add_edge(2, 3, 1)
+        g.add_edge(3, 1, 2)
+        self.d = Dijkstra(g)
+
+    def test_dijkstra_algo(self):
+        paths = self.d.DijkstraAlgo(0)
+        self.assertEqual(paths.get(0), 0)
+        self.assertEqual(paths.get(1), 8)
+        self.assertEqual(paths.get(2), 5)
+        self.assertEqual(paths.get(3), 6)
+
 
     def test_shortest_path(self):
         self.fail()
