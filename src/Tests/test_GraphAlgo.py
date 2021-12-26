@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from src.DiGraph import DiGraph
-from src.GraphAlgo import GraphAlgo
+from src.GraphAlgo import GraphAlgo, BFS, Dijkstra
 
 
 class TestGraphAlgo(TestCase):
@@ -72,7 +72,9 @@ class TestGraphAlgo(TestCase):
         self.fail()
 
     def test_is_connected(self):
-        self.fail()
+        self.assertFalse(self.GraphAlgo.isConnected())
+        self.GraphAlgo.get_graph().remove_node(4)
+        self.assertTrue(self.GraphAlgo.isConnected())
 
     def test_reversed_graph(self):
         Reversed = self.GraphAlgo.reversedGraph()
@@ -92,8 +94,13 @@ class TestGraphAlgo(TestCase):
             print(v)
 
 
-
 class TestBFS(TestCase):
+
+    def setUp(self) -> None:
+        algo = TestGraphAlgo()
+        algo.setUp()
+        self.BFS = BFS(algo.GraphAlgo.get_graph())
+
     def test_bfsalgo(self):
         self.fail()
 
