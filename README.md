@@ -1,9 +1,13 @@
 # Graph Project in course OOP with python!
 ### About
+In this assignment we were given a json file and had using it, to implement a Directed weighted graph using the given Interfaces.
+In Addition we were given a list of algorithms that we had to implement and then showcase all of it using GUI
 -----------------
 ### Contents
+s
 -----------------
 ### How to run
+
 -----------------
 ### Additional Visualization
 -----------------
