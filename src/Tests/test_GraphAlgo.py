@@ -72,8 +72,18 @@ class TestGraphAlgo(TestCase):
         self.fail()
 
     def test_is_connected(self):
+        # Normal Graph test
         self.assertFalse(self.GraphAlgo.isConnected())
         self.GraphAlgo.get_graph().remove_node(4)
+        self.assertTrue(self.GraphAlgo.isConnected())
+        self.GraphAlgo.get_graph().remove_edge(2, 1)
+        self.assertFalse(self.GraphAlgo.isConnected())
+        self.GraphAlgo.get_graph().add_edge(2, 1, 0)
+        self.assertTrue(self.GraphAlgo.isConnected())
+        self.GraphAlgo.get_graph().remove_node(2)
+        self.assertFalse(self.GraphAlgo.isConnected())
+        # special Cases
+        self.GraphAlgo.graph = DiGraph()
         self.assertTrue(self.GraphAlgo.isConnected())
 
     def test_reversed_graph(self):
