@@ -61,7 +61,7 @@ class MinHeap:
         return resNode
 
     def isEmpty(self):
-        return (self.size() is 1)
+        return (self.size() == 1)
 
     def DecreaseKey(self, NodeId, weight):
         nodeIndex = self.keyToIndex.get(NodeId)

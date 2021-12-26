@@ -182,7 +182,7 @@ class BFS:
         self.graph.getNode(node_id).tag = self.gray
         self.d[node_id] = 0
         self.Q.put(node_id)
-        while self.Q.empty is False:
+        while self.Q.empty == False:
             self.BFS_VISIT(self.Q.get_nowait())
 
     def BFS_VISIT(self, node_id):
@@ -262,7 +262,7 @@ class Dijkstra:
             Q.put(self.prev.get(cur))
             cur = self.prev.get(cur)
         path = [src]
-        while Q.empty() is False:
+        while Q.empty() == False:
             path.append(Q.get_nowait())
         return path
 
