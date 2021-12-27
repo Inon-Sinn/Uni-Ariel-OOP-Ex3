@@ -5,6 +5,7 @@ import pygame
 from pygame import gfxdraw
 from src.GraphAlgo import GraphAlgo
 from src.DiGraph import DiGraph
+import sys
 
 # Load and initialize the modules here
 pygame.init()
@@ -339,6 +340,7 @@ class Graph_GUI:
 
 
 if __name__ == '__main__':
+    jsonFileName = sys.argv[1]
     algo = GraphAlgo()
-    algo.load_from_json("../data/A2.json")
+    algo.load_from_json("../data/{}".format(jsonFileName))
     gui = Graph_GUI(algo, WIDTH, HEIGHT)
