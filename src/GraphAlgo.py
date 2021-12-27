@@ -6,7 +6,7 @@ from src.DiGraph import DiGraph
 from src.GraphAlgoInterface import GraphAlgoInterface
 from src.GraphInterface import GraphInterface
 from queue import Queue
-import heapq
+from Algorithms.Minheap import MinHeap
 
 
 class GraphAlgo(GraphAlgoInterface):
@@ -210,7 +210,7 @@ class Dijkstra:
 
     def __init__(self, graph):
         self.graph = graph
-        self.MinHeap = []
+        self.MinHeap = MinHeap()
         self.distsFromSrc = {}
         self.prev = {}
 
@@ -222,15 +222,19 @@ class Dijkstra:
         """
         # Iterating through all the nodes and setting their weights to infinity
         for node in self.graph.get_all_v().values():
-            self.distsFromSrc[node.Id] = math.inf
+            if node.Id == start_id:
+                self.MinHeap.insert(0,start_id)
+                self.distsFromSrc[start_id] = 0
+
+            else:
+                self.MinHeap.insert(math.inf,node.Id)
+                self.distsFromSrc[node.Id] = math.inf
+
             self.prev[node.Id] = None
-        self.distsFromSrc[start_id] = 0
-        for node in self.graph.get_all_v().values():
-            heapq.heappush(self.MinHeap, (self.distsFromSrc[node.Id], node.Id))
             # Note that the first node that is popped is the starting node since it has a weight of 0
-        while len(self.MinHeap) != 0:
+        while not self.MinHeap.isEmpty():
             # dist is useless only defined because we receive a tuple from heappop
-            dist, next_id = heapq.heappop(self.MinHeap)
+            next_id = self.MinHeap.removeMin()
             for edge in self.graph.all_out_edges_of_node(next_id).items():
                 self.relax(next_id, edge[0], edge[1])
                 # edge[0] = destId, edge[1] = weight
@@ -244,22 +248,11 @@ class Dijkstra:
         :param dest: the id of the destination node
         :param weight: the weight of the edge
         """
-        if self.distsFromSrc.get(dest) > (self.distsFromSrc.get(src) + weight):
+        newWeight = (self.distsFromSrc.get(src) + weight)
 
-            # pop the dest and push it for the heap to eval its new weight
-            for index in range(len(self.MinHeap)):
-                if self.MinHeap[index][1] == dest:
-                    self.MinHeap.pop(index)
-                    self.distsFromSrc[dest] = self.distsFromSrc.get(src) + weight
-                    heapq.heappush(self.MinHeap, ((self.distsFromSrc.get(src) + weight), dest))
-                    break;
-
-            # for node_id in self.MinHeap:  # TODO takes O(n) implement MinHeap to make it log(n)
-            #     if self.MinHeap[node_id] == dest:
-            #         self.MinHeap[node_id] = self.distsFromSrc.get(src) + weight
-            #         heapq.heapify(self.MinHeap)
-            #         self.prev[dest] = src
-            #         break
+        if self.distsFromSrc.get(dest) > newWeight:
+            self.MinHeap.DecreaseKey(dest, newWeight)
+            self.distsFromSrc[dest] = newWeight
 
     def ShortestPath(self, src, dest) -> list:
         """

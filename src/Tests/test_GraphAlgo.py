@@ -2,6 +2,7 @@ from unittest import TestCase
 
 from src.DiGraph import DiGraph
 from src.GraphAlgo import GraphAlgo, BFS, Dijkstra
+from Algorithms.Minheap import MinHeap
 
 
 class TestGraphAlgo(TestCase):
@@ -160,20 +161,20 @@ class TestDijkstra(TestCase):
         g2.add_node(3)
         g2.add_node(4)
         g2.add_node(5)
-        g2.add_edge(0,1,7)
-        g2.add_edge(1,0,2)
-        g2.add_edge(0,5,3)
-        g2.add_edge(5,4,2)
-        g2.add_edge(5,3,3)
-        g2.add_edge(3,4,5)
-        g2.add_edge(3,1,3)
-        g2.add_edge(1,2,10)
-        g2.add_edge(2,3,2)
-        g2.add_edge(5,1,1)
+        g2.add_edge(0, 1, 7)
+        g2.add_edge(1, 0, 2)
+        g2.add_edge(0, 5, 3)
+        g2.add_edge(5, 4, 2)
+        g2.add_edge(5, 3, 3)
+        g2.add_edge(3, 4, 5)
+        g2.add_edge(3, 1, 3)
+        g2.add_edge(1, 2, 10)
+        g2.add_edge(2, 3, 2)
+        g2.add_edge(5, 1, 1)
         self.Dijkstra2 = Dijkstra(g2)
 
     def test_dijkstra_algo(self):
-        case = 0
+        case = 2
         if case == 0:
             paths = self.d.DijkstraAlgo(0)
             self.assertEqual(paths.get(0), 0)
@@ -199,3 +200,42 @@ class TestDijkstra(TestCase):
 
     def test_max_weight(self):
         self.fail()
+
+
+class TestMinHeap(TestCase):
+    def setUp(self) -> None:
+        self.g2 = DiGraph()
+        self.g2.add_node(0)
+        self.g2.add_node(1)
+        self.g2.add_node(2)
+        self.g2.add_node(3)
+        self.g2.add_node(4)
+        self.g2.add_node(5)
+        self.g2.add_edge(0, 1, 7)
+        self.g2.add_edge(1, 0, 2)
+        self.g2.add_edge(0, 5, 3)
+        self.g2.add_edge(5, 4, 2)
+        self.g2.add_edge(5, 3, 3)
+        self.g2.add_edge(3, 4, 5)
+        self.g2.add_edge(3, 1, 3)
+        self.g2.add_edge(1, 2, 10)
+        self.g2.add_edge(2, 3, 2)
+        self.g2.add_edge(5, 1, 1)
+        self.minHeap = MinHeap()
+        for i in self.g2.get_all_v().keys():
+            self.minHeap.insert(10 - i, self.g2.getNode(i).Id)
+
+    def testInsert(self):
+        for node in self.minHeap.heap:
+            print(node)
+
+    def testRemoveMin(self):
+        for i in range(6):
+            print(self.minHeap.removeMin())
+
+    def testDecreaseKey(self):
+        self.minHeap.DecreaseKey(3, 1)
+        for nodeId in range(6):
+            print(self.minHeap.removeMin())
+
+

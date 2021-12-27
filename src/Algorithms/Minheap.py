@@ -4,75 +4,85 @@ from src.DiGraph import Node
 class MinHeap:
 
     def __init__(self):
-        # heap containing node
+        # heap containing tuple (weight, nodeId)
         self.heap = []
         # the first value in the heap at index 0 is None
         self.heap.append(None)
         # dictionary maps id(a.k.a key) to index (a.k.a value) inside the heap
-        self.keyToIndex = {}
+        self.keyToIndex = {int: int}
 
     def size(self) -> int:
-        return self.heap.__len__()
+        return len(self.heap)
 
-    def swim(self, indexOfNode):
+    def swim(self, IdNode):
+        indexOfNode = self.keyToIndex[IdNode]
         if indexOfNode == 1:
             return
         parentIndex = int(indexOfNode / 2)
-        if self.heap[parentIndex] > self.heap[indexOfNode]:
-            self.swap(indexOfNode, parentIndex)
-            self.swim(parentIndex)
+        if self.heap[parentIndex][0] > self.heap[indexOfNode][0]:
+            self.swap(self.heap[parentIndex][1], IdNode)
+            self.swim(self.heap[parentIndex][1])
 
-    def sink(self, parent):
-        if parent >= self.size():
+    def sink(self, parentId):
+        parentIndex = self.keyToIndex.get(parentId)
+        if parentIndex >= self.size():
             return
-        leftChild = parent * 2
-        rightChild = parent * 2 + 1
-        if leftChild >= self.size():
+        parentIndex = parentId
+        leftChildIndex = parentIndex * 2
+        rightChildIndex = parentIndex * 2 + 1
+        if leftChildIndex >= self.size():
             return
         # parent bigger than left child and right not exist, swap and call sink
-        elif rightChild >= self.size():
-            if self.heap[leftChild] < self.heap[parent]:
-                self.swap(leftChild, parent)
-                self.sink(leftChild)
+        elif rightChildIndex >= self.size():
+            if self.heap[leftChildIndex][0] < self.heap[parentIndex][0]:
+                self.swap(self.heap[leftChildIndex][1], self.heap[parentIndex][1])
+                self.sink(leftChildIndex)
         # parent bigger than the minimal of right and left, swap them and call recursivly
         else:
-            minimumChild = leftChild if self.heap[leftChild] < self.heap[rightChild] else rightChild
-            if self.heap[minimumChild] < self.heap[parent]:
-                self.swap(minimumChild, parent)
+            # take child with minimal weight
+            minimumChild = leftChildIndex if self.heap[leftChildIndex][0] < self.heap[rightChildIndex][0] else rightChildIndex
+            if self.heap[minimumChild][0] < self.heap[parentIndex][0]:
+                self.swap(self.heap[minimumChild][1], self.heap[parentIndex][1])
                 self.sink(minimumChild)
 
-    def insert(self, node):
-        if node is None:
+    def insert(self, weight, nodeId):
+        if weight is None or nodeId is None:
             raise RuntimeWarning("Cant add null to heap")
-        self.heap.append(node)
-        self.keyToIndex[node.id] = self.size() - 1
-        self.swim(self.size() - 1)
+        self.heap.append((weight, nodeId))
+        self.keyToIndex[nodeId] = self.size() - 1
+        self.swim(nodeId)
 
-    def removeMin(self) -> Node:
-        self.swap(1, self.size() - 1)
+    def removeMin(self) -> int:
+        self.swap(self.heap[1][1], self.heap[(self.size() - 1)][1])
         minimalNode = self.heap.pop(self.size() - 1)
         self.sink(1)
-        return minimalNode
+        return minimalNode[1]
 
-    def remove(self, index) -> Node:
-        self.swap(index, self.size() - 1)
-        resNode = self.heap.pop(self.size() - 1)
-        self.sink(index)
-        return resNode
+    def remove(self, nodeId) -> Node:
+        index = self.keyToIndex[nodeId]
+        self.swap(self.heap[index][1], self.heap[(len(self.heap) - 1)][1])
+        resNodeId = self.heap.pop(self.size() - 1)[1]
+        self.sink(resNodeId)
+        return resNodeId
 
     def isEmpty(self):
         return self.size() == 1
 
     def DecreaseKey(self, NodeId, weight):
-        nodeIndex = self.keyToIndex.get(NodeId)
-        if weight < self.heap[nodeIndex]:
-            self.heap[nodeIndex] = weight
-            self.swim(nodeIndex)
 
-    def swap(self, iIndex, jIndex):
+        try:
+            nodeIndex = self.keyToIndex.get(NodeId)
+            if weight < self.heap[nodeIndex][0]:
+                self.heap.pop(nodeIndex)
+                self.heap.insert(nodeIndex, (weight, NodeId));
+                self.swim(NodeId)
+        except KeyError:
+            print("Node Id inserted at DecreaseKey Does not exist!")
+
+    def swap(self, iId, jId):
         # swaps the indexes respectively to their location
+        iIndex = self.keyToIndex[iId]
+        jIndex = self.keyToIndex[jId]
         self.heap[iIndex], self.heap[jIndex] = self.heap[jIndex], self.heap[iIndex]
-        # O(n) lol
-        keyValList = list(self.keyToIndex)
-        keyValList[iIndex], keyValList[jIndex] = keyValList[jIndex], keyValList[iIndex]
-        self.keyToIndex = dict(keyValList)
+        self.keyToIndex[iId] = jIndex
+        self.keyToIndex[jId] = iIndex
