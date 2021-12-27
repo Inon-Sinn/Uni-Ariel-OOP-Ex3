@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from src.DiGraph import DiGraph
 from src.GraphAlgo import GraphAlgo, BFS, Dijkstra
-from Algorithms.Minheap import MinHeap
+from src.Algorithms.Minheap import MinHeap
 
 
 class TestGraphAlgo(TestCase):
@@ -90,12 +90,12 @@ class TestGraphAlgo(TestCase):
             if not self.graphalgo.load_from_json("../data/A1.json"):
                 print("File not found!")
                 return
-            cities1 = [0,3,6]
+            cities1 = [0, 3, 6]
             print(self.graphalgo.TSP(cities1))
+
     def test_load(self):
         algo = GraphAlgo()
-
-        print(algo.load_from_json("Uni-Ariel-OOP-Ex3\data\A1.json"))
+        algo.load_from_json("../data/A1.json")
 
     def test_center_point(self):
         self.fail()

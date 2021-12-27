@@ -26,17 +26,17 @@ def scale(data, min_screen, max_screen, min_data, max_data):
 
 class Button:
 
-    def __init__(self, title, size, color):
+    def __init__(self, title, color):
         self.title = title
-        self.size = size
         self.color = color
-        self.rect = pygame.Rect((0, 0), size)
+        self.rect = pygame.Rect((0, 0), (100, 80))
         self.on_click = None
 
     def add_click_listener(self, func):
         self.on_click = func
 
-    def render(self, surface, pos, color):
+    def render(self, surface, pos, color, newSize):
+        self.rect.update(self.rect.left, self.rect.top, newSize[0], newSize[1])
         self.rect.topleft = pos
         title_srf = FONT.render(self.title, True, pygame.Color(color))
         title_rect = title_srf.get_rect(center=self.rect.center)
@@ -46,7 +46,11 @@ class Button:
     def check(self):
         if self.on_click != None:
             mouse_pos = pygame.mouse.get_pos()
-
+            if self.rect.collidepoint(*mouse_pos):
+                # print("hover")
+                clicked, _, _ = pygame.mouse.get_pressed()
+                if clicked:
+                    self.on_click()
 
 
 class Graph_GUI:
@@ -59,41 +63,91 @@ class Graph_GUI:
         self.screen = pygame.display.set_mode((width, height), depth=32, flags=pygame.constants.RESIZABLE)
         self.MainRun()
 
+    # b = Button('click', (70, 50), (0, 0, 0))
+    # b.add_click_listener(lambda: print("hi"))
+
     def MainRun(self):
-        b = Button('click', (70, 50), (0, 0, 0))
+
         # variables
+        NodeRects = {}
         center_id = None
         pygame.display.set_caption('The Ultimate Graph GUI?!?')
+
         # Colors
         screenColor = (255, 255, 255)  # white
         NodeColor = (0, 48, 142)  # #00308E
-        NodeIdColor = (255, 255, 255)  # black
+        NodeIdColor = (255, 255, 255)  # white
         ArrowColor = (120, 81, 185)  # #7851B9
         MarkedColor = (254, 223, 0)  # #FEDF00
+        ButtonColor = NodeColor  # Blue
+        ButtonTextColor = screenColor
+
+        # Buttons
+        Add_Edge = Button('Add Edge', ButtonColor)
+        Add_Node = Button('Add Node', ButtonColor)
+        Coor = Button('Coor', (255, 255, 255))
+        Clean = Button('Clean', ButtonColor)
+        Center = Button('Center', ButtonColor)
+        Shortest_Path = Button('Shortest Path', ButtonColor)
+        TSP = Button('TSP', ButtonColor)
+
         # Parameters
         ArrowWidth = 1
         NodeRadius = 10
-        margin = 50
+        OuterMargin = 7
+        ButtonMargin = 6
+        margin = + 50 + (self.screen.get_height() * (1 / OuterMargin))
         ArrowSize = 10
         MarkedWidth = ArrowWidth * 1.5
+
         # Compact
         MarkedSettings = {'width': MarkedWidth, 'color': MarkedColor}
         ArrowSettings = {'size': ArrowSize, 'width': ArrowWidth, 'color': ArrowColor}
+
         # Coordinates
         min_x = min(self.graph.get_all_v().values(), key=lambda n: n.pos[0]).pos[0]
         max_x = max(self.graph.get_all_v().values(), key=lambda n: n.pos[0]).pos[0]
         min_y = min(self.graph.get_all_v().values(), key=lambda n: n.pos[1]).pos[1]
         max_y = max(self.graph.get_all_v().values(), key=lambda n: n.pos[1]).pos[1]
+
         # Run the GUI
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     exit(0)
+                if event.type == pygame.MOUSEBUTTONUP:
+                    print(pygame.mouse.get_pos())
 
             self.screen.fill(pygame.Color(screenColor))
-            # Render The Buttons
-            b.render(self.screen, (100, 100), (255, 255, 255))
+            # Render the Margins
+            upperOuterMargin = self.screen.get_height() * (1 / OuterMargin)
+            lowerOuterMargin = self.screen.get_height() * ((OuterMargin - 1) / OuterMargin)
+
+            pygame.draw.aaline(self.screen, pygame.Color((0, 0, 0)), (0, upperOuterMargin),
+                               (self.screen.get_width(), upperOuterMargin), 1)
+            pygame.draw.aaline(self.screen, pygame.Color((0, 0, 0)),
+                               (0, lowerOuterMargin),
+                               (self.screen.get_width(), lowerOuterMargin),
+                               1)
+
+            # Render The Buttons - 8 blocks
+            upperButtonMargin = upperOuterMargin * (1 / ButtonMargin)
+            lowerButtonMargin = lowerOuterMargin + upperButtonMargin
+            Add_Edge.render(self.screen, ((1 / 16) * self.screen.get_width(), upperButtonMargin), ButtonTextColor,
+                            ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
+            Add_Node.render(self.screen, ((6 / 16) * self.screen.get_width(), upperButtonMargin), ButtonTextColor,
+                            ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
+            Coor.render(self.screen, ((8 / 16) * self.screen.get_width(), upperButtonMargin), (0, 0, 0),
+                        ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
+            Clean.render(self.screen, ((13 / 16) * self.screen.get_width(), upperButtonMargin), ButtonTextColor,
+                         ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
+            Center.render(self.screen, ((1 / 16) * self.screen.get_width(), lowerButtonMargin), ButtonTextColor,
+                          ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
+            Shortest_Path.render(self.screen, ((7 / 16) * self.screen.get_width(), lowerButtonMargin), ButtonTextColor,
+                                 ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
+            TSP.render(self.screen, ((13 / 16) * self.screen.get_width(), lowerButtonMargin), ButtonTextColor,
+                       ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
 
             # Draw the edges
             for src in self.graph.get_all_v().values():
@@ -109,6 +163,7 @@ class Graph_GUI:
                     self.drawArrow(src_x, src_y, dest_x, dest_y, NodeRadius, ArrowSettings)
 
             # Draw the nodes
+            NodeRects = {}
             for v in self.graph.get_all_v().values():
                 x = scale(v.pos[0], margin, self.screen.get_width() - margin, min_x, max_x)
                 y = scale(v.pos[1], margin, self.screen.get_height() - margin, min_y, max_y)
@@ -117,6 +172,7 @@ class Graph_GUI:
                 pygame.draw.circle(self.screen, pygame.Color(NodeColor), (x, y), NodeRadius)
                 id_srf = FONT.render(str(v.Id), True, pygame.Color(NodeIdColor))
                 rect = id_srf.get_rect(center=(x, y))
+                NodeRects[rect] = (x, y)
                 self.screen.blit(id_srf, rect)
 
             pygame.display.update()
