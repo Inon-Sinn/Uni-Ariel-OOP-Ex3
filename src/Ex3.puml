@@ -1,0 +1,88 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class GraphAlgoInterface{
++get_graph()
++load_from_json(file_name)
++save_to_json(file_name)
++shortest_path(id1, id2)
++TSP(node_lst)
++centerPoint()
++plot_graph()
+}
+class GraphAlgo{
+-graph: DiGraph
++InterfaceImplementations()
++reversedGraph()
+}
+class BFS{
+-graph
+- Q
+- d
+-prev
+-white
+-gray
+-black
++BFSAlgo()
++BFSVisit(node_id)
++Connected()
+}
+class Dijkstra{
+-graph
+-minHeap
+- d
+-prev
++DijkstraAlgo(start_id)
++relax(src, dest, weight)
++ShortestPath(src, dest)
++MaxWeight()
+}
+abstract class GraphInterface{
++v_size()
++e_size()
++get_all_v()
++all_in_edges_of_node(id1)
++all_out_edges_of_node(id1)
++get_mc()
++add_edge()
++add_node(node_id, pos)
++remove_node(node_id)
++remove_edge(node_id1, node_id2)
+}
+class DiGraph{
+-EdgeSize: int
+-nodes: tuple
++InterfaceImplementations()
++getNode(id)
+}
+class Node{
+-id: int
+-pos: tuple
++dict get_All_in_edges()
++void get_All_out_edges()
++void add_In_edge(src, weight)
++void add_Out_edge(dest, weight)
++dict remove_In_edge(src)
++dict remove_Out_edge(dest)
+}
+class Graph_Gui{
+-graph: DiGraph
+-width: int
+-height: int
+-screen: pygame display
++MainRun()
+}
+class main{
+
+}
+main --|> GraphAlgoInterface
+main --|> GraphInterface
+Node  <|-- DiGraph
+DiGraph <|-- GraphInterface
+GraphAlgo <|-- GraphAlgoInterface
+GraphAlgo --|> DiGraph
+BFS <|-- GraphAlgo
+Dijkstra <|-- GraphAlgo
+Graph_Gui <|-- GraphAlgo
+
+@enduml
