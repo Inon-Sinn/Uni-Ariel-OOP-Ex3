@@ -289,9 +289,9 @@ class Dijkstra:
 
     def MaxWeight(self) -> float:
         Max = 0
-        for weight in self.d.values():
-            if weight > Max:
-                Max = weight
+        for weight in self.distsFromSrc.values():
             if weight == math.inf:
                 return -1
+            if weight > Max:
+                Max = weight
         return Max
