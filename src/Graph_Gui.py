@@ -45,12 +45,13 @@ class Button:
         surface.blit(title_srf, title_rect)
 
     def check(self, click) -> bool:
-        if self.on_click is not None:
-            if self.rect.collidepoint(*click):
-                print("CLicked!")
-                self.on_click()
-                return True
+        if self.rect.collidepoint(*click):
+            print("CLicked!")
+            return True
         return False
+
+    def runTheFunc(self):
+        self.on_click()
 
 
 class Graph_GUI:
@@ -96,8 +97,6 @@ class Graph_GUI:
         Shortest_Path = Button('Shortest Path', ButtonColor)
         TSP = Button('TSP', ButtonColor)
 
-        Clean.add_click_listener(lambda: print("Cleaned"))
-
         # Parameters
         ArrowWidth = 1
         NodeRadius = 10
@@ -137,20 +136,43 @@ class Graph_GUI:
                         Coor.title = "({},{})".format(add_x, add_y)
                         Add_Node.add_click_listener(lambda: self.algo.get_graph().add_node(next_id, (add_x, add_y)))
 
-                    # Add a Node
+                    # Add a new Node to the Graph
                     if Add_Node.check(click) is True:
-                        next_id += 1
-                        added_A_Node = True
+                        if Add_Node.on_click is not None:
+                            Add_Node.title = "Add Node"
+                            Add_Node.runTheFunc()
+                            next_id += 1
+                            added_A_Node = True
+                        else:
+                            Add_Node.title = "No Coordinates"
+
+                    # Add a new Edge to the Graph
+                    if Add_Edge.check(click) is True:
+                        if len(MarkedNodes) == 2:
+                            Add_Edge.title = "Add Edge"
+                            Add_Edge.runTheFunc()
+                            MarkedNodes.clear()
+                        elif len(MarkedNodes) < 2:
+                            Add_Edge.title = "Needs 2 nodes"
+                        else:
+                            Add_Edge.title = "Too many nodes"
 
                     # Check if the user Clicked on a Node
                     for v in NodeRects.items():
                         if v[1].collidepoint(*click):
-                            print("The Node is: {}".format(v[0]))
                             MarkedNodes[v[0]] = 1
+
+                    # Checks if we have Exactly two marked nodes
+                    if len(MarkedNodes) == 2:
+                        node1 = list(MarkedNodes)[0]
+                        node2 = list(MarkedNodes)[1]
+                        Add_Edge.add_click_listener(lambda: self.algo.get_graph().add_edge(node1, node2, 0))
 
                     # Clean the screen
                     if Clean.check(click) is True:
                         MarkedNodes.clear()
+                        Add_Edge.title = "Add Edge"
+                        Add_Node.title = "Add Node"
 
             self.screen.fill(pygame.Color(screenColor))
 
