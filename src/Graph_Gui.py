@@ -2,6 +2,7 @@ import math
 
 import pygame
 
+from src.GraphAlgo import GraphAlgo
 from src.DiGraph import DiGraph
 
 # Load and initialize the modules here
@@ -17,6 +18,8 @@ WIDTH, HEIGHT = 800, 600
 def scale(data, min_screen, max_screen, min_data, max_data):
     """get the scaled data with proportions min_data, max_data
     relative to min and max screen dimensions"""
+    if max_data - min_data == 0:
+        return min_screen
     return ((data - min_data) / (max_data - min_data)) * (max_screen - min_screen) + min_screen
 
 
@@ -111,10 +114,12 @@ class Graph_GUI:
 
 
 if __name__ == '__main__':
-    graph = DiGraph()
-    graph.add_node(0, (0, 10, 0))
-    graph.add_node(1, (5, 5, 0))
-    graph.add_node(2, (10, 0, 0))
-    graph.add_edge(0, 1, 0)
-    graph.add_edge(1, 2, 0)
-    gui = Graph_GUI(graph, WIDTH, HEIGHT)
+    # graph = DiGraph()
+    # graph.add_node(0, (0, 10, 0))
+    # graph.add_node(1, (5, 5, 0))
+    # graph.add_node(2, (10, 0, 0))
+    # graph.add_edge(0, 1, 0)
+    # graph.add_edge(1, 2, 0)
+    algo = GraphAlgo()
+    algo.load_from_json("../data/T0.json")
+    gui = Graph_GUI(algo.get_graph(), WIDTH, HEIGHT)
