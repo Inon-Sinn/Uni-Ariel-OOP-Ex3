@@ -64,12 +64,10 @@ class Graph_GUI:
         self.screen = pygame.display.set_mode((width, height), depth=32, flags=pygame.constants.RESIZABLE)
         self.MainRun()
 
-    # b = Button('click', (70, 50), (0, 0, 0))
-    # b.add_click_listener(lambda: print("hi"))
-
     def MainRun(self):
 
         # variables - special
+        Path = []
         MarkedNodes = {}
         NodeRects = {}
         center_id = None
@@ -84,7 +82,8 @@ class Graph_GUI:
         NodeColor = (0, 48, 142)  # #00308E
         NodeIdColor = (255, 255, 255)  # white
         ArrowColor = (120, 81, 185)  # #7851B9
-        MarkedColor = (254, 223, 0)  # #FEDF00
+        MarkedNodeColor = (254, 223, 0)  # #FEDF00
+        MarkedArrowColor = (137, 108, 5)  # #896c05
         ButtonColor = NodeColor  # Blue
         ButtonTextColor = screenColor
 
@@ -106,10 +105,10 @@ class Graph_GUI:
         ButtonMargin = 6
         margin = + 50 + (self.screen.get_height() * (1 / OuterMargin))
         ArrowSize = 10
-        MarkedWidth = ArrowWidth * 1.5
+        MarkedWidth = int(ArrowWidth * 1.5)
 
         # Compact
-        MarkedArrowSettings = {'size': ArrowSize, 'width': MarkedWidth, 'color': MarkedColor}
+        MarkedArrowSettings = {'size': ArrowSize, 'width': MarkedWidth, 'color': MarkedArrowColor}
         ArrowSettings = {'size': ArrowSize, 'width': ArrowWidth, 'color': ArrowColor}
 
         # Coordinates
@@ -157,6 +156,19 @@ class Graph_GUI:
                         else:
                             Add_Edge.title = "Too many nodes"
 
+                    # Show the Shortest Path
+                    if Shortest_Path.check(click) is True:
+                        if len(MarkedNodes) == 2:
+                            dist, Path = Shortest_Path.on_click()
+                            Shortest_Path.title = "Dist: {:.5f}".format(dist)
+                            Path = self.arrangePath(Path)
+                            for id in Path:
+                                print(id)
+                        elif len(MarkedNodes) < 2:
+                            Shortest_Path.title = "Needs 2 nodes"
+                        else:
+                            Shortest_Path.title = "Too many nodes"
+
                     # Check if the user Clicked on a Node
                     for v in NodeRects.items():
                         if v[1].collidepoint(*click):
@@ -167,12 +179,14 @@ class Graph_GUI:
                         node1 = list(MarkedNodes)[0]
                         node2 = list(MarkedNodes)[1]
                         Add_Edge.add_click_listener(lambda: self.algo.get_graph().add_edge(node1, node2, 0))
+                        Shortest_Path.add_click_listener(lambda: self.algo.shortest_path(node1, node2))
 
                     # Clean the screen
                     if Clean.check(click) is True:
                         MarkedNodes.clear()
                         Add_Edge.title = "Add Edge"
                         Add_Node.title = "Add Node"
+                        Shortest_Path.title = "Shortest path"
 
             self.screen.fill(pygame.Color(screenColor))
 
@@ -224,7 +238,10 @@ class Graph_GUI:
                                    max_x)
                     dest_y = scale(self.graph.getNode(dest_id).pos[1], margin, self.screen.get_height() - margin, min_y,
                                    max_y)
-                    self.drawArrow(src_x, src_y, dest_x, dest_y, NodeRadius, ArrowSettings)
+                    if dest_id in Path:
+                        self.drawArrow(src_x, src_y, dest_x, dest_y, NodeRadius, MarkedArrowSettings)
+                    else:
+                        self.drawArrow(src_x, src_y, dest_x, dest_y, NodeRadius, ArrowSettings)
 
             # Draw the nodes
             NodeRects = {}
@@ -232,8 +249,8 @@ class Graph_GUI:
                 x = scale(v.pos[0], margin, self.screen.get_width() - margin, min_x, max_x)
                 y = scale(v.pos[1], margin, self.screen.get_height() - margin, min_y, max_y)
                 if v.Id in MarkedNodes:
-                    pygame.gfxdraw.aacircle(self.screen, int(x), int(y), NodeRadius, pygame.Color(MarkedColor))
-                    pygame.gfxdraw.filled_circle(self.screen, int(x), int(y), NodeRadius, pygame.Color(MarkedColor))
+                    pygame.gfxdraw.aacircle(self.screen, int(x), int(y), NodeRadius, pygame.Color(MarkedNodeColor))
+                    pygame.gfxdraw.filled_circle(self.screen, int(x), int(y), NodeRadius, pygame.Color(MarkedNodeColor))
                 else:
                     pygame.gfxdraw.aacircle(self.screen, int(x), int(y), NodeRadius, pygame.Color(NodeColor))
                     pygame.gfxdraw.filled_circle(self.screen, int(x), int(y), NodeRadius, pygame.Color(NodeColor))
@@ -271,8 +288,13 @@ class Graph_GUI:
                 new_x + ArrowSettings['size'] * math.sin(math.radians(rotation - 200)),
                 new_y + ArrowSettings['size'] * math.cos(math.radians(rotation - 200)))))
 
+    def arrangePath(self,path:list):
+        newPath = []
+        for i in range(len(path)-1):
+            newPath.append((path[i],path[i-1]))
+        return newPath
 
 if __name__ == '__main__':
     algo = GraphAlgo()
-    algo.load_from_json("../data/A1.json")
+    algo.load_from_json("../data/A2.json")
     gui = Graph_GUI(algo, WIDTH, HEIGHT)
