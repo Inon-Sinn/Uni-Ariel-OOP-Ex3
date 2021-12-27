@@ -93,7 +93,12 @@ class Node:
     def __init__(self, Id, pos):
         self.Id = Id
         self.tag = 0  # Used by the BFS algoirthm to color the node
-        self.pos = pos
+        self.noPos = False  # Used to check if there even is a pos
+        if pos is None:
+            self.pos = (0, 0, 0)
+            self.noPos = True
+        else:
+            self.pos = pos
         # The edges which destination is this node, key: source node id, value: weight of the edge
         self.all_in_edges = {}
         # The edges which source is this node, key: destination node id, value: weight of the edge
@@ -117,10 +122,10 @@ class Node:
     def remove_Out_edge(self, otherId):
         return self.all_out_edges.pop(otherId)
 
-
     def __repr__(self):
         return "{}: |edges out| {} |edges in| {}".format(self.Id, len(self.all_out_edges), len(self.all_in_edges))
 
     def __str__(self):
-        return "Id: {}\nTag: {}\npos: {}\nIncoming Edges: {}\nOutgoing Edges: {}\n".format(self.Id,self.tag, self.pos, self.all_in_edges,
-                                                                                  self.all_out_edges)
+        return "Id: {}\nTag: {}\npos: {}\nIncoming Edges: {}\nOutgoing Edges: {}\n".format(self.Id, self.tag, self.pos,
+                                                                                           self.all_in_edges,
+                                                                                           self.all_out_edges)

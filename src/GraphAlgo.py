@@ -50,7 +50,7 @@ class GraphAlgo(GraphAlgoInterface):
                     'dest': dest[0]
                 })
         for n in self.graph.nodes.values():
-            if n.pos is None:
+            if n.noPos is True:
                 ToJson['Nodes'].append({
                     'id': n.Id
                 })
