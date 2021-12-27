@@ -1,5 +1,5 @@
 from DiGraph import DiGraph
-from GraphAlgo import GraphAlgo
+from Graph_Algo import GraphAlgo
 import sys
 
 

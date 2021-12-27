@@ -3,7 +3,7 @@ import math
 import pygame
 
 from pygame import gfxdraw
-from src.GraphAlgo import GraphAlgo
+from src.Graph_Algo import GraphAlgo
 from src.DiGraph import DiGraph
 import sys
 

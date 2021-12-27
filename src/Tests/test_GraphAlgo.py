@@ -2,7 +2,7 @@ import math
 from unittest import TestCase
 
 from src.DiGraph import DiGraph
-from src.GraphAlgo import GraphAlgo, BFS, Dijkstra
+from src.Graph_Algo import GraphAlgo, BFS, Dijkstra
 from src.Algorithms.Minheap import MinHeap
 
 
