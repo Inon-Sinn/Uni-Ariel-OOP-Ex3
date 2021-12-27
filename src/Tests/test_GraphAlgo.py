@@ -1,3 +1,4 @@
+import math
 from unittest import TestCase
 
 from src.DiGraph import DiGraph
@@ -87,9 +88,12 @@ class TestGraphAlgo(TestCase):
             self.graphalgo.graph = self.graph1
             print(self.graphalgo.TSP(cities))
         elif case == 1:
-            if not self.graphalgo.load_from_json("../data/A1.json"):
+            if not self.graphalgo.load_from_json("../../data/A1.json"):
                 print("File not found!")
                 return
+            cities1 = [0,3,6]
+            cities2 = [10,6,7]
+            print(self.graphalgo.TSP(cities1))
             cities1 = [0, 3, 6]
             print(self.graphalgo.TSP(cities1))
 
@@ -98,7 +102,12 @@ class TestGraphAlgo(TestCase):
         algo.load_from_json("../data/A1.json")
 
     def test_center_point(self):
-        self.fail()
+        centers = [(7, 6.806805834715163), (8, 9.925289024973141), (0, 7.819910602212574), (2, 8.182236568942237), (6, 8.071366078651435),(40, 9.291743173960954)]
+        for i in range(6):
+            currstr = "../../data/A"
+            self.graphalgo.load_from_json(currstr + str(i) + ".json")
+            curId, curDist = self.graphalgo.centerPoint()
+            self.assertEqual(centers[i], (curId,curDist))
 
     def test_plot_graph(self):
         self.fail()
@@ -205,7 +214,7 @@ class TestDijkstra(TestCase):
         self.Dijkstra2 = Dijkstra(g2)
 
     def test_dijkstra_algo(self):
-        case = 2
+        case = 3
         if case == 0:
             paths = self.d.DijkstraAlgo(0)
             self.assertEqual(paths.get(0), 0)
@@ -225,6 +234,14 @@ class TestDijkstra(TestCase):
             self.assertEqual(6, path2.get(3))
             self.assertEqual(5, path2.get(4))
             self.assertEqual(3, path2.get(5))
+        elif case == 3:
+            self.graphAlgo = GraphAlgo()
+            self.graphAlgo.load_from_json("../../data/A0.json")
+            dijk3 = Dijkstra(self.graphAlgo.graph)
+            dijk3.DijkstraAlgo(0)
+            for dis in dijk3.distsFromSrc.values():
+                print(dis)
+            print("Passed")
 
     def test_shortest_path(self):
         self.fail()
@@ -266,5 +283,24 @@ class TestMinHeap(TestCase):
 
     def testDecreaseKey(self):
         self.minHeap.DecreaseKey(3, 1)
+        self.minHeap.DecreaseKey(2, 2)
+        self.minHeap.DecreaseKey(4,3)
+        self.minHeap.DecreaseKey(1,4)
         for nodeId in range(6):
             print(self.minHeap.removeMin())
+    def testA0(self):
+        algo = GraphAlgo()
+        algo.load_from_json("../../data/A0.json")
+        minHeap1 = MinHeap()
+        for node in algo.graph.get_all_v().values():
+            if node.Id == 0:
+                minHeap1.insert(0, node.Id)
+            else:
+                minHeap1.insert(math.inf, node.Id)
+        minHeap1.removeMin()
+        minHeap1.DecreaseKey(1,1.4)
+        minHeap1.DecreaseKey(10,1.462)
+        minHeap1.removeMin()
+        minHeap1.DecreaseKey(2,1.4+1.715)
+        minHeap1.removeMin()
+

@@ -9,7 +9,7 @@ class MinHeap:
         # the first value in the heap at index 0 is None
         self.heap.append(None)
         # dictionary maps id(a.k.a key) to index (a.k.a value) inside the heap
-        self.keyToIndex = {int: int}
+        self.keyToIndex = {}
 
     def size(self) -> int:
         return len(self.heap)
@@ -27,7 +27,6 @@ class MinHeap:
         parentIndex = self.keyToIndex.get(parentId)
         if parentIndex >= self.size():
             return
-        parentIndex = parentId
         leftChildIndex = parentIndex * 2
         rightChildIndex = parentIndex * 2 + 1
         if leftChildIndex >= self.size():
@@ -53,9 +52,12 @@ class MinHeap:
         self.swim(nodeId)
 
     def removeMin(self) -> int:
+        if self.size() == 2:
+            minimalNode = self.heap.pop(1)
+            return minimalNode[1]
         self.swap(self.heap[1][1], self.heap[(self.size() - 1)][1])
         minimalNode = self.heap.pop(self.size() - 1)
-        self.sink(1)
+        self.sink(self.heap[1][1])
         return minimalNode[1]
 
     def remove(self, nodeId) -> Node:
@@ -72,6 +74,8 @@ class MinHeap:
 
         try:
             nodeIndex = self.keyToIndex.get(NodeId)
+            if nodeIndex > len(self.heap) :
+                return
             if weight < self.heap[nodeIndex][0]:
                 self.heap.pop(nodeIndex)
                 self.heap.insert(nodeIndex, (weight, NodeId));
