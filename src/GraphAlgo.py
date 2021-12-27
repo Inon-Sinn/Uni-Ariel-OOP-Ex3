@@ -6,7 +6,7 @@ from src.DiGraph import DiGraph
 from src.GraphAlgoInterface import GraphAlgoInterface
 from src.GraphInterface import GraphInterface
 from queue import Queue
-import heapq
+from Algorithms.Minheap import MinHeap
 
 
 class GraphAlgo(GraphAlgoInterface):
@@ -68,11 +68,11 @@ class GraphAlgo(GraphAlgoInterface):
 
     def shortest_path(self, id1: int, id2: int) -> (float, list):
         dijkstra = Dijkstra(self.graph)
-        # define paths as distance Of Shortest Paths
-        paths = dijkstra.DijkstraAlgo(id1)
-        if paths.get(id2) is math.inf:
+        # define distancesFromsrc as distance Of Shortest Paths
+        distancesFromsrc = dijkstra.DijkstraAlgo(id1)
+        if distancesFromsrc.get(id2) is math.inf:
             return float('inf'), []
-        return paths.get(id2), dijkstra.ShortestPath(id1, id2)
+        return distancesFromsrc.get(id2), dijkstra.ShortestPath(id1, id2)
 
     def TSP(self, node_lst: List[int]) -> (List[int], float):
         if node_lst is None:
@@ -81,18 +81,19 @@ class GraphAlgo(GraphAlgoInterface):
             return node_lst
         completePath = []
         currentPath = []
-        currentCityIndex = node_lst.pop()
+        currentCityIndex = node_lst.pop(0)
         found = False
         while node_lst.__len__() != 0:
             nextCityIndex = 0
             removeIndex = 0
             minPathWeight = math.inf
+            # getting the minimal path
             for i in range(node_lst.__len__()):
                 # define ShortPathWeight as the distance from the start node to node at index i
                 (shortPathWeight, ShortPathList) = self.shortest_path(currentCityIndex, node_lst[i])
                 # if there is a path shortPathWeight is real number, else it is infinity
                 if shortPathWeight < minPathWeight:
-                    nextCityIndex = node_lst[i]
+                    nextCityIndex = i
                     removeIndex = i
                     currentPath = ShortPathList
                     minPathWeight = shortPathWeight
@@ -101,7 +102,7 @@ class GraphAlgo(GraphAlgoInterface):
                 return None
             found = False
             currentCityIndex = nextCityIndex
-            node_lst.remove(removeIndex)
+            node_lst.pop(removeIndex)
             completePath = currentPath.copy()
 
         # remove dublicates lol
@@ -210,7 +211,7 @@ class Dijkstra:
 
     def __init__(self, graph):
         self.graph = graph
-        self.MinHeap = []
+        self.MinHeap = MinHeap()
         self.distsFromSrc = {}
         self.prev = {}
 
@@ -222,15 +223,19 @@ class Dijkstra:
         """
         # Iterating through all the nodes and setting their weights to infinity
         for node in self.graph.get_all_v().values():
-            self.distsFromSrc[node.Id] = math.inf
+            if node.Id == start_id:
+                self.MinHeap.insert(0,start_id)
+                self.distsFromSrc[start_id] = 0
+
+            else:
+                self.MinHeap.insert(math.inf,node.Id)
+                self.distsFromSrc[node.Id] = math.inf
+
             self.prev[node.Id] = None
-        self.distsFromSrc[start_id] = 0
-        for node in self.graph.get_all_v().values():
-            heapq.heappush(self.MinHeap, (self.distsFromSrc[node.Id], node.Id))
             # Note that the first node that is popped is the starting node since it has a weight of 0
-        while len(self.MinHeap) != 0:
+        while not self.MinHeap.isEmpty():
             # dist is useless only defined because we receive a tuple from heappop
-            dist, next_id = heapq.heappop(self.MinHeap)
+            next_id = self.MinHeap.removeMin()
             for edge in self.graph.all_out_edges_of_node(next_id).items():
                 self.relax(next_id, edge[0], edge[1])
                 # edge[0] = destId, edge[1] = weight
@@ -244,22 +249,12 @@ class Dijkstra:
         :param dest: the id of the destination node
         :param weight: the weight of the edge
         """
-        if self.distsFromSrc.get(dest) > (self.distsFromSrc.get(src) + weight):
+        newWeight = (self.distsFromSrc.get(src) + weight)
 
-            # pop the dest and push it for the heap to eval its new weight
-            for index in range(len(self.MinHeap)):
-                if self.MinHeap[index][1] == dest:
-                    self.MinHeap.pop(index)
-                    self.distsFromSrc[dest] = self.distsFromSrc.get(src) + weight
-                    heapq.heappush(self.MinHeap, ((self.distsFromSrc.get(src) + weight), dest))
-                    break;
-
-            # for node_id in self.MinHeap:  # TODO takes O(n) implement MinHeap to make it log(n)
-            #     if self.MinHeap[node_id] == dest:
-            #         self.MinHeap[node_id] = self.distsFromSrc.get(src) + weight
-            #         heapq.heapify(self.MinHeap)
-            #         self.prev[dest] = src
-            #         break
+        if self.distsFromSrc.get(dest) > newWeight:
+            self.MinHeap.DecreaseKey(dest, newWeight)
+            self.distsFromSrc[dest] = newWeight
+            self.prev[dest] = src
 
     def ShortestPath(self, src, dest) -> list:
         """
@@ -268,16 +263,29 @@ class Dijkstra:
         :param dest: the id of the end node
         :return: list - the shotest path between the two nodes (them included)
         """
-        Q = Queue(0)
-        Q.put(dest)
-        cur = dest
-        while self.prev.get(cur) is not src:
-            Q.put(self.prev.get(cur))
-            cur = self.prev.get(cur)
-        path = [src]
-        while not Q.empty():
-            path.append(Q.get_nowait())
-        return path
+        shortestPath = []
+        current = dest
+        if self.distsFromSrc[dest] is math.inf:
+            return None
+        while current != src and current is not None:
+            shortestPath.insert(0,current)
+            try:
+                current = self.prev[current]
+            except KeyError:
+                current = None
+        shortestPath.insert(0, src)
+        return shortestPath
+
+        # Q = Queue(0)
+        # Q.put(dest)
+        # cur = dest
+        # while self.prev.get(cur) is not src:
+        #     Q.put(self.prev.get(cur))
+        #     cur = self.prev.get(cur)
+        # path = [src]
+        # while not Q.empty():
+        #     path.append(Q.get_nowait())
+        # return path
 
     def MaxWeight(self) -> float:
         Max = 0
