@@ -5,7 +5,6 @@ import time
 
 from src.DiGraph import DiGraph, Node
 from src.GUI import Constants
-import src.api
 from pygame.locals import *
 constants = Constants
 width = constants.screenWidth
