@@ -34,6 +34,7 @@ class Button:
 
     def add_click_listener(self, func):
         self.on_click = func
+        print("Test")
 
     def render(self, surface, pos, color, newSize):
         self.rect.update(self.rect.left, self.rect.top, newSize[0], newSize[1])
@@ -43,14 +44,13 @@ class Button:
         pygame.draw.rect(surface, self.color, self.rect)
         surface.blit(title_srf, title_rect)
 
-    def check(self):
+    def check(self, click) -> bool:
         if self.on_click is not None:
-            mouse_pos = pygame.mouse.get_pos()
-            if self.rect.collidepoint(*mouse_pos):
-                # print("hover")
-                clicked, _, _ = pygame.mouse.get_pressed()
-                if clicked:
-                    self.on_click()
+            if self.rect.collidepoint(*click):
+                print("CLicked!")
+                self.on_click()
+                return True
+        return False
 
 
 class Graph_GUI:
@@ -68,10 +68,14 @@ class Graph_GUI:
 
     def MainRun(self):
 
-        # variables
+        # variables - special
         NodeRects = {}
         center_id = None
+        next_id = max(self.graph.get_all_v().values(), key=lambda n: n.Id).Id + 1
         pygame.display.set_caption('The Ultimate Graph GUI?!?')
+
+        # Booleans
+        added_A_Node = False
 
         # Colors
         screenColor = (255, 255, 255)  # white
@@ -107,6 +111,8 @@ class Graph_GUI:
         ArrowSettings = {'size': ArrowSize, 'width': ArrowWidth, 'color': ArrowColor}
 
         # Coordinates
+        add_x = 0
+        add_y = 0
         min_x = min(self.graph.get_all_v().values(), key=lambda n: n.pos[0]).pos[0]
         max_x = max(self.graph.get_all_v().values(), key=lambda n: n.pos[0]).pos[0]
         min_y = min(self.graph.get_all_v().values(), key=lambda n: n.pos[1]).pos[1]
@@ -119,14 +125,30 @@ class Graph_GUI:
                     pygame.quit()
                     exit(0)
                 if event.type == pygame.MOUSEBUTTONUP:
-                    print(pygame.mouse.get_pos())
+                    click = pygame.mouse.get_pos()
+
                     # Get the Coordinates for Adding a Node
-                    if upperOuterMargin < pygame.mouse.get_pos()[1] < lowerOuterMargin:
-                        Coor.title = "({},{})".format(
-                            scale(pygame.mouse.get_pos()[0], min_x, max_x, margin, self.screen.get_width() - margin),
-                            scale(pygame.mouse.get_pos()[1], min_y, max_y, margin, self.screen.get_height() - margin))
-                    # Check if the user clicked on a Node
+                    if upperOuterMargin < click[1] < lowerOuterMargin:
+                        add_x = scale(click[0], min_x, max_x, margin, self.screen.get_width() - margin)
+                        add_y = scale(click[1], min_y, max_y, margin, self.screen.get_height() - margin)
+                        Coor.title = "({},{})".format(add_x, add_y)
+                        Add_Node.add_click_listener(lambda: self.algo.get_graph().add_node(next_id, (add_x, add_y)))
+
+                    # Add a Node
+                    if Add_Node.check(click) is True:
+                        next_id += 1
+                        added_A_Node = True
+
             self.screen.fill(pygame.Color(screenColor))
+
+            # Update the variables if we added a new Node
+            if added_A_Node is True:
+                added_A_Node = False
+                min_x = min(self.graph.get_all_v().values(), key=lambda n: n.pos[0]).pos[0]
+                max_x = max(self.graph.get_all_v().values(), key=lambda n: n.pos[0]).pos[0]
+                min_y = min(self.graph.get_all_v().values(), key=lambda n: n.pos[1]).pos[1]
+                max_y = max(self.graph.get_all_v().values(), key=lambda n: n.pos[1]).pos[1]
+
             # Render the Margins
             upperOuterMargin = self.screen.get_height() * (1 / OuterMargin)
             lowerOuterMargin = self.screen.get_height() * ((OuterMargin - 1) / OuterMargin)
