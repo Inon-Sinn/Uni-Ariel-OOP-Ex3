@@ -13,7 +13,7 @@ clock = pygame.time.Clock()
 
 FONT = pygame.font.SysFont('Arial', 15, bold=True)
 
-WIDTH, HEIGHT = 800, 600
+WIDTH, HEIGHT = 900, 740
 
 
 def scale(data, min_screen, max_screen, min_data, max_data):
@@ -34,7 +34,6 @@ class Button:
 
     def add_click_listener(self, func):
         self.on_click = func
-        print("Test")
 
     def render(self, surface, pos, color, newSize):
         self.rect.update(self.rect.left, self.rect.top, newSize[0], newSize[1])
@@ -46,7 +45,6 @@ class Button:
 
     def check(self, click) -> bool:
         if self.rect.collidepoint(*click):
-            print("CLicked!")
             return True
         return False
 
@@ -72,7 +70,7 @@ class Graph_GUI:
         NodeRects = {}
         center_id = 0
         next_id = max(self.graph.get_all_v().values(), key=lambda n: n.Id).Id + 1
-        pygame.display.set_caption('The Ultimate Graph GUI?!?')
+        pygame.display.set_caption('I AM THE GUI, FEEL MY POWER!!!')
 
         # Booleans
         added_A_Node = False
@@ -237,20 +235,20 @@ class Graph_GUI:
             # Render The Buttons - 8 blocks
             upperButtonMargin = upperOuterMargin * (1 / ButtonMargin)
             lowerButtonMargin = lowerOuterMargin + upperButtonMargin
-            Add_Edge.render(self.screen, ((1 / 16) * self.screen.get_width(), upperButtonMargin), ButtonTextColor,
-                            ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
-            Add_Node.render(self.screen, ((5 / 16) * self.screen.get_width(), upperButtonMargin), ButtonTextColor,
-                            ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
-            Coor.render(self.screen, ((9 / 16) * self.screen.get_width(), upperButtonMargin), (0, 0, 0),
-                        ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
-            Clean.render(self.screen, ((13 / 16) * self.screen.get_width(), upperButtonMargin), ButtonTextColor,
-                         ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
-            Center.render(self.screen, ((1 / 16) * self.screen.get_width(), lowerButtonMargin), ButtonTextColor,
-                          ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
-            Shortest_Path.render(self.screen, ((7 / 16) * self.screen.get_width(), lowerButtonMargin), ButtonTextColor,
-                                 ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
-            TSP.render(self.screen, ((13 / 16) * self.screen.get_width(), lowerButtonMargin), ButtonTextColor,
-                       ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
+            Add_Edge.render(self.screen, ((2 / 32) * self.screen.get_width(), upperButtonMargin), ButtonTextColor,
+                            ((5 / 32) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
+            Add_Node.render(self.screen, ((10 / 32) * self.screen.get_width(), upperButtonMargin), ButtonTextColor,
+                            ((5 / 32) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
+            Coor.render(self.screen, ((17 / 32) * self.screen.get_width(), upperButtonMargin), (0, 0, 0),
+                        ((5 / 32) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
+            Clean.render(self.screen, ((25 / 32) * self.screen.get_width(), upperButtonMargin), ButtonTextColor,
+                         ((5 / 32) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
+            Center.render(self.screen, ((4 / 64) * self.screen.get_width(), lowerButtonMargin), ButtonTextColor,
+                          ((5 / 32) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
+            Shortest_Path.render(self.screen, ((27 / 64) * self.screen.get_width(), lowerButtonMargin), ButtonTextColor,
+                                 ((5 / 32) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
+            TSP.render(self.screen, ((50 / 64) * self.screen.get_width(), lowerButtonMargin), ButtonTextColor,
+                       ((5 / 32) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
 
             # Draw the edges
             for src in self.graph.get_all_v().values():
