@@ -3,7 +3,7 @@ from unittest import TestCase
 
 from src.DiGraph import DiGraph
 from src.GraphAlgo import GraphAlgo, BFS, Dijkstra
-from Algorithms.Minheap import MinHeap
+from src.Algorithms.Minheap import MinHeap
 
 
 class TestGraphAlgo(TestCase):
@@ -94,6 +94,12 @@ class TestGraphAlgo(TestCase):
             cities1 = [0,3,6]
             cities2 = [10,6,7]
             print(self.graphalgo.TSP(cities1))
+            cities1 = [0, 3, 6]
+            print(self.graphalgo.TSP(cities1))
+
+    def test_load(self):
+        algo = GraphAlgo()
+        algo.load_from_json("../data/A1.json")
 
     def test_center_point(self):
         centers = [(7, 6.806805834715163), (8, 9.925289024973141), (0, 7.819910602212574), (2, 8.182236568942237), (6, 8.071366078651435),(40, 9.291743173960954)]

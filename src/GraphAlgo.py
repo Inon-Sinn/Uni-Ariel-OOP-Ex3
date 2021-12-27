@@ -6,7 +6,7 @@ from src.DiGraph import DiGraph
 from src.GraphAlgoInterface import GraphAlgoInterface
 from src.GraphInterface import GraphInterface
 from queue import Queue
-from Algorithms.Minheap import MinHeap
+from src.Algorithms.Minheap import MinHeap
 
 
 class GraphAlgo(GraphAlgoInterface):
