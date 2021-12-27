@@ -5,6 +5,7 @@ import pygame
 from pygame import gfxdraw
 from src.GraphAlgo import GraphAlgo
 from src.DiGraph import DiGraph
+import sys
 
 # Load and initialize the modules here
 pygame.init()
@@ -13,7 +14,7 @@ clock = pygame.time.Clock()
 
 FONT = pygame.font.SysFont('Arial', 15, bold=True)
 
-WIDTH, HEIGHT = 800, 600
+WIDTH, HEIGHT = 900, 740
 
 
 def scale(data, min_screen, max_screen, min_data, max_data):
@@ -34,7 +35,6 @@ class Button:
 
     def add_click_listener(self, func):
         self.on_click = func
-        print("Test")
 
     def render(self, surface, pos, color, newSize):
         self.rect.update(self.rect.left, self.rect.top, newSize[0], newSize[1])
@@ -46,7 +46,6 @@ class Button:
 
     def check(self, click) -> bool:
         if self.rect.collidepoint(*click):
-            print("CLicked!")
             return True
         return False
 
@@ -70,12 +69,13 @@ class Graph_GUI:
         Path = []
         MarkedNodes = {}
         NodeRects = {}
-        center_id = None
+        center_id = 0
         next_id = max(self.graph.get_all_v().values(), key=lambda n: n.Id).Id + 1
-        pygame.display.set_caption('The Ultimate Graph GUI?!?')
+        pygame.display.set_caption('I AM THE GUI, FEEL MY POWER!!!')
 
         # Booleans
         added_A_Node = False
+        centerExists = False
 
         # Colors
         screenColor = (255, 255, 255)  # white
@@ -83,9 +83,10 @@ class Graph_GUI:
         NodeIdColor = (255, 255, 255)  # white
         ArrowColor = (120, 81, 185)  # #7851B9
         MarkedNodeColor = (254, 223, 0)  # #FEDF00
-        MarkedArrowColor = (137, 108, 5)  # #896c05
+        MarkedArrowColor = (0, 0, 0)  # Black (137, 108, 5)  # #896c05
         ButtonColor = NodeColor  # Blue
         ButtonTextColor = screenColor
+        CenterNodeColor = (0, 0, 0)  # Black
 
         # Buttons
         Add_Edge = Button('Add Edge', ButtonColor)
@@ -105,7 +106,7 @@ class Graph_GUI:
         ButtonMargin = 6
         margin = + 50 + (self.screen.get_height() * (1 / OuterMargin))
         ArrowSize = 10
-        MarkedWidth = int(ArrowWidth * 1.5)
+        MarkedWidth = int(ArrowWidth * 5)
 
         # Compact
         MarkedArrowSettings = {'size': ArrowSize, 'width': MarkedWidth, 'color': MarkedArrowColor}
@@ -162,17 +163,35 @@ class Graph_GUI:
                             dist, Path = Shortest_Path.on_click()
                             Shortest_Path.title = "Dist: {:.5f}".format(dist)
                             Path = self.arrangePath(Path)
-                            for id in Path:
-                                print(id)
                         elif len(MarkedNodes) < 2:
                             Shortest_Path.title = "Needs 2 nodes"
                         else:
                             Shortest_Path.title = "Too many nodes"
 
+                    # show the TSP
+                    if TSP.check(click) is True:
+                        if len(MarkedNodes) == 0:
+                            TSP.title = "Needs a node"
+                        else:
+                            Path, dist = TSP.on_click()
+                            TSP.title = "Dist: {:.5f}".format(dist)
+                            Path = self.arrangePath(Path)
+
+                    # show the Center
+                    if Center.check(click) is True:
+                        center_id, dist = self.algo.centerPoint()
+                        if dist == math.inf:
+                            Center.title = "No Center"
+                        else:
+                            Center.title = "Dist: {:.5f}".format(dist)
+                            centerExists = True
+
                     # Check if the user Clicked on a Node
                     for v in NodeRects.items():
                         if v[1].collidepoint(*click):
                             MarkedNodes[v[0]] = 1
+                            TSP.add_click_listener(lambda: self.algo.TSP(list(MarkedNodes)))
+                            break
 
                     # Checks if we have Exactly two marked nodes
                     if len(MarkedNodes) == 2:
@@ -184,9 +203,14 @@ class Graph_GUI:
                     # Clean the screen
                     if Clean.check(click) is True:
                         MarkedNodes.clear()
+                        Path.clear()
+                        centerExists = False
                         Add_Edge.title = "Add Edge"
                         Add_Node.title = "Add Node"
                         Shortest_Path.title = "Shortest path"
+                        TSP.title = "TSP"
+                        Center.title = "Center"
+
 
             self.screen.fill(pygame.Color(screenColor))
 
@@ -212,20 +236,20 @@ class Graph_GUI:
             # Render The Buttons - 8 blocks
             upperButtonMargin = upperOuterMargin * (1 / ButtonMargin)
             lowerButtonMargin = lowerOuterMargin + upperButtonMargin
-            Add_Edge.render(self.screen, ((1 / 16) * self.screen.get_width(), upperButtonMargin), ButtonTextColor,
-                            ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
-            Add_Node.render(self.screen, ((5 / 16) * self.screen.get_width(), upperButtonMargin), ButtonTextColor,
-                            ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
-            Coor.render(self.screen, ((9 / 16) * self.screen.get_width(), upperButtonMargin), (0, 0, 0),
-                        ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
-            Clean.render(self.screen, ((13 / 16) * self.screen.get_width(), upperButtonMargin), ButtonTextColor,
-                         ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
-            Center.render(self.screen, ((1 / 16) * self.screen.get_width(), lowerButtonMargin), ButtonTextColor,
-                          ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
-            Shortest_Path.render(self.screen, ((7 / 16) * self.screen.get_width(), lowerButtonMargin), ButtonTextColor,
-                                 ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
-            TSP.render(self.screen, ((13 / 16) * self.screen.get_width(), lowerButtonMargin), ButtonTextColor,
-                       ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
+            Add_Edge.render(self.screen, ((2 / 32) * self.screen.get_width(), upperButtonMargin), ButtonTextColor,
+                            ((5 / 32) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
+            Add_Node.render(self.screen, ((10 / 32) * self.screen.get_width(), upperButtonMargin), ButtonTextColor,
+                            ((5 / 32) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
+            Coor.render(self.screen, ((17 / 32) * self.screen.get_width(), upperButtonMargin), (0, 0, 0),
+                        ((5 / 32) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
+            Clean.render(self.screen, ((25 / 32) * self.screen.get_width(), upperButtonMargin), ButtonTextColor,
+                         ((5 / 32) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
+            Center.render(self.screen, ((4 / 64) * self.screen.get_width(), lowerButtonMargin), ButtonTextColor,
+                          ((5 / 32) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
+            Shortest_Path.render(self.screen, ((27 / 64) * self.screen.get_width(), lowerButtonMargin), ButtonTextColor,
+                                 ((5 / 32) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
+            TSP.render(self.screen, ((50 / 64) * self.screen.get_width(), lowerButtonMargin), ButtonTextColor,
+                       ((5 / 32) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
 
             # Draw the edges
             for src in self.graph.get_all_v().values():
@@ -238,10 +262,19 @@ class Graph_GUI:
                                    max_x)
                     dest_y = scale(self.graph.getNode(dest_id).pos[1], margin, self.screen.get_height() - margin, min_y,
                                    max_y)
-                    if dest_id in Path:
-                        self.drawArrow(src_x, src_y, dest_x, dest_y, NodeRadius, MarkedArrowSettings)
-                    else:
-                        self.drawArrow(src_x, src_y, dest_x, dest_y, NodeRadius, ArrowSettings)
+                    self.drawArrow(src_x, src_y, dest_x, dest_y, NodeRadius, ArrowSettings)
+
+            # Draw the Marked Edges
+            for src_id, dest_id in Path:
+                src_x = scale(self.graph.getNode(src_id).pos[0], margin, self.screen.get_width() - margin, min_x,
+                              max_x)
+                src_y = scale(self.graph.getNode(src_id).pos[1], margin, self.screen.get_height() - margin, min_y,
+                              max_y)
+                dest_x = scale(self.graph.getNode(dest_id).pos[0], margin, self.screen.get_width() - margin, min_x,
+                               max_x)
+                dest_y = scale(self.graph.getNode(dest_id).pos[1], margin, self.screen.get_height() - margin, min_y,
+                               max_y)
+                self.drawArrow(src_x, src_y, dest_x, dest_y, NodeRadius, MarkedArrowSettings)
 
             # Draw the nodes
             NodeRects = {}
@@ -257,6 +290,17 @@ class Graph_GUI:
                 id_srf = FONT.render(str(v.Id), True, pygame.Color(NodeIdColor))
                 rect = id_srf.get_rect(center=(x, y))
                 NodeRects[v.Id] = rect
+                self.screen.blit(id_srf, rect)
+
+            # Draw the center
+            if centerExists is True:
+                x = scale(self.graph.getNode(center_id).pos[0], margin, self.screen.get_width() - margin, min_x, max_x)
+                y = scale(self.graph.getNode(center_id).pos[1], margin, self.screen.get_height() - margin, min_y, max_y)
+                pygame.gfxdraw.aacircle(self.screen, int(x), int(y), NodeRadius, pygame.Color(CenterNodeColor))
+                pygame.gfxdraw.filled_circle(self.screen, int(x), int(y), NodeRadius, pygame.Color(CenterNodeColor))
+                id_srf = FONT.render(str(self.graph.getNode(center_id).Id), True, pygame.Color(NodeIdColor))
+                rect = id_srf.get_rect(center=(x, y))
+                NodeRects[self.graph.getNode(center_id).Id] = rect
                 self.screen.blit(id_srf, rect)
 
             pygame.display.update()
@@ -288,13 +332,15 @@ class Graph_GUI:
                 new_x + ArrowSettings['size'] * math.sin(math.radians(rotation - 200)),
                 new_y + ArrowSettings['size'] * math.cos(math.radians(rotation - 200)))))
 
-    def arrangePath(self,path:list):
+    def arrangePath(self, path: list):
         newPath = []
-        for i in range(len(path)-1):
-            newPath.append((path[i],path[i-1]))
+        for i in range(len(path) - 1):
+            newPath.append((path[i], path[i + 1]))
         return newPath
 
+
 if __name__ == '__main__':
+    jsonFileName = sys.argv[1]
     algo = GraphAlgo()
-    algo.load_from_json("../data/A2.json")
+    algo.load_from_json("../data/{}".format(jsonFileName))
     gui = Graph_GUI(algo, WIDTH, HEIGHT)
