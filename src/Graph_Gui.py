@@ -92,10 +92,11 @@ class Graph_GUI:
         Add_Node = Button('Add Node', ButtonColor)
         Coor = Button('Coordinates:', (255, 255, 255))
         Clean = Button('Clean', ButtonColor)
-        Clean.add_click_listener(lambda: print("Cleaned"))
         Center = Button('Center', ButtonColor)
         Shortest_Path = Button('Shortest Path', ButtonColor)
         TSP = Button('TSP', ButtonColor)
+
+        Clean.add_click_listener(lambda: print("Cleaned"))
 
         # Parameters
         ArrowWidth = 1
@@ -109,7 +110,7 @@ class Graph_GUI:
         MarkedWidth = ArrowWidth * 1.5
 
         # Compact
-        MarkedSettings = {'width': MarkedWidth, 'color': MarkedColor}
+        MarkedArrowSettings = {'size': ArrowSize, 'width': MarkedWidth, 'color': MarkedColor}
         ArrowSettings = {'size': ArrowSize, 'width': ArrowWidth, 'color': ArrowColor}
 
         # Coordinates
@@ -209,11 +210,11 @@ class Graph_GUI:
                 x = scale(v.pos[0], margin, self.screen.get_width() - margin, min_x, max_x)
                 y = scale(v.pos[1], margin, self.screen.get_height() - margin, min_y, max_y)
                 if v.Id in MarkedNodes:
-                    print("Drawing {}".format(v.Id))
+                    pygame.gfxdraw.aacircle(self.screen, int(x), int(y), NodeRadius, pygame.Color(MarkedColor))
+                    pygame.gfxdraw.filled_circle(self.screen, int(x), int(y), NodeRadius, pygame.Color(MarkedColor))
                 else:
                     pygame.gfxdraw.aacircle(self.screen, int(x), int(y), NodeRadius, pygame.Color(NodeColor))
                     pygame.gfxdraw.filled_circle(self.screen, int(x), int(y), NodeRadius, pygame.Color(NodeColor))
-                    pygame.draw.circle(self.screen, pygame.Color(NodeColor), (x, y), NodeRadius)
                 id_srf = FONT.render(str(v.Id), True, pygame.Color(NodeIdColor))
                 rect = id_srf.get_rect(center=(x, y))
                 NodeRects[v.Id] = rect
