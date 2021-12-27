@@ -39,8 +39,11 @@ class Graph_GUI:
         ArrowColor = (255, 255, 255)  # White
         # Parameters
         ArrowWidth = 1
-        NodeRadius = 15
+        NodeRadius = 5
         margin = 50
+        ArrowSize = 15
+        # Compact
+        ArrowSettings = {'size': ArrowSize, 'width': ArrowWidth, 'color': ArrowColor}
         # Coordinates
         min_x = min(self.graph.get_all_v().values(), key=lambda n: n.pos[0]).pos[0]
         max_x = max(self.graph.get_all_v().values(), key=lambda n: n.pos[0]).pos[0]
@@ -65,28 +68,46 @@ class Graph_GUI:
                                    max_x)
                     dest_y = scale(self.graph.getNode(dest_id).pos[1], margin, self.screen.get_height() - margin, min_y,
                                    max_y)
-                    pygame.draw.line(self.screen, pygame.Color(ArrowColor), (src_x, src_y), (dest_x, dest_y),
-                                     width=ArrowWidth)
-                    pygame.draw.line(self.screen, pygame.Color(ArrowColor), (src_x, src_y), (dest_x, dest_y), ArrowWidth)
-                    # rotation = math.degrees(math.atan2(src_y - dest_y, dest_x - src_x)) + 90
-                    # pygame.draw.polygon(self.screen, pygame.Color(ArrowColor), (
-                    # (dest_x + 20 * math.sin(math.radians(rotation)), dest_y + 20 * math.cos(math.radians(rotation))), (
-                    # dest_x + 20 * math.sin(math.radians(rotation - 120)),
-                    # dest_y + 20 * math.cos(math.radians(rotation - 120))), (
-                    # dest_x + 20 * math.sin(math.radians(rotation + 120)),
-                    # dest_y + 20 * math.cos(math.radians(rotation + 120)))))
+                    self.drawArrow(src_x, src_y, dest_x, dest_y, NodeRadius, ArrowSettings)
 
             # Draw the nodes
             for v in self.graph.get_all_v().values():
                 x = scale(v.pos[0], margin, self.screen.get_width() - margin, min_x, max_x)
                 y = scale(v.pos[1], margin, self.screen.get_height() - margin, min_y, max_y)
                 pygame.draw.circle(self.screen, pygame.Color(NodeColor), (x, y), NodeRadius)
-                id_srf = FONT.render(str(v.Id), True, pygame.Color(NodeIdColor))
+                id_srf = FONT.render(str(v.Id), True, pygame.Color(screenColor))
                 rect = id_srf.get_rect(center=(x, y))
                 self.screen.blit(id_srf, rect)
 
             pygame.display.update()
             clock.tick(60)
+
+    def drawArrow(self, src_x, src_y, dest_x, dest_y, nodeRadius, ArrowSettings):
+        # Calculate the vector between source and dest
+        vector_x = dest_x - src_x
+        vector_y = dest_y - src_y
+        # Normalize the Vector
+        dist = math.dist([dest_x, dest_y], [src_x, src_y])
+        if dist == 0:
+            vector_x = 0
+            vector_y = 0
+        else:
+            vector_x = vector_x / dist
+            vector_y = vector_y / dist
+        # Calculate a point before the node
+        new_x = src_x + (dist - nodeRadius) * vector_x
+        new_y = src_y + (dist - nodeRadius) * vector_y
+        # draw the Arrow
+        pygame.draw.line(self.screen, pygame.Color(ArrowSettings['color']), (src_x, src_y), (dest_x, dest_y),
+                         ArrowSettings['width'])
+        rotation = math.degrees(math.atan2(src_y - dest_y, dest_x - src_x)) + 90
+        pygame.draw.polygon(self.screen, pygame.Color(ArrowSettings['color']), (
+            (new_x, new_y), (
+                new_x + ArrowSettings['size'] * math.sin(math.radians(rotation - 160)),
+                new_y + ArrowSettings['size'] * math.cos(math.radians(rotation - 160))), (
+                new_x + ArrowSettings['size'] * math.sin(math.radians(rotation - 200)),
+                new_y + ArrowSettings['size'] * math.cos(math.radians(rotation - 200)))))
+        pass
 
 
 if __name__ == '__main__':
