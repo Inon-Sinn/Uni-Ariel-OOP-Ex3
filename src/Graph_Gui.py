@@ -44,7 +44,7 @@ class Button:
         surface.blit(title_srf, title_rect)
 
     def check(self):
-        if self.on_click != None:
+        if self.on_click is not None:
             mouse_pos = pygame.mouse.get_pos()
             if self.rect.collidepoint(*mouse_pos):
                 # print("hover")
@@ -55,8 +55,8 @@ class Button:
 
 class Graph_GUI:
 
-    def __init__(self, algo: GraphAlgo, width: int, height: int):
-        self.algo = algo
+    def __init__(self, Algo: GraphAlgo, width: int, height: int):
+        self.algo = Algo
         self.graph = self.algo.get_graph()
         self.width = width
         self.height = height
@@ -85,7 +85,7 @@ class Graph_GUI:
         # Buttons
         Add_Edge = Button('Add Edge', ButtonColor)
         Add_Node = Button('Add Node', ButtonColor)
-        Coor = Button('Coor', (255, 255, 255))
+        Coor = Button('Coordinates:', (255, 255, 255))
         Clean = Button('Clean', ButtonColor)
         Center = Button('Center', ButtonColor)
         Shortest_Path = Button('Shortest Path', ButtonColor)
@@ -95,6 +95,8 @@ class Graph_GUI:
         ArrowWidth = 1
         NodeRadius = 10
         OuterMargin = 7
+        upperOuterMargin = self.screen.get_height() * (1 / OuterMargin)
+        lowerOuterMargin = self.screen.get_height() * ((OuterMargin - 1) / OuterMargin)
         ButtonMargin = 6
         margin = + 50 + (self.screen.get_height() * (1 / OuterMargin))
         ArrowSize = 10
@@ -118,7 +120,12 @@ class Graph_GUI:
                     exit(0)
                 if event.type == pygame.MOUSEBUTTONUP:
                     print(pygame.mouse.get_pos())
-
+                    # Get the Coordinates for Adding a Node
+                    if upperOuterMargin < pygame.mouse.get_pos()[1] < lowerOuterMargin:
+                        Coor.title = "({},{})".format(
+                            scale(pygame.mouse.get_pos()[0], min_x, max_x, margin, self.screen.get_width() - margin),
+                            scale(pygame.mouse.get_pos()[1], min_y, max_y, margin, self.screen.get_height() - margin))
+                    # Check if the user clicked on a Node
             self.screen.fill(pygame.Color(screenColor))
             # Render the Margins
             upperOuterMargin = self.screen.get_height() * (1 / OuterMargin)
@@ -136,9 +143,9 @@ class Graph_GUI:
             lowerButtonMargin = lowerOuterMargin + upperButtonMargin
             Add_Edge.render(self.screen, ((1 / 16) * self.screen.get_width(), upperButtonMargin), ButtonTextColor,
                             ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
-            Add_Node.render(self.screen, ((6 / 16) * self.screen.get_width(), upperButtonMargin), ButtonTextColor,
+            Add_Node.render(self.screen, ((5 / 16) * self.screen.get_width(), upperButtonMargin), ButtonTextColor,
                             ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
-            Coor.render(self.screen, ((8 / 16) * self.screen.get_width(), upperButtonMargin), (0, 0, 0),
+            Coor.render(self.screen, ((9 / 16) * self.screen.get_width(), upperButtonMargin), (0, 0, 0),
                         ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
             Clean.render(self.screen, ((13 / 16) * self.screen.get_width(), upperButtonMargin), ButtonTextColor,
                          ((1 / 8) * self.screen.get_width(), upperOuterMargin - 2 * upperButtonMargin))
@@ -172,7 +179,7 @@ class Graph_GUI:
                 pygame.draw.circle(self.screen, pygame.Color(NodeColor), (x, y), NodeRadius)
                 id_srf = FONT.render(str(v.Id), True, pygame.Color(NodeIdColor))
                 rect = id_srf.get_rect(center=(x, y))
-                NodeRects[rect] = (x, y)
+                NodeRects[(x, y)] = rect
                 self.screen.blit(id_srf, rect)
 
             pygame.display.update()
