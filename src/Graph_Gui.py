@@ -167,10 +167,21 @@ class Graph_GUI:
                         else:
                             Shortest_Path.title = "Too many nodes"
 
+                    # show the TSP
+                    if TSP.check(click) is True:
+                        if len(MarkedNodes) == 0:
+                            TSP.title = "Needs a node"
+                        else:
+                            Path, dist = TSP.on_click()
+                            TSP.title = "Dist: {:.5f}".format(dist)
+                            Path = self.arrangePath(Path)
+
                     # Check if the user Clicked on a Node
                     for v in NodeRects.items():
                         if v[1].collidepoint(*click):
                             MarkedNodes[v[0]] = 1
+                            TSP.add_click_listener(lambda: self.algo.TSP(list(MarkedNodes)))
+                            break
 
                     # Checks if we have Exactly two marked nodes
                     if len(MarkedNodes) == 2:
@@ -186,6 +197,7 @@ class Graph_GUI:
                         Add_Edge.title = "Add Edge"
                         Add_Node.title = "Add Node"
                         Shortest_Path.title = "Shortest path"
+                        TSP.title = "TSP"
 
             self.screen.fill(pygame.Color(screenColor))
 
