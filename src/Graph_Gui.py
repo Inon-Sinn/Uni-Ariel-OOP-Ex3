@@ -83,7 +83,7 @@ class Graph_GUI:
         NodeIdColor = (255, 255, 255)  # white
         ArrowColor = (120, 81, 185)  # #7851B9
         MarkedNodeColor = (254, 223, 0)  # #FEDF00
-        MarkedArrowColor = (137, 108, 5)  # #896c05
+        MarkedArrowColor = (0, 0, 0)  # Black (137, 108, 5)  # #896c05
         ButtonColor = NodeColor  # Blue
         ButtonTextColor = screenColor
 
@@ -105,7 +105,7 @@ class Graph_GUI:
         ButtonMargin = 6
         margin = + 50 + (self.screen.get_height() * (1 / OuterMargin))
         ArrowSize = 10
-        MarkedWidth = int(ArrowWidth * 1.5)
+        MarkedWidth = int(ArrowWidth * 5)
 
         # Compact
         MarkedArrowSettings = {'size': ArrowSize, 'width': MarkedWidth, 'color': MarkedArrowColor}
@@ -162,8 +162,6 @@ class Graph_GUI:
                             dist, Path = Shortest_Path.on_click()
                             Shortest_Path.title = "Dist: {:.5f}".format(dist)
                             Path = self.arrangePath(Path)
-                            for id in Path:
-                                print(id)
                         elif len(MarkedNodes) < 2:
                             Shortest_Path.title = "Needs 2 nodes"
                         else:
@@ -184,6 +182,7 @@ class Graph_GUI:
                     # Clean the screen
                     if Clean.check(click) is True:
                         MarkedNodes.clear()
+                        Path.clear()
                         Add_Edge.title = "Add Edge"
                         Add_Node.title = "Add Node"
                         Shortest_Path.title = "Shortest path"
@@ -238,10 +237,19 @@ class Graph_GUI:
                                    max_x)
                     dest_y = scale(self.graph.getNode(dest_id).pos[1], margin, self.screen.get_height() - margin, min_y,
                                    max_y)
-                    if dest_id in Path:
-                        self.drawArrow(src_x, src_y, dest_x, dest_y, NodeRadius, MarkedArrowSettings)
-                    else:
-                        self.drawArrow(src_x, src_y, dest_x, dest_y, NodeRadius, ArrowSettings)
+                    self.drawArrow(src_x, src_y, dest_x, dest_y, NodeRadius, ArrowSettings)
+
+            # Draw the Marked Edges
+            for src_id, dest_id in Path:
+                src_x = scale(self.graph.getNode(src_id).pos[0], margin, self.screen.get_width() - margin, min_x,
+                              max_x)
+                src_y = scale(self.graph.getNode(src_id).pos[1], margin, self.screen.get_height() - margin, min_y,
+                              max_y)
+                dest_x = scale(self.graph.getNode(dest_id).pos[0], margin, self.screen.get_width() - margin, min_x,
+                               max_x)
+                dest_y = scale(self.graph.getNode(dest_id).pos[1], margin, self.screen.get_height() - margin, min_y,
+                               max_y)
+                self.drawArrow(src_x, src_y, dest_x, dest_y, NodeRadius, MarkedArrowSettings)
 
             # Draw the nodes
             NodeRects = {}
@@ -288,11 +296,12 @@ class Graph_GUI:
                 new_x + ArrowSettings['size'] * math.sin(math.radians(rotation - 200)),
                 new_y + ArrowSettings['size'] * math.cos(math.radians(rotation - 200)))))
 
-    def arrangePath(self,path:list):
+    def arrangePath(self, path: list):
         newPath = []
-        for i in range(len(path)-1):
-            newPath.append((path[i],path[i-1]))
+        for i in range(len(path) - 1):
+            newPath.append((path[i], path[i + 1]))
         return newPath
+
 
 if __name__ == '__main__':
     algo = GraphAlgo()
