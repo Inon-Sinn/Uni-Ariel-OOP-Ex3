@@ -70,12 +70,13 @@ class Graph_GUI:
         Path = []
         MarkedNodes = {}
         NodeRects = {}
-        center_id = None
+        center_id = 0
         next_id = max(self.graph.get_all_v().values(), key=lambda n: n.Id).Id + 1
         pygame.display.set_caption('The Ultimate Graph GUI?!?')
 
         # Booleans
         added_A_Node = False
+        centerExists = False
 
         # Colors
         screenColor = (255, 255, 255)  # white
@@ -86,6 +87,7 @@ class Graph_GUI:
         MarkedArrowColor = (0, 0, 0)  # Black (137, 108, 5)  # #896c05
         ButtonColor = NodeColor  # Blue
         ButtonTextColor = screenColor
+        CenterNodeColor = (0, 0, 0)  # Black
 
         # Buttons
         Add_Edge = Button('Add Edge', ButtonColor)
@@ -176,6 +178,15 @@ class Graph_GUI:
                             TSP.title = "Dist: {:.5f}".format(dist)
                             Path = self.arrangePath(Path)
 
+                    # show the Center
+                    if Center.check(click) is True:
+                        center_id, dist = self.algo.centerPoint()
+                        if dist == math.inf:
+                            Center.title = "No Center"
+                        else:
+                            Center.title = "Dist: {:.5f}".format(dist)
+                            centerExists = True
+
                     # Check if the user Clicked on a Node
                     for v in NodeRects.items():
                         if v[1].collidepoint(*click):
@@ -194,10 +205,13 @@ class Graph_GUI:
                     if Clean.check(click) is True:
                         MarkedNodes.clear()
                         Path.clear()
+                        centerExists = False
                         Add_Edge.title = "Add Edge"
                         Add_Node.title = "Add Node"
                         Shortest_Path.title = "Shortest path"
                         TSP.title = "TSP"
+                        Center.title = "Center"
+
 
             self.screen.fill(pygame.Color(screenColor))
 
@@ -277,6 +291,17 @@ class Graph_GUI:
                 id_srf = FONT.render(str(v.Id), True, pygame.Color(NodeIdColor))
                 rect = id_srf.get_rect(center=(x, y))
                 NodeRects[v.Id] = rect
+                self.screen.blit(id_srf, rect)
+
+            # Draw the center
+            if centerExists is True:
+                x = scale(self.graph.getNode(center_id).pos[0], margin, self.screen.get_width() - margin, min_x, max_x)
+                y = scale(self.graph.getNode(center_id).pos[1], margin, self.screen.get_height() - margin, min_y, max_y)
+                pygame.gfxdraw.aacircle(self.screen, int(x), int(y), NodeRadius, pygame.Color(CenterNodeColor))
+                pygame.gfxdraw.filled_circle(self.screen, int(x), int(y), NodeRadius, pygame.Color(CenterNodeColor))
+                id_srf = FONT.render(str(self.graph.getNode(center_id).Id), True, pygame.Color(NodeIdColor))
+                rect = id_srf.get_rect(center=(x, y))
+                NodeRects[self.graph.getNode(center_id).Id] = rect
                 self.screen.blit(id_srf, rect)
 
             pygame.display.update()
