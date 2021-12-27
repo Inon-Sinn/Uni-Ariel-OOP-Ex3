@@ -9,20 +9,30 @@ class TestGraphAlgo(TestCase):
 
     def setUp(self) -> None:
         self.Graph = DiGraph()
-        self.assertTrue(self.Graph.add_node(0))
-        self.assertTrue(self.Graph.add_node(1))
-        self.assertTrue(self.Graph.add_node(2, (1, 2, 3)))
-        self.assertTrue(self.Graph.add_node(4))
-
-        self.assertTrue(self.Graph.add_edge(1, 2, 10))
-        self.assertTrue(self.Graph.add_edge(2, 0, -10))
-        self.assertTrue(self.Graph.add_edge(0, 2, -1))
-        self.assertTrue(self.Graph.add_edge(2, 1, 0))
-
-        for v in self.Graph.get_all_v().values():
-            print(v)
+        self.Graph.add_node(0)
+        self.Graph.add_node(1)
+        self.Graph.add_node(2, (1, 2, 3))
+        self.Graph.add_edge(1, 2, 10)
+        self.Graph.add_edge(2, 0, -10)
+        self.Graph.add_edge(0, 2, -1)
+        self.Graph.add_edge(2, 1, 0)
+        # for v in self.Graph.get_all_v().values():
+        #     print(v)
         self.GraphAlgo = GraphAlgo()
         self.GraphAlgo.graph = self.Graph
+        self.graph1 = DiGraph()
+        self.graph1.add_node(0)
+        self.graph1.add_node(1)
+        self.graph1.add_node(2)
+        self.graph1.add_node(3)
+        self.graph1.add_node(4)
+        self.graph1.add_edge(0, 3, 2)
+        self.graph1.add_edge(0, 1, 10)
+        self.graph1.add_edge(0, 2, 5)
+        self.graph1.add_edge(1, 4, 5)
+        self.graph1.add_edge(2, 4, 7)
+        self.graph1.add_edge(3, 4, 8)
+        self.graphalgo = GraphAlgo()
 
     def setUpJson(self) -> None:
         self.Graph = DiGraph()
@@ -36,16 +46,16 @@ class TestGraphAlgo(TestCase):
         self.assertTrue(self.Graph.add_edge(0, 2, -1))
         self.assertTrue(self.Graph.add_edge(2, 1, 0))
 
-        for v in self.Graph.get_all_v().values():
-            print(v)
+        # for v in self.Graph.get_all_v().values():
+        #     print(v)
         self.GraphAlgo = GraphAlgo()
 
     def test_get_graph(self):
         self.assertEqual(self.GraphAlgo.get_graph().v_size(), 4)
         self.assertEqual(self.GraphAlgo.get_graph().e_size(), 4)
         print("------------------")
-        for v in self.GraphAlgo.get_graph().get_all_v().values():
-            print(v)
+        # for v in self.GraphAlgo.get_graph().get_all_v().values():
+        #     print(v)
 
     def test_load_from_json(self):
         self.setUpJson()
@@ -61,10 +71,31 @@ class TestGraphAlgo(TestCase):
         self.GraphAlgo.save_to_json("Test_Graph")
 
     def test_shortest_path(self):
-        self.fail()
+        case = 1
+        if case == 0:
+            dijk = Dijkstra(self.graph1)
+            dijk.DijkstraAlgo(0)
+            shortestPath = dijk.ShortestPath(0, 4)
+            shortestPathTest = [0, 3, 4]
+            self.graphalgo.graph = self.graph1
+            self.assertEqual((10, shortestPathTest), self.graphalgo.shortest_path(0, 4))
 
     def test_tsp(self):
-        self.fail()
+        case = 1
+        if case == 0:
+            cities = [0, 3, 4]
+            self.graphalgo.graph = self.graph1
+            print(self.graphalgo.TSP(cities))
+        elif case == 1:
+            if not self.graphalgo.load_from_json("../data/A1.json"):
+                print("File not found!")
+                return
+            cities1 = [0,3,6]
+            print(self.graphalgo.TSP(cities1))
+    def test_load(self):
+        algo = GraphAlgo()
+
+        print(algo.load_from_json("Uni-Ariel-OOP-Ex3\data\A1.json"))
 
     def test_center_point(self):
         self.fail()
@@ -237,5 +268,3 @@ class TestMinHeap(TestCase):
         self.minHeap.DecreaseKey(3, 1)
         for nodeId in range(6):
             print(self.minHeap.removeMin())
-
-

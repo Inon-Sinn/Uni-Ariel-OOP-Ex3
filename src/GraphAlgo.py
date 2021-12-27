@@ -68,11 +68,11 @@ class GraphAlgo(GraphAlgoInterface):
 
     def shortest_path(self, id1: int, id2: int) -> (float, list):
         dijkstra = Dijkstra(self.graph)
-        # define paths as distance Of Shortest Paths
-        paths = dijkstra.DijkstraAlgo(id1)
-        if paths.get(id2) is math.inf:
+        # define distancesFromsrc as distance Of Shortest Paths
+        distancesFromsrc = dijkstra.DijkstraAlgo(id1)
+        if distancesFromsrc.get(id2) is math.inf:
             return float('inf'), []
-        return paths.get(id2), dijkstra.ShortestPath(id1, id2)
+        return distancesFromsrc.get(id2), dijkstra.ShortestPath(id1, id2)
 
     def TSP(self, node_lst: List[int]) -> (List[int], float):
         if node_lst is None:
@@ -81,18 +81,19 @@ class GraphAlgo(GraphAlgoInterface):
             return node_lst
         completePath = []
         currentPath = []
-        currentCityIndex = node_lst.pop()
+        currentCityIndex = node_lst.pop(0)
         found = False
         while node_lst.__len__() != 0:
             nextCityIndex = 0
             removeIndex = 0
             minPathWeight = math.inf
+            # getting the minimal path
             for i in range(node_lst.__len__()):
                 # define ShortPathWeight as the distance from the start node to node at index i
                 (shortPathWeight, ShortPathList) = self.shortest_path(currentCityIndex, node_lst[i])
                 # if there is a path shortPathWeight is real number, else it is infinity
                 if shortPathWeight < minPathWeight:
-                    nextCityIndex = node_lst[i]
+                    nextCityIndex = i
                     removeIndex = i
                     currentPath = ShortPathList
                     minPathWeight = shortPathWeight
@@ -101,7 +102,7 @@ class GraphAlgo(GraphAlgoInterface):
                 return None
             found = False
             currentCityIndex = nextCityIndex
-            node_lst.remove(removeIndex)
+            node_lst.pop(removeIndex)
             completePath = currentPath.copy()
 
         # remove dublicates lol
@@ -253,6 +254,7 @@ class Dijkstra:
         if self.distsFromSrc.get(dest) > newWeight:
             self.MinHeap.DecreaseKey(dest, newWeight)
             self.distsFromSrc[dest] = newWeight
+            self.prev[dest] = src
 
     def ShortestPath(self, src, dest) -> list:
         """
@@ -261,16 +263,29 @@ class Dijkstra:
         :param dest: the id of the end node
         :return: list - the shotest path between the two nodes (them included)
         """
-        Q = Queue(0)
-        Q.put(dest)
-        cur = dest
-        while self.prev.get(cur) is not src:
-            Q.put(self.prev.get(cur))
-            cur = self.prev.get(cur)
-        path = [src]
-        while not Q.empty():
-            path.append(Q.get_nowait())
-        return path
+        shortestPath = []
+        current = dest
+        if self.distsFromSrc[dest] is math.inf:
+            return None
+        while current != src and current is not None:
+            shortestPath.insert(0,current)
+            try:
+                current = self.prev[current]
+            except KeyError:
+                current = None
+        shortestPath.insert(0, src)
+        return shortestPath
+
+        # Q = Queue(0)
+        # Q.put(dest)
+        # cur = dest
+        # while self.prev.get(cur) is not src:
+        #     Q.put(self.prev.get(cur))
+        #     cur = self.prev.get(cur)
+        # path = [src]
+        # while not Q.empty():
+        #     path.append(Q.get_nowait())
+        # return path
 
     def MaxWeight(self) -> float:
         Max = 0
