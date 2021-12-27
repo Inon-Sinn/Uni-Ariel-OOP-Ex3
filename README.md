@@ -35,7 +35,8 @@ Contains methods for loading files and saving them in a JSON file, computes the 
 
 
 ### Additional Visualization
------------------
+![alt text](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/src/Ex3.png)
+
 
 
 ###  External Documents:
