@@ -69,6 +69,7 @@ class Graph_GUI:
     def MainRun(self):
 
         # variables - special
+        MarkedNodes = {}
         NodeRects = {}
         center_id = None
         next_id = max(self.graph.get_all_v().values(), key=lambda n: n.Id).Id + 1
@@ -91,6 +92,7 @@ class Graph_GUI:
         Add_Node = Button('Add Node', ButtonColor)
         Coor = Button('Coordinates:', (255, 255, 255))
         Clean = Button('Clean', ButtonColor)
+        Clean.add_click_listener(lambda: print("Cleaned"))
         Center = Button('Center', ButtonColor)
         Shortest_Path = Button('Shortest Path', ButtonColor)
         TSP = Button('TSP', ButtonColor)
@@ -138,6 +140,16 @@ class Graph_GUI:
                     if Add_Node.check(click) is True:
                         next_id += 1
                         added_A_Node = True
+
+                    # Check if the user Clicked on a Node
+                    for v in NodeRects.items():
+                        if v[1].collidepoint(*click):
+                            print("The Node is: {}".format(v[0]))
+                            MarkedNodes[v[0]] = 1
+
+                    # Clean the screen
+                    if Clean.check(click) is True:
+                        MarkedNodes.clear()
 
             self.screen.fill(pygame.Color(screenColor))
 
@@ -196,12 +208,15 @@ class Graph_GUI:
             for v in self.graph.get_all_v().values():
                 x = scale(v.pos[0], margin, self.screen.get_width() - margin, min_x, max_x)
                 y = scale(v.pos[1], margin, self.screen.get_height() - margin, min_y, max_y)
-                pygame.gfxdraw.aacircle(self.screen, int(x), int(y), NodeRadius, pygame.Color(NodeColor))
-                pygame.gfxdraw.filled_circle(self.screen, int(x), int(y), NodeRadius, pygame.Color(NodeColor))
-                pygame.draw.circle(self.screen, pygame.Color(NodeColor), (x, y), NodeRadius)
+                if v.Id in MarkedNodes:
+                    print("Drawing {}".format(v.Id))
+                else:
+                    pygame.gfxdraw.aacircle(self.screen, int(x), int(y), NodeRadius, pygame.Color(NodeColor))
+                    pygame.gfxdraw.filled_circle(self.screen, int(x), int(y), NodeRadius, pygame.Color(NodeColor))
+                    pygame.draw.circle(self.screen, pygame.Color(NodeColor), (x, y), NodeRadius)
                 id_srf = FONT.render(str(v.Id), True, pygame.Color(NodeIdColor))
                 rect = id_srf.get_rect(center=(x, y))
-                NodeRects[(x, y)] = rect
+                NodeRects[v.Id] = rect
                 self.screen.blit(id_srf, rect)
 
             pygame.display.update()
