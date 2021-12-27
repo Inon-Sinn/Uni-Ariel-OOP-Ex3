@@ -102,12 +102,28 @@ class TestGraphAlgo(TestCase):
         algo.load_from_json("../data/A1.json")
 
     def test_center_point(self):
-        centers = [(7, 6.806805834715163), (8, 9.925289024973141), (0, 7.819910602212574), (2, 8.182236568942237), (6, 8.071366078651435),(40, 9.291743173960954)]
-        for i in range(6):
-            currstr = "../../data/A"
-            self.graphalgo.load_from_json(currstr + str(i) + ".json")
-            curId, curDist = self.graphalgo.centerPoint()
-            self.assertEqual(centers[i], (curId,curDist))
+        case = 1
+        if case == 0:
+            centers = [(7, 6.806805834715163), (8, 9.925289024973141), (0, 7.819910602212574), (2, 8.182236568942237), (6, 8.071366078651435),(40, 9.291743173960954)]
+            for i in range(6):
+                currstr = "../../data/A"
+                self.graphalgo.load_from_json(currstr + str(i) + ".json")
+                curId, curDist = self.graphalgo.centerPoint()
+                #self.assertEqual(centers[i], (curId,curDist))
+                print(f'centerId IS: {curId}, maxDistance is : {curDist} ')
+        if case == 1:
+            self.graphalgo.load_from_json("../../data/A2.json")
+            dijk = Dijkstra(self.graphalgo.graph)
+            dijk.DijkstraAlgo(0)
+            curId1, curDist1 = self.graphalgo.centerPoint()
+            maxweight = -1
+            idmax = -1
+            for idNode in dijk.distsFromSrc.keys():
+                print(f"for id Node {idNode}, weight is :{dijk.distsFromSrc[idNode]}")
+                if dijk.distsFromSrc[idNode] > maxweight:
+                    maxweight = dijk.distsFromSrc[idNode]
+                    idmax = idNode
+            print(f"assigned true is : {maxweight}, id is {idmax}")
 
     def test_plot_graph(self):
         self.fail()
@@ -214,7 +230,7 @@ class TestDijkstra(TestCase):
         self.Dijkstra2 = Dijkstra(g2)
 
     def test_dijkstra_algo(self):
-        case = 3
+        case = 4
         if case == 0:
             paths = self.d.DijkstraAlgo(0)
             self.assertEqual(paths.get(0), 0)
@@ -235,13 +251,20 @@ class TestDijkstra(TestCase):
             self.assertEqual(5, path2.get(4))
             self.assertEqual(3, path2.get(5))
         elif case == 3:
-            self.graphAlgo = GraphAlgo()
-            self.graphAlgo.load_from_json("../../data/A0.json")
-            dijk3 = Dijkstra(self.graphAlgo.graph)
+            graphAlgo = GraphAlgo()
+            graphAlgo.load_from_json("../../data/A0.json")
+            dijk3 = Dijkstra(graphAlgo.graph)
             dijk3.DijkstraAlgo(0)
             for dis in dijk3.distsFromSrc.values():
                 print(dis)
             print("Passed")
+        elif case == 4:
+            graphAlgo1 = GraphAlgo()
+            graphAlgo1.load_from_json("../../data/A1.json")
+            dijk2 = Dijkstra(graphAlgo1.graph)
+            dijk2.DijkstraAlgo(0)
+            for key in dijk2.distsFromSrc.keys():
+                print(f"Key is {key} distance is : {dijk2.distsFromSrc[key]} ")
 
     def test_shortest_path(self):
         self.fail()

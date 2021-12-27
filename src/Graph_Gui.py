@@ -207,5 +207,5 @@ class Graph_GUI:
 
 if __name__ == '__main__':
     algo = GraphAlgo()
-    algo.load_from_json("../data/A1.json")
+    algo.load_from_json("../data/A2.json")
     gui = Graph_GUI(algo, WIDTH, HEIGHT)

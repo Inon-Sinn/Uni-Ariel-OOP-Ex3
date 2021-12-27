@@ -115,15 +115,15 @@ class GraphAlgo(GraphAlgoInterface):
         if not self.isConnected:  # TODO check if returning None is correct in case that there is no Center
             return None  # next(iter(self.graph.get_all_v().keys())),math.inf
         center_id = 0
-        center_dis = math.inf
+        center_max_dis = math.inf
         for node in self.graph.get_all_v().values():
             dijk = Dijkstra(self.graph)
             dijk.DijkstraAlgo(node.Id)
             current_maxDis = dijk.MaxWeight()
-            if current_maxDis < center_dis and current_maxDis != -1:
-                center_dis = current_maxDis
+            if current_maxDis < center_max_dis and current_maxDis != -1:
+                center_max_dis = current_maxDis
                 center_id = node.Id
-        return center_id, center_dis
+        return center_id, center_max_dis
 
     def plot_graph(self) -> None:
         pass
