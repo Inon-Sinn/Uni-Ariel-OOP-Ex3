@@ -2,6 +2,7 @@ import json
 import math
 from typing import List
 
+from src.Graph_Gui import GUI
 from src.DiGraph import DiGraph
 from src.GraphAlgoInterface import GraphAlgoInterface
 from src.GraphInterface import GraphInterface
@@ -126,7 +127,7 @@ class GraphAlgo(GraphAlgoInterface):
         return center_id, center_max_dis
 
     def plot_graph(self) -> None:
-        pass
+        GUI(self, 900, 740)
 
     def isConnected(self) -> bool:
         """An auxiliary function for center Point, Checks if the given Graph is Connected"""
