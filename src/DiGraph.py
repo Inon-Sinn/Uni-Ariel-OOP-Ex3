@@ -1,3 +1,5 @@
+import random
+
 from src.GraphInterface import GraphInterface
 
 
@@ -95,7 +97,7 @@ class Node:
         self.tag = 0  # Used by the BFS algoirthm to color the node
         self.noPos = False  # Used to check if there even is a pos
         if pos is None:
-            self.pos = (0, 0, 0)
+            self.pos = (random.randint(3, 9), random.randint(3, 9), 0)
             self.noPos = True
         else:
             self.pos = pos

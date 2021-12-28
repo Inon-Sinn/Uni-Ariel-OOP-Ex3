@@ -12,8 +12,8 @@ from src.Graph_Gui import GUI
 
 class GraphAlgo(GraphAlgoInterface):
 
-    def __init__(self):
-        self.graph = None
+    def __init__(self, graph: DiGraph = None):
+        self.graph = graph
 
     def get_graph(self) -> GraphInterface:
         return self.graph
@@ -225,11 +225,11 @@ class Dijkstra:
         # Iterating through all the nodes and setting their weights to infinity
         for node in self.graph.get_all_v().values():
             if node.Id == start_id:
-                self.MinHeap.insert(0,start_id)
+                self.MinHeap.insert(0, start_id)
                 self.distsFromSrc[start_id] = 0
 
             else:
-                self.MinHeap.insert(math.inf,node.Id)
+                self.MinHeap.insert(math.inf, node.Id)
                 self.distsFromSrc[node.Id] = math.inf
 
             self.prev[node.Id] = None
@@ -269,7 +269,7 @@ class Dijkstra:
         if self.distsFromSrc[dest] is math.inf:
             return None
         while current != src and current is not None:
-            shortestPath.insert(0,current)
+            shortestPath.insert(0, current)
             try:
                 current = self.prev[current]
             except KeyError:
