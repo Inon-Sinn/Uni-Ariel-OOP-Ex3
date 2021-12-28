@@ -75,11 +75,10 @@ class Graph_Gui{
 class main{
 
 }
-main --|> GraphAlgoInterface
-main --|> GraphInterface
+Ex3 --|> GraphAlgo
 Node  <|-- DiGraph
-DiGraph <|-- GraphInterface
-GraphAlgo <|-- GraphAlgoInterface
+DiGraph --> GraphInterface: implements
+GraphAlgo --> GraphAlgoInterface: implements
 GraphAlgo --|> DiGraph
 BFS <|-- GraphAlgo
 Dijkstra <|-- GraphAlgo
