@@ -86,7 +86,7 @@ __Python:__
 <a href="https://github.com/Yannnyan">[Yan Naigebaver]</a><br />
 <a href="https://github.com/Yaron-S">[Yaron Sirota]</a><br />
 <br />
-<h4> temp links for devs</h4></br>
+__temp links for devs__</br>
 ![pygame docs](https://www.pygame.org/docs/) <br />
 ![Ex2 project](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex2)
 
