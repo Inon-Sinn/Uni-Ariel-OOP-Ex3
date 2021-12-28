@@ -104,9 +104,9 @@ def plot100000NodesJson():
     plt.show()
 
 if __name__ == '__main__':
-    plotA1_G1Json()
-    plotA2_G2Json()
-    plotA5_G3Json()
-    plot1000NodesJson()
-    plot10000NodesJson()
+    # plotA1_G1Json()
+    # plotA2_G2Json()
+    # plotA5_G3Json()
+    # plot1000NodesJson()
+    # plot10000NodesJson()
     plot100000NodesJson()
