@@ -17,9 +17,9 @@ def check():
     17.693921758901507 [47, 46, 44, 43, 42, 41, 40, 39, 15, 16, 17, 18, 19]
     11.51061380461898 [20, 21, 32, 31, 30, 29, 14, 13, 3, 2]
     inf []
-    ([1, 9, 2, 3], 2.370613295323088) - #check2 - TODO FIX TSP
+    ([1, 9, 2, 3], 2.370613295323088) - #check2
     (None, inf)
-    ([1, 2, 3, 4], 4.5)
+    ([1, 2, 3, 4], 4.5) -#check3
     """
     check0()
     check1()
@@ -84,7 +84,8 @@ def check2():
     dist, path = g_algo.shortest_path(2, 20)
     print(dist, path)
     print(g_algo.TSP([1, 2, 3]))
-    # g_algo.plot_graph()
+    print(g_algo.TSP([40, 46, 6]))
+    g_algo.plot_graph()
 
 
 
