@@ -4,15 +4,18 @@
 In this assignment we were given a json file and had using it, to implement a Directed weighted graph using the given Interfaces.
 In Addition we were given a list of algorithms that we had to implement and then showcase all of it using GUI.
 
-<h1> Contents and Classes</h1>
-<p>We were given the files GraphInterface and GraphAlgoInterface and we started working from there:
-  </p>
-<h3> -GraphInterface </h3> </br> <p>- interface for directed weighted graphs </p>
+<h1>Interfaces anc Classes</h1>
 
-<h3> -GraphAlgoInterface </h3></br> <p> interface for algorithms that run on graphs
+|Interfaces| Descripition |
+| ---------- | --------- |
+| GraphInterfave | interface for a Directed Weighted Graph |
+| GraphAlgoInterface  |  an Interface with the algorithms that can ve used on a Graph |
 
-Contains methods for loading files and saving them in a JSON file, computes the shortest path from one node to the other using [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm), finds the node that has the shortest distance to its farthest node and plots the graph.
-   </p>
+
+|Classes| Descripition |
+| ---------- | --------- |
+| GraphInterfave | interface for a Directed Weighted Graph |
+| GraphAlgoInterface  |  an Interface with the algorithms that can ve used on a Graph |
 
 <h3> -DiGraph </h3> </br> <p> implements GraphInterface:
 
