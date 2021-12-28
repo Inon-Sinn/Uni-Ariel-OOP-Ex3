@@ -22,9 +22,31 @@ Inside the file we created the DiGraph object and Node object. We represented th
 
 #### GraphGui - contains methods for running the gui visual
 
-### Additional Visualization
 
-![alt text](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/blob/master/src/Ex3.png)
+__Algorithms__<br/>
+
+E - the number of edges<br/>
+V - the number of vertexes
+
+
+_isConnected_ - O(|V| + |E|)<br/>
+we Run the the DFS algorithem on the graph from the same node twice.<br/>If in the DFS the first and last node we visited was the same node,
+we would build the reverse graph(make all edges point in the other direction) and Run DFS again and if then the first and last node is still the same, we know the graph is Connected.<br> Why? Because we can reach every node from the given node and every node can reach the given node so that means the whole graph is connected. 
+
+_shortestPathDist_ - O(|E|log|V|)<br/>
+we are given two nodes id's of the source and the destination, we then run Dijstra using those two id's and then return the distance.
+
+_shortestPath_ - O(|E|log|V|)<br/>
+we are given two nodes id's of the source and the destination, we then run Dijstra using those two id's and then return the path to get from the source to the destination.
+
+_center_ - O(|V||E|log|V|)<br/>
+The cetnter is the node which minimizes the max distance to all the other nodes.<br/>
+First we check if the graph is even connected else there won't be a center at all.<br>
+If the graph is connected we run Dijkstra from every node we return the node minimizes the max distance to all the other nodes.
+
+_tsp_ - O(n^2*|E|log|V|)<br/>
+traveling salesman problem(almost), we get a list of cities(id's of nodes) and have to return a path that passes through all cities(not the shortest just a path).<br/>
+We do this using a greedy algorithem, we start from the first city, the next city is the closest unvisited city to it, which we find with Dijkstra, and we contuine like this until we went over all city's. After which we return the path we went.
 
 ### Runtime of the algorithms in python and java comparison:
 #### Python:
@@ -61,5 +83,8 @@ Inside the file we created the DiGraph object and Node object. We represented th
 [Ex2 project](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex2)
 
 
+### Additional Visualization
+
+![alt text](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/blob/master/src/Ex3.png)
 
 ![gui Description](https://user-images.githubusercontent.com/82415308/147586389-772e82cc-5e72-4c06-bb41-dea38a6f5b4d.png)
