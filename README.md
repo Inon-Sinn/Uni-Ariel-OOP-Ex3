@@ -7,25 +7,48 @@ In Addition we were given a list of algorithms that we had to implement and then
 
 ## Implemented Algorithms
 
-for Information about the implemented algorithms: center, tsp, shortestPath, click here:</br>
-[Implemented Algorithms](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/wiki/Algorithms/_edit)
+E - the number of edges<br/>
+V - the number of vertexes
+
+_shortestPath_ - O(|E|log|V|)<br/>
+we are given two nodes id's of the source and the destination, we then run Dijstra using those two id's and then return the path to get from the source to the destination.
+
+_center_ - O(|V||E|log|V|)<br/>
+The cetnter is the node which minimizes the max distance to all the other nodes.<br/>
+First we check if the graph is even connected else there won't be a center at all.<br>
+If the graph is connected we run Dijkstra from every node we return the node minimizes the max distance to all the other nodes.
+
+_tsp_ - O(n^2*|E|log|V|)<br/>
+traveling salesman problem(almost), we get a list of cities(id's of nodes) and have to return a path that passes through all cities(not the shortest just a path).<br/>
+We do this using a greedy algorithem, we start from the first city, the next city is the closest unvisited city to it, which we find with Dijkstra, and we contuine like this until we went over all city's. After which we return the path we went.
+
+_Load from Json_
+
+_Save to Json_
+
+_plot_
 
 ## Interfaces and Classes
 
 |Interfaces| Descripition |
 | ---------- | --------- |
 | GraphInterfave | interface for a Directed Weighted Graph|
-| GraphAlgoInterface  |  an Interface with the algorithms written above |
+| GraphAlgoInterface  |  an Interface with the ![algorithms](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/wiki/Algorithms) written in the wiki |
 
 
 |Classes| Descripition |
 | ---------- | --------- |
-| GraphInterfave | interface for a Directed Weighted Graph |
-| GraphAlgoInterface  |  an Interface with the algorithms that can ve used on a Graph |
+| DiGraph | implements the GraphInterFace |
+| GraphAlgo  |  implements the GraphAlgoInterface |
+|Node| A Class that represent a Node, used by DiGraph|
+|BFS|Implements the BFS Algorithm, used by GraphAlgo|
+|Dijkstra|Implements the Dijkstra Algorithm, used by GraphAlgo|
+|MinHeap| A Class that implements the MinHeap dataset|
+|GUI| The GUI|
 
 ### UML
 
-[alt text](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/blob/master/src/Ex3.png)
+![alt text](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/blob/master/Pictures/UML.png)
  
 ## Runtime of the Algorithms: Python VS Java
 
