@@ -15,7 +15,7 @@ for Information about the implemented algorithms: center, tsp, shortestPath, cli
 |Interfaces| Descripition |
 | ---------- | --------- |
 | GraphInterfave | interface for a Directed Weighted Graph|
-| GraphAlgoInterface | an Interface with the ![algorithms](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/wiki/Algorithms) written in the wiki |
+| GraphAlgoInterface | an Interface with the [algorithms](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/wiki/Algorithms) written in the wiki |
 
 ## Classes
 
@@ -63,7 +63,7 @@ __Python:__
 
 ### GUI Instructional:
 For the gui instructional please click here:  </br>
-![GUI-Help](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/wiki/GUI)
+[GUI-Help](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/wiki/GUI)
 
 ### How to run the GUI
 To Run the Gui directly from the Terminal enter the command python ``` Ex3.py <json file name> ``` , the json file will have to be in the data directory.<br/>
