@@ -1,10 +1,9 @@
 import math
 
 import pygame
-import sys
 
+"""The Amazing Graph GUI we made"""
 
-import sys
 from pygame import gfxdraw
 from src.DiGraph import DiGraph
 
@@ -27,7 +26,7 @@ def scale(data, min_screen, max_screen, min_data, max_data):
 
 
 class Button:
-
+    """This Class Represent a Button, as the Name says"""
     def __init__(self, title, color):
         self.title = title
         self.color = color
@@ -35,9 +34,11 @@ class Button:
         self.on_click = None
 
     def add_click_listener(self, func):
+        """Add a function which the button can Run"""
         self.on_click = func
 
     def render(self, surface, pos, color, newSize):
+        """Draws the Button on the Screen"""
         self.rect.update(self.rect.left, self.rect.top, newSize[0], newSize[1])
         self.rect.topleft = pos
         title_srf = FONT.render(self.title, True, pygame.Color(color))
@@ -46,16 +47,18 @@ class Button:
         surface.blit(title_srf, title_rect)
 
     def check(self, click) -> bool:
+        """Checks if the User clicked on the Button"""
         if self.rect.collidepoint(*click):
             return True
         return False
 
     def runTheFunc(self):
+        """Tells the Button to run the Function which the Button has"""
         self.on_click()
 
 
 class GUI:
-
+    """This class is our GUI"""
     def __init__(self, Algo, width: int, height: int):
         self.algo = Algo
         self.graph = self.algo.get_graph()
@@ -65,8 +68,10 @@ class GUI:
         self.MainRun()
 
     def MainRun(self):
+        """This is the main loop of the pygame, 60 ticks,
+        ALmost all settings can be changed, look in the variables below"""
 
-        # variables - special
+        # variables - special - except the pygame display shouldn't be touched
         Path = []
         MarkedNodes = {}
         NodeRects = {}
@@ -74,11 +79,11 @@ class GUI:
         next_id = max(self.graph.get_all_v().values(), key=lambda n: n.Id).Id + 1
         pygame.display.set_caption('I AM THE GUI, FEEL MY POWER!!!')
 
-        # Booleans
+        # Booleans - shouldn't be touched
         added_A_Node = False
         centerExists = False
 
-        # Colors
+        # Colors - The colors Used in the GUI
         screenColor = (255, 255, 255)  # white
         NodeColor = (0, 48, 142)  # #00308E
         NodeIdColor = (255, 255, 255)  # white
@@ -89,7 +94,7 @@ class GUI:
         ButtonTextColor = screenColor
         CenterNodeColor = (0, 0, 0)  # Black
 
-        # Buttons
+        # Buttons - Shouldn't be touched
         Add_Edge = Button('Add Edge', ButtonColor)
         Add_Node = Button('Add Node', ButtonColor)
         Coor = Button('Coordinates:', (255, 255, 255))
@@ -98,7 +103,7 @@ class GUI:
         Shortest_Path = Button('Shortest Path', ButtonColor)
         TSP = Button('TSP', ButtonColor)
 
-        # Parameters
+        # Parameters - The sized of the Arrows and Nodes
         ArrowWidth = 1
         NodeRadius = 10
         OuterMargin = 7
@@ -110,11 +115,11 @@ class GUI:
         MarkedWidth = int(ArrowWidth * 10)
         MarkedArrowSize = int(ArrowSize*1.5)
 
-        # Compact
+        # Compact - shouldn't be touched
         MarkedArrowSettings = {'size': MarkedArrowSize, 'width': MarkedWidth, 'color': MarkedArrowColor}
         ArrowSettings = {'size': ArrowSize, 'width': ArrowWidth, 'color': ArrowColor}
 
-        # Coordinates
+        # Coordinates - shouldn't be touched
         add_x = 0
         add_y = 0
         min_x = min(self.graph.get_all_v().values(), key=lambda n: n.pos[0]).pos[0]
@@ -128,6 +133,7 @@ class GUI:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     exit(0)
+                # check if the user clicked on the screen
                 if event.type == pygame.MOUSEBUTTONUP:
                     click = pygame.mouse.get_pos()
 
@@ -230,15 +236,13 @@ class GUI:
             # Render the Margins
             upperOuterMargin = self.screen.get_height() * (1 / OuterMargin)
             lowerOuterMargin = self.screen.get_height() * ((OuterMargin - 1) / OuterMargin)
-
             pygame.draw.aaline(self.screen, pygame.Color((0, 0, 0)), (0, upperOuterMargin),
                                (self.screen.get_width(), upperOuterMargin), 1)
             pygame.draw.aaline(self.screen, pygame.Color((0, 0, 0)),
                                (0, lowerOuterMargin),
-                               (self.screen.get_width(), lowerOuterMargin),
-                               1)
+                               (self.screen.get_width(), lowerOuterMargin),1)
 
-            # Render The Buttons - 8 blocks
+            # Render The Buttons
             upperButtonMargin = upperOuterMargin * (1 / ButtonMargin)
             lowerButtonMargin = lowerOuterMargin + upperButtonMargin
             Add_Edge.render(self.screen, ((2 / 32) * self.screen.get_width(), upperButtonMargin), ButtonTextColor,
@@ -286,6 +290,7 @@ class GUI:
             for v in self.graph.get_all_v().values():
                 x = scale(v.pos[0], margin, self.screen.get_width() - margin, min_x, max_x)
                 y = scale(v.pos[1], margin, self.screen.get_height() - margin, min_y, max_y)
+                # Check if the node is marked
                 if v.Id in MarkedNodes:
                     pygame.gfxdraw.aacircle(self.screen, int(x), int(y), NodeRadius, pygame.Color(MarkedNodeColor))
                     pygame.gfxdraw.filled_circle(self.screen, int(x), int(y), NodeRadius, pygame.Color(MarkedNodeColor))
@@ -312,6 +317,8 @@ class GUI:
             clock.tick(60)
 
     def drawArrow(self, src_x, src_y, dest_x, dest_y, nodeRadius, ArrowSettings):
+        """Calculated and Draws An Arrow given 2 points,
+        the setting of the Arrow and the size of the node it points to """
         # Calculate the vector between source and dest
         vector_x = dest_x - src_x
         vector_y = dest_y - src_y
@@ -338,15 +345,8 @@ class GUI:
                 new_y + ArrowSettings['size'] * math.cos(math.radians(rotation - 200)))))
 
     def arrangePath(self, path: list):
+        """An Auxiliary function"""
         newPath = []
         for i in range(len(path) - 1):
             newPath.append((path[i], path[i + 1]))
         return newPath
-
-
-if __name__ == '__main__':
-    print("hi")
-    # jsonFileName = "A1.json"
-    # algo = GraphAlgo()
-    # algo.load_from_json("../data/{}".format(jsonFileName))
-    # gui = GUI(algo, WIDTH, HEIGHT)
