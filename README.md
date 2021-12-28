@@ -4,42 +4,12 @@
 In this assignment we were given a json file and had using it, to implement a Directed weighted graph using the given Interfaces.
 In Addition we were given a list of algorithms that we had to implement and then showcase all of it using GUI.
 
-<h1>Interfaces anc Classes</h1>
-
-|Interfaces| Descripition |
-| ---------- | --------- |
-| GraphInterfave | interface for a Directed Weighted Graph |
-| GraphAlgoInterface  |  an Interface with the algorithms that can ve used on a Graph |
-
-
-|Classes| Descripition |
-| ---------- | --------- |
-| GraphInterfave | interface for a Directed Weighted Graph |
-| GraphAlgoInterface  |  an Interface with the algorithms that can ve used on a Graph |
-
-<h3> -DiGraph </h3> </br> <p> implements GraphInterface:
-
-Inside the file we created the DiGraph object and Node object. We represented the edges of the graph by a python dictionary inside the Node class, which contains the destination of the edge (coming out of the node) and its weight. 
-  </p
--------------------------
-#### -GraphAlgo - implements GraphALgoInterface:
 -------------------------
 
-#### -GraphGui - contains methods for running the gui visual
--------------------------
-
-__Algorithms__<br/>
+## Implemented Algorithms
 
 E - the number of edges<br/>
 V - the number of vertexes
-
-
-_isConnected_ - O(|V| + |E|)<br/>
-we Run the the DFS algorithem on the graph from the same node twice.<br/>If in the DFS the first and last node we visited was the same node,
-we would build the reverse graph(make all edges point in the other direction) and Run DFS again and if then the first and last node is still the same, we know the graph is Connected.<br> Why? Because we can reach every node from the given node and every node can reach the given node so that means the whole graph is connected. 
-
-_shortestPathDist_ - O(|E|log|V|)<br/>
-we are given two nodes id's of the source and the destination, we then run Dijstra using those two id's and then return the distance.
 
 _shortestPath_ - O(|E|log|V|)<br/>
 we are given two nodes id's of the source and the destination, we then run Dijstra using those two id's and then return the path to get from the source to the destination.
@@ -53,9 +23,32 @@ _tsp_ - O(n^2*|E|log|V|)<br/>
 traveling salesman problem(almost), we get a list of cities(id's of nodes) and have to return a path that passes through all cities(not the shortest just a path).<br/>
 We do this using a greedy algorithem, we start from the first city, the next city is the closest unvisited city to it, which we find with Dijkstra, and we contuine like this until we went over all city's. After which we return the path we went.
 
+_Load from Json_
+
+_Save to Json_
+
+_plot_
+
  -------------------------
-Runtime of the algorithms in python and java comparison:</br>
-Python:
+ 
+## Interfaces and Classes
+
+|Interfaces| Descripition |
+| ---------- | --------- |
+| GraphInterfave | interface for a Directed Weighted Graph|
+| GraphAlgoInterface  |  an Interface with the algorithms written above |
+
+
+|Classes| Descripition |
+| ---------- | --------- |
+| GraphInterfave | interface for a Directed Weighted Graph |
+| GraphAlgoInterface  |  an Interface with the algorithms that can ve used on a Graph |
+
+ -------------------------
+ 
+## Runtime of the Algorithms: Python VS Java
+
+__Python:__
 | NodeSize | Center  | TSP (5 nodes)| shortestPath | LoadJson | SaveJson |
 | ---------- | --------- |--------- | --------- |--------- | --------- |
 | A0     |2 ms |3 ms  |0 ms  |0 ms  |3 ms   |
