@@ -43,7 +43,7 @@ _plot_
 
 ### UML
 
-![alt text](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/blob/master/Pictures/UML.png)
+![alt text](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/blob/master/src/Ex3.png)
  
 ## Runtime of the Algorithms: Python VS Java
 
@@ -83,12 +83,12 @@ __Python:__
 <h4>ShortestPath:</h4> <p style="#2ac02a">Click on two nodes and then click on shortestPath to see the path with minimal distance to travel between source node to destination node.</p>
 <h4>TSP:</h4> <p style="#2ac02a">Click on finite number of nodes, and then click TSP. This will present a path that visits all the given nodes at least once.</p>
 
-### How to Use
-
-![gui Description](https://user-images.githubusercontent.com/82415308/147586389-772e82cc-5e72-4c06-bb41-dea38a6f5b4d.png)
+### How to run the GUI
+To Run the Gui directly from the Terminal enter the command python ``` Ex3.py <json file name> ``` , the json file will have to be in the data directory.<br/>
+Example: ```python Ex3.py A5.json```
 
 ### Additional Visualization
-
+![gui Description](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/blob/master/Pictures/A2JsonGui.PNG)
 
 
 <h1>Fin</h1> <p></p>
