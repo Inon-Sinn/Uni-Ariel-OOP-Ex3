@@ -70,9 +70,18 @@ __Python:__
 | 10,000  |aprox: 56.23 min |3.6 s   |337.4 ms|892 ms|581 ms|
 | 100,000 |approx 52 days   |80 min  |45 s    |6.8 s |9.2 s|
 
-## GUI
+<h1>GUI</h1>
 
-### How to Run:
+<h2>GUI Instructional:</h2>
+<h3>Mouse Interaction: </h5>
+<p style="#2ac02a">When clicking Coordinates of the screen will be updated and displayed. This will replace "Coordinates:" 's place. If a node is clicked then its color will change to yellow.</p>
+<h3>Buttons:</h4>
+<h4>Add Edge:</h4> <p style="#2ac02a">Select two nodes with your mouse and click Add Edge. The first node is the source, and the second is the destination.</p>
+<h4>Add Node:</h4> <p style="#2ac02a">click on the screen and then click Add Node to add a new node to the graph.</p>
+<h4>Clean:</h4> <p style="#2ac02a">removes all the colors displayed.</p>
+<h4>Center:</h4> <p style="#2ac02a">Click on Center to see the Center node of the graph (The node with the least maximal distance to all other nodes).</p>
+<h4>ShortestPath:</h4> <p style="#2ac02a">Click on two nodes and then click on shortestPath to see the path with minimal distance to travel between source node to destination node.</p>
+<h4>TSP:</h4> <p style="#2ac02a">Click on finite number of nodes, and then click TSP. This will present a path that visits all the given nodes at least once.</p>
 
 ### How to Use
 
