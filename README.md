@@ -43,7 +43,7 @@ _plot_
 
 ### UML
 
-![alt text](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/blob/master/src/Ex3.png)
+![alt text](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/blob/master/Pictures/UML.png)
  
 ## Runtime of the Algorithms: Python VS Java
 
