@@ -78,7 +78,43 @@ class GraphAlgo(GraphAlgoInterface):
     def TSP(self, node_lst: List[int]) -> (List[int], float):
         if node_lst is None:
             return None, math.inf
+        if node_lst.__len__() == 1:
+            return node_lst
+        completePath = []
+        currentPath = []
+        currentCity = node_lst.pop(0)
+        found = False
+        total_dist = 0
+        while node_lst.__len__() != 0:
+            next_city = 0
+            removeIndex = 0
+            minPathWeight = math.inf
+            # getting the minimal path
+            for i in range(node_lst.__len__()):
+                # define ShortPathWeight as the distance from the start node to node at index i
+                (shortPathWeight, ShortPathList) = self.shortest_path(currentCity, node_lst[i])
+                # if there is a path shortPathWeight is real number, else it is infinity
+                if shortPathWeight < minPathWeight:
+                    next_city = node_lst[i]
+                    removeIndex = i
+                    currentPath = ShortPathList
+                    minPathWeight = shortPathWeight
+                    found = True
+            if not found:
+                return None, math.inf
+            found = False
+            currentCity = next_city
+            node_lst.pop(removeIndex)
+            completePath.extend(currentPath.copy())
+            total_dist += minPathWeight
 
+        # remove dublicates lol
+        i = 0
+        while i < len(completePath)-1:
+            if completePath[i] == completePath[(i + 1)]:
+                completePath.pop(i)
+            i += 1
+        return completePath, total_dist
 
     def centerPoint(self) -> (int, float):
         if self.isConnected() is False:  # TODO check if returning None is correct in case that there is no Center

@@ -1,6 +1,8 @@
 import math
 
 import pygame
+import sys
+
 
 import sys
 from pygame import gfxdraw
@@ -175,7 +177,11 @@ class GUI:
                         else:
                             Path, dist = TSP.on_click()
                             TSP.title = "Dist: {:.5f}".format(dist)
-                            Path = self.arrangePath(Path)
+                            if dist != math.inf:
+                                Path = self.arrangePath(Path)
+                            else:
+                                TSP.title = "No Path"
+                                Path = []
 
                     # show the Center
                     if Center.check(click) is True:

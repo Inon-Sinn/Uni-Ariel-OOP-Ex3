@@ -12,7 +12,7 @@ def check():
     (3.4, [0, 1, 2, 3]) #check0
     (2.8, [0, 1, 3])
     (inf, [])
-    (None, inf) - wrong - #check1
+    (None, inf) #check1
     2.062180280059253 [1, 10, 7]
     17.693921758901507 [47, 46, 44, 43, 42, 41, 40, 39, 15, 16, 17, 18, 19]
     11.51061380461898 [20, 21, 32, 31, 30, 29, 14, 13, 3, 2]
@@ -107,7 +107,7 @@ def check3():
     g_algo = GraphAlgo(g)
     print(g_algo.centerPoint())
     print(g_algo.TSP([1, 2, 4]))
-    g_algo.plot_graph()
+    # g_algo.plot_graph()
 
 
 if __name__ == '__main__':
