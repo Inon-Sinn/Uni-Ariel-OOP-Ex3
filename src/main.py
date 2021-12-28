@@ -2,6 +2,8 @@ from DiGraph import DiGraph
 from Graph_Algo import GraphAlgo
 import sys
 
+"""A file given by the Lecturer so we can do some tests"""
+
 
 def check():
     """
@@ -86,7 +88,6 @@ def check2():
     print(g_algo.TSP([1, 2, 3]))
     print(g_algo.TSP([40, 46, 6]))
     g_algo.plot_graph()
-
 
 
 def check3():
