@@ -1,33 +1,53 @@
 # Graph Project in course OOP with python!
+
 ### About
 
 In this assignment we were given a json file and had using it, to implement a Directed weighted graph using the given Interfaces.
 In Addition we were given a list of algorithms that we had to implement and then showcase all of it using GUI.
 
-### Contents
-We were given the files GraphInterface and GraphAlgoInterface and we started working from there:
+## Implemented Algorithms
 
-#### GraphInterface - interface for directed weighted graphs
+E - the number of edges<br/>
+V - the number of vertexes
 
-#### GraphAlgoInterface - interface for algorithms that run on graphs
+_shortestPath_ - O(|E|log|V|)<br/>
+we are given two nodes id's of the source and the destination, we then run Dijstra using those two id's and then return the path to get from the source to the destination.
 
-Contains methods for loading files and saving them in a JSON file, computes the shortest path from one node to the other using [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm), finds the node that has the shortest distance to its farthest node and plots the graph.
+_center_ - O(|V||E|log|V|)<br/>
+The cetnter is the node which minimizes the max distance to all the other nodes.<br/>
+First we check if the graph is even connected else there won't be a center at all.<br>
+If the graph is connected we run Dijkstra from every node we return the node minimizes the max distance to all the other nodes.
 
-#### DiGraph - implements GraphInterface:
+_tsp_ - O(n^2*|E|log|V|)<br/>
+traveling salesman problem(almost), we get a list of cities(id's of nodes) and have to return a path that passes through all cities(not the shortest just a path).<br/>
+We do this using a greedy algorithem, we start from the first city, the next city is the closest unvisited city to it, which we find with Dijkstra, and we contuine like this until we went over all city's. After which we return the path we went.
 
-Inside the file we created the DiGraph object and Node object. We represented the edges of the graph by a python dictionary inside the Node class, which contains the destination of the edge (coming out of the node) and its weight. 
+_Load from Json_
 
-#### GraphAlgo - implements GraphALgoInterface:
+_Save to Json_
+
+_plot_
+
+## Interfaces and Classes
+
+|Interfaces| Descripition |
+| ---------- | --------- |
+| GraphInterfave | interface for a Directed Weighted Graph|
+| GraphAlgoInterface  |  an Interface with the algorithms written above |
 
 
-#### GraphGui - contains methods for running the gui visual
+|Classes| Descripition |
+| ---------- | --------- |
+| GraphInterfave | interface for a Directed Weighted Graph |
+| GraphAlgoInterface  |  an Interface with the algorithms that can ve used on a Graph |
 
-### Additional Visualization
+### UML
 
 ![alt text](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/blob/master/src/Ex3.png)
+ 
+## Runtime of the Algorithms: Python VS Java
 
-### Runtime of the algorithms in python and java comparison:
-#### Python:
+__Python:__
 | NodeSize | Center  | TSP (5 nodes)| shortestPath | LoadJson | SaveJson |
 | ---------- | --------- |--------- | --------- |--------- | --------- |
 | A0     |2 ms |3 ms  |0 ms  |0 ms  |3 ms   |
@@ -50,16 +70,30 @@ Inside the file we created the DiGraph object and Node object. We represented th
 | 10,000  |aprox: 56.23 min |3.6 s   |337.4 ms|892 ms|581 ms|
 | 100,000 |approx 52 days   |80 min  |45 s    |6.8 s |9.2 s|
 
-###  External Documents:
-[docs](https://docs.google.com/document/d/15sTWy_pa6Vg4r7phAC322vZA169V02yezjxxf4b9sJc/edit) <br />
-### Contributers:
-[Inon Sinn](https://github.com/Inon-Sinn)<br />
-[Yan Naigebaver](https://github.com/Yannnyan) <br />
-[Yaron Sirota](https://github.com/Yaron-S)
-### temp links for devs
-[pygame docs](https://www.pygame.org/docs/) <br />
-[Ex2 project](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex2)
+## GUI
 
+### How to Run:
 
+### How to Use
 
 ![gui Description](https://user-images.githubusercontent.com/82415308/147586389-772e82cc-5e72-4c06-bb41-dea38a6f5b4d.png)
+
+### Additional Visualization
+
+
+
+<h1>Fin</h1> <p></p>
+</br>
+
+<h4>External Documents:</h4></br>
+<a href="https://docs.google.com/document/d/15sTWy_pa6Vg4r7phAC322vZA169V02yezjxxf4b9sJc/edit">[docs]</a> <br />
+<h4> Contributers:</h4></br>
+<a href="https://github.com/Inon-Sinn">[Inon Sinn]</a><br />
+<a href="https://github.com/Yannnyan">[Yan Naigebaver]</a><br />
+<a href="https://github.com/Yaron-S">[Yaron Sirota]</a><br />
+<br />
+<h4> temp links for devs</h4></br>
+![pygame docs](https://www.pygame.org/docs/) <br />
+![Ex2 project](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex2)
+
+
