@@ -82,19 +82,19 @@ class GraphAlgo(GraphAlgoInterface):
             return node_lst
         completePath = []
         currentPath = []
-        currentCityIndex = node_lst.pop(0)
+        currentCity = node_lst.pop(0)
         found = False
         while node_lst.__len__() != 0:
-            nextCityIndex = 0
+            next_city = 0
             removeIndex = 0
             minPathWeight = math.inf
             # getting the minimal path
             for i in range(node_lst.__len__()):
                 # define ShortPathWeight as the distance from the start node to node at index i
-                (shortPathWeight, ShortPathList) = self.shortest_path(currentCityIndex, node_lst[i])
+                (shortPathWeight, ShortPathList) = self.shortest_path(currentCity, node_lst[i])
                 # if there is a path shortPathWeight is real number, else it is infinity
                 if shortPathWeight < minPathWeight:
-                    nextCityIndex = i
+                    next_city = node_lst[i]
                     removeIndex = i
                     currentPath = ShortPathList
                     minPathWeight = shortPathWeight
@@ -102,14 +102,16 @@ class GraphAlgo(GraphAlgoInterface):
             if not found:
                 return None
             found = False
-            currentCityIndex = nextCityIndex
+            currentCity = next_city
             node_lst.pop(removeIndex)
-            completePath = currentPath.copy()
+            completePath.extend(currentPath.copy())
 
         # remove dublicates lol
-        for i in range(completePath.__len__()):
-            if completePath[i] == completePath[i - 1]:
-                completePath.remove(i)
+        i = 0
+        while i < len(completePath)-1:
+            if completePath[i] == completePath[(i + 1)]:
+                completePath.pop(i)
+            i += 1
         return completePath
 
     def centerPoint(self) -> (int, float):

@@ -82,7 +82,7 @@ class TestGraphAlgo(TestCase):
             self.assertEqual((10, shortestPathTest), self.graphalgo.shortest_path(0, 4))
 
     def test_tsp(self):
-        case = 1
+        case = 2
         if case == 0:
             cities = [0, 3, 4]
             self.graphalgo.graph = self.graph1
@@ -91,11 +91,19 @@ class TestGraphAlgo(TestCase):
             if not self.graphalgo.load_from_json("../../data/A1.json"):
                 print("File not found!")
                 return
-            cities1 = [0,3,6]
-            cities2 = [10,6,7]
-            print(self.graphalgo.TSP(cities1))
-            cities1 = [0, 3, 6]
-            print(self.graphalgo.TSP(cities1))
+        elif case == 2:
+            if not self.graphalgo.load_from_json("../../data/A3.json"):
+                print("File not found!")
+                return
+
+        cities1 = [0,3,6]
+        cities2 = [10,6,7]
+        cities3 = [16,8,4]
+        cities4 = [0,12,1]
+        print(self.graphalgo.TSP(cities1))
+        print(self.graphalgo.TSP(cities2))
+        print(self.graphalgo.TSP(cities3))
+        print(self.graphalgo.TSP(cities4))
 
     def test_load(self):
         algo = GraphAlgo()
