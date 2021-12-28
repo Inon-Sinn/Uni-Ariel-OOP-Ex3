@@ -3,7 +3,8 @@ from unittest import TestCase
 from src.DiGraph import DiGraph
 
 
-class TestDWGraph(TestCase):
+class TestDiGraph(TestCase):
+    """Test file of DiGraph"""
 
     def setUp(self) -> None:
         self.Graph = DiGraph()
@@ -86,17 +87,12 @@ class TestDWGraph(TestCase):
         self.assertTrue(self.Graph.add_node(0))
         self.assertTrue(self.Graph.add_node(1))
         self.assertTrue(self.Graph.add_node(2, (1, 2, 3)))
-        # print(self.Graph.nodes.get(2))
 
         self.assertFalse(self.Graph.add_edge(3, 4, 1))
         self.assertTrue(self.Graph.add_edge(1, 2, 10))
         self.assertEqual(len(self.Graph.getNode(1).get_All_out_edges()), 1)
         self.assertEqual(len(self.Graph.getNode(2).get_All_in_edges()), 1)
-        # print(self.Graph.nodes.get(1))
-        # print(self.Graph.nodes.get(2))
-
         self.assertFalse(self.Graph.add_edge(1, 2, 10))
-
         self.assertTrue(self.Graph.add_edge(2, 0, -10))
         print(self.Graph.nodes.get(2))
 
@@ -151,8 +147,6 @@ class TestDWGraph(TestCase):
         self.assertTrue(self.Graph.remove_edge(0, 2))
         self.assertEqual(len(self.Graph.getNode(0).get_All_out_edges()), 0)
         self.assertEqual(len(self.Graph.getNode(2).get_All_in_edges()), 1)
-        # print(self.Graph.getNode(0))
-        # print(self.Graph.getNode(2))
         self.assertTrue(self.Graph.remove_edge(2, 0))
         self.assertEqual(len(self.Graph.getNode(0).get_All_in_edges()), 0)
         self.assertEqual(len(self.Graph.getNode(2).get_All_out_edges()), 1)

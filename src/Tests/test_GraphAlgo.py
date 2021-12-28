@@ -5,8 +5,11 @@ from src.DiGraph import DiGraph
 from src.Graph_Algo import GraphAlgo, BFS, Dijkstra
 from src.Algorithms.Minheap import MinHeap
 
+"""Contains the Test Files of GraphAlgo, BFS and Dijkstra"""
+
 
 class TestGraphAlgo(TestCase):
+    """Test File of Graph Algo"""
 
     def setUp(self) -> None:
         self.Graph = DiGraph()
@@ -17,8 +20,7 @@ class TestGraphAlgo(TestCase):
         self.Graph.add_edge(2, 0, -10)
         self.Graph.add_edge(0, 2, -1)
         self.Graph.add_edge(2, 1, 0)
-        # for v in self.Graph.get_all_v().values():
-        #     print(v)
+
         self.GraphAlgo = GraphAlgo()
         self.GraphAlgo.graph = self.Graph
         self.graph1 = DiGraph()
@@ -52,7 +54,7 @@ class TestGraphAlgo(TestCase):
         self.GraphAlgo = GraphAlgo()
 
     def test_get_graph(self):
-        self.assertEqual(self.GraphAlgo.get_graph().v_size(), 4)
+        self.assertEqual(self.GraphAlgo.get_graph().v_size(), 3)
         self.assertEqual(self.GraphAlgo.get_graph().e_size(), 4)
         print("------------------")
         # for v in self.GraphAlgo.get_graph().get_all_v().values():
@@ -96,10 +98,10 @@ class TestGraphAlgo(TestCase):
                 print("File not found!")
                 return
 
-        cities1 = [0,3,6]
-        cities2 = [10,6,7]
-        cities3 = [16,8,4]
-        cities4 = [0,12,1]
+        cities1 = [0, 3, 6]
+        cities2 = [10, 6, 7]
+        cities3 = [16, 8, 4]
+        cities4 = [0, 12, 1]
         print(self.graphalgo.TSP(cities1))
         print(self.graphalgo.TSP(cities2))
         print(self.graphalgo.TSP(cities3))
@@ -112,13 +114,14 @@ class TestGraphAlgo(TestCase):
     def test_center_point(self):
         case = 1
         if case == 0:
-            centers = [(7, 6.806805834715163), (8, 9.925289024973141), (0, 7.819910602212574), (2, 8.182236568942237), (6, 8.071366078651435),(40, 9.291743173960954)]
+            centers = [(7, 6.806805834715163), (8, 9.925289024973141), (0, 7.819910602212574), (2, 8.182236568942237),
+                       (6, 8.071366078651435), (40, 9.291743173960954)]
             for i in range(6):
                 currstr = "../../data/A"
                 self.graphalgo.load_from_json(currstr + str(i) + ".json")
                 curId, curDist = self.graphalgo.centerPoint()
-                self.assertEqual(centers[i], (curId,curDist))
-                #print(f'centerId IS: {curId}, maxDistance is : {curDist} ')
+                self.assertEqual(centers[i], (curId, curDist))
+                # print(f'centerId IS: {curId}, maxDistance is : {curDist} ')
         if case == 1:
             self.graphalgo.load_from_json("../../data/A2.json")
             dijk = Dijkstra(self.graphalgo.graph)
@@ -133,11 +136,9 @@ class TestGraphAlgo(TestCase):
                     idmax = idNode
             print(f"assigned true is : {maxweight}, id is {idmax}")
 
-    def test_plot_graph(self):
-        self.fail()
-
     def test_is_connected(self):
         # Normal Graph test
+        self.GraphAlgo.get_graph().add_node(4)
         self.assertFalse(self.GraphAlgo.isConnected())
         self.GraphAlgo.get_graph().remove_node(4)
         self.assertTrue(self.GraphAlgo.isConnected())
@@ -170,14 +171,17 @@ class TestGraphAlgo(TestCase):
 
 
 class TestBFS(TestCase):
+    """BFS Algorithm Test File"""
 
     def setUp(self) -> None:
         algo = TestGraphAlgo()
         algo.setUp()
+        algo.GraphAlgo.get_graph().add_node(4)
         self.BFS = BFS(algo.GraphAlgo.get_graph())
 
     def test_connected(self):
         """There is no need for other Tests Because connected includes them already"""
+
         self.assertFalse(self.BFS.Connected())
         self.BFS.graph.remove_node(4)
         self.BFS.BFSAlgo()
@@ -192,6 +196,7 @@ class TestBFS(TestCase):
 
 
 class TestDijkstra(TestCase):
+    """Dijkstra Algorithm Test File"""
 
     def setUp(self) -> None:
         g = DiGraph()
@@ -315,10 +320,11 @@ class TestMinHeap(TestCase):
     def testDecreaseKey(self):
         self.minHeap.DecreaseKey(3, 1)
         self.minHeap.DecreaseKey(2, 2)
-        self.minHeap.DecreaseKey(4,3)
-        self.minHeap.DecreaseKey(1,4)
+        self.minHeap.DecreaseKey(4, 3)
+        self.minHeap.DecreaseKey(1, 4)
         for nodeId in range(6):
             print(self.minHeap.removeMin())
+
     def testA0(self):
         algo = GraphAlgo()
         algo.load_from_json("../../data/A0.json")
@@ -329,9 +335,8 @@ class TestMinHeap(TestCase):
             else:
                 minHeap1.insert(math.inf, node.Id)
         minHeap1.removeMin()
-        minHeap1.DecreaseKey(1,1.4)
-        minHeap1.DecreaseKey(10,1.462)
+        minHeap1.DecreaseKey(1, 1.4)
+        minHeap1.DecreaseKey(10, 1.462)
         minHeap1.removeMin()
-        minHeap1.DecreaseKey(2,1.4+1.715)
+        minHeap1.DecreaseKey(2, 1.4 + 1.715)
         minHeap1.removeMin()
-
