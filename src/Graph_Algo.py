@@ -113,8 +113,8 @@ class GraphAlgo(GraphAlgoInterface):
         return completePath
 
     def centerPoint(self) -> (int, float):
-        if not self.isConnected:  # TODO check if returning None is correct in case that there is no Center
-            return None  # next(iter(self.graph.get_all_v().keys())),math.inf
+        if self.isConnected() is False:  # TODO check if returning None is correct in case that there is no Center
+            return None, math.inf  # next(iter(self.graph.get_all_v().keys())),math.inf
         center_id = 0
         center_max_dis = math.inf
         for node in self.graph.get_all_v().values():

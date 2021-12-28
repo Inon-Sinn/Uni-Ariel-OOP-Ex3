@@ -18,7 +18,7 @@ def check():
     11.51061380461898 [20, 21, 32, 31, 30, 29, 14, 13, 3, 2]
     inf []
     ([1, 9, 2, 3], 2.370613295323088) - #check2 - TODO FIX TSP
-    (None, inf) - Problem with center
+    (None, inf)
     ([1, 2, 3, 4], 4.5)
     """
     check0()
