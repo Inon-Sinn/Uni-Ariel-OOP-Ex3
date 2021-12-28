@@ -7,12 +7,13 @@ from src.GraphAlgoInterface import GraphAlgoInterface
 from src.GraphInterface import GraphInterface
 from queue import Queue
 from src.Algorithms.Minheap import MinHeap
+from src.Graph_Gui import GUI
 
 
 class GraphAlgo(GraphAlgoInterface):
 
-    def __init__(self):
-        self.graph = None
+    def __init__(self, graph: DiGraph = None):
+        self.graph = graph
 
     def get_graph(self) -> GraphInterface:
         return self.graph
@@ -112,8 +113,8 @@ class GraphAlgo(GraphAlgoInterface):
         return completePath
 
     def centerPoint(self) -> (int, float):
-        if not self.isConnected:  # TODO check if returning None is correct in case that there is no Center
-            return None  # next(iter(self.graph.get_all_v().keys())),math.inf
+        if self.isConnected() is False:  # TODO check if returning None is correct in case that there is no Center
+            return None, math.inf  # next(iter(self.graph.get_all_v().keys())),math.inf
         center_id = 0
         center_max_dis = math.inf
         for node in self.graph.get_all_v().values():
@@ -126,7 +127,7 @@ class GraphAlgo(GraphAlgoInterface):
         return center_id, center_max_dis
 
     def plot_graph(self) -> None:
-        pass
+        plot = GUI(self, 900, 740)
 
     def isConnected(self) -> bool:
         """An auxiliary function for center Point, Checks if the given Graph is Connected"""
@@ -224,11 +225,11 @@ class Dijkstra:
         # Iterating through all the nodes and setting their weights to infinity
         for node in self.graph.get_all_v().values():
             if node.Id == start_id:
-                self.MinHeap.insert(0,start_id)
+                self.MinHeap.insert(0, start_id)
                 self.distsFromSrc[start_id] = 0
 
             else:
-                self.MinHeap.insert(math.inf,node.Id)
+                self.MinHeap.insert(math.inf, node.Id)
                 self.distsFromSrc[node.Id] = math.inf
 
             self.prev[node.Id] = None
@@ -268,7 +269,7 @@ class Dijkstra:
         if self.distsFromSrc[dest] is math.inf:
             return None
         while current != src and current is not None:
-            shortestPath.insert(0,current)
+            shortestPath.insert(0, current)
             try:
                 current = self.prev[current]
             except KeyError:
