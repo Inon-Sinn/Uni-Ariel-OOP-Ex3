@@ -53,7 +53,7 @@ Plots the graph in the GUI
 
 ![alt text](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/blob/master/Pictures/UML.png)
  
-## [Runtime of the Algorithms: Python VS Java](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/wiki/Runtime)
+## [Runtime of the Algorithms: Python VS Java](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/wiki/Runtime:-Java-VS-Python)
 
 __Python:__
 | NodeSize | Center  | TSP (5 nodes)| shortestPath | LoadJson | SaveJson |
