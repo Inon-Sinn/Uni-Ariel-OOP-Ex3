@@ -1,11 +1,8 @@
 import math
 
 import pygame
-<<<<<<< HEAD
 import sys
 
-=======
->>>>>>> 83996ec88163f57e9ec355de8944ecde2f9c8910
 from pygame import gfxdraw
 from src.DiGraph import DiGraph
 
