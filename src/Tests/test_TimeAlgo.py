@@ -4,6 +4,8 @@ from src.Graph_Algo import GraphAlgo
 from src import DiGraph
 from unittest import TestCase
 
+"""This File was Created to measure the Runtime of our Algorithms"""
+
 
 def printTimes(curtime, lastTime, i):
     if 6 > i >= 0:
