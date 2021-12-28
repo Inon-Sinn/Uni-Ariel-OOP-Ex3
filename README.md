@@ -23,7 +23,20 @@ Inside the file we created the DiGraph object and Node object. We represented th
 #### GraphGui - contains methods for running the gui visual
 
 ### Additional Visualization
+
 ![alt text](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/blob/master/src/Ex3.png)
+
+| NodeSize | Center  | TSP (5 nodes)| shortestPath | LoadJson | SaveJson |
+| ---------- | --------- |--------- | --------- |--------- | --------- |
+| A0 |2 ms|3 ms|0 ms|0 ms|3 ms|
+| A1 |4 ms|2 ms|1 ms|1 ms|3 ms|
+| A2 |12 ms|3 ms|0 ms|1 ms|7 ms|
+| A3 |38 ms|11 ms|2 ms|1 ms|7 ms|
+| A4 |19 ms|4 ms|2 ms|1 ms|3 ms|
+| A5 |36 ms|8 ms|58 ms|1 ms|5 ms|
+| 1000 |33 s|313 ms|38 ms|196 ms|approx 52 days|
+| 10000 | |4 s|45 s|421 ms|2 s|
+| 100000 | | |15.1 s|10.5 s|2 s|
 
 
 ###  External Documents:
