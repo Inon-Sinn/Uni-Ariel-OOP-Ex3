@@ -69,7 +69,7 @@ class GraphAlgo(GraphAlgoInterface):
 
     def shortest_path(self, id1: int, id2: int) -> (float, list):
         dijkstra = Dijkstra(self.graph)
-        # define distancesFromsrc as distance Of Shortest Paths
+        # define distances From src as distance Of Shortest Paths
         distancesFromsrc = dijkstra.DijkstraAlgo(id1)
         if distancesFromsrc.get(id2) is math.inf:
             return float('inf'), []
@@ -117,8 +117,8 @@ class GraphAlgo(GraphAlgoInterface):
         return completePath, total_dist
 
     def centerPoint(self) -> (int, float):
-        if self.isConnected() is False:  # TODO check if returning None is correct in case that there is no Center
-            return None, math.inf  # next(iter(self.graph.get_all_v().keys())),math.inf
+        if self.isConnected() is False:
+            return None, math.inf
         center_id = 0
         center_max_dis = math.inf
         for node in self.graph.get_all_v().values():
@@ -166,7 +166,7 @@ class BFS:
         :param graph: a Graph that implements the GraphInterface
         """
         self.graph = graph
-        self.Q = Queue(self.graph.v_size())  # TODO check that 0 is infinite in help()
+        self.Q = Queue(self.graph.v_size())
         self.d = {}
         self.prev = {}  # TODO could be deleted if there is no use for it
         # constants
@@ -281,18 +281,8 @@ class Dijkstra:
         shortestPath.insert(0, src)
         return shortestPath
 
-        # Q = Queue(0)
-        # Q.put(dest)
-        # cur = dest
-        # while self.prev.get(cur) is not src:
-        #     Q.put(self.prev.get(cur))
-        #     cur = self.prev.get(cur)
-        # path = [src]
-        # while not Q.empty():
-        #     path.append(Q.get_nowait())
-        # return path
-
     def MaxWeight(self) -> float:
+        " An Auxiliary function that returns the max weight found in this Dijkstra run"
         Max = 0
         for weight in self.distsFromSrc.values():
             if weight == math.inf:
