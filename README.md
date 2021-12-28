@@ -51,8 +51,8 @@ traveling salesman problem(almost), we get a list of cities(id's of nodes) and h
 We do this using a greedy algorithem, we start from the first city, the next city is the closest unvisited city to it, which we find with Dijkstra, and we contuine like this until we went over all city's. After which we return the path we went.
 
  -------------------------
-<h1> Runtime of the algorithms in python and java comparison: </h1>
-#### Python:
+Runtime of the algorithms in python and java comparison:</br>
+Python:
 | NodeSize | Center  | TSP (5 nodes)| shortestPath | LoadJson | SaveJson |
 | ---------- | --------- |--------- | --------- |--------- | --------- |
 | A0     |2 ms |3 ms  |0 ms  |0 ms  |3 ms   |
