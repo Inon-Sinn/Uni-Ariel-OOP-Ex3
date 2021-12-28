@@ -42,7 +42,7 @@ class MinHeap:
             minimumChild = leftChildIndex if self.heap[leftChildIndex][0] < self.heap[rightChildIndex][0] else rightChildIndex
             if self.heap[minimumChild][0] < self.heap[parentIndex][0]:
                 self.swap(self.heap[minimumChild][1], self.heap[parentIndex][1])
-                self.sink(minimumChild)
+                self.sink(self.heap[minimumChild][1])
 
     def insert(self, weight, nodeId):
         if weight is None or nodeId is None:

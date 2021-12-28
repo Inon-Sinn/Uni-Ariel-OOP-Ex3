@@ -109,8 +109,8 @@ class TestGraphAlgo(TestCase):
                 currstr = "../../data/A"
                 self.graphalgo.load_from_json(currstr + str(i) + ".json")
                 curId, curDist = self.graphalgo.centerPoint()
-                #self.assertEqual(centers[i], (curId,curDist))
-                print(f'centerId IS: {curId}, maxDistance is : {curDist} ')
+                self.assertEqual(centers[i], (curId,curDist))
+                #print(f'centerId IS: {curId}, maxDistance is : {curDist} ')
         if case == 1:
             self.graphalgo.load_from_json("../../data/A2.json")
             dijk = Dijkstra(self.graphalgo.graph)
@@ -260,7 +260,7 @@ class TestDijkstra(TestCase):
             print("Passed")
         elif case == 4:
             graphAlgo1 = GraphAlgo()
-            graphAlgo1.load_from_json("../../data/A1.json")
+            graphAlgo1.load_from_json("../../data/A2.json")
             dijk2 = Dijkstra(graphAlgo1.graph)
             dijk2.DijkstraAlgo(0)
             for key in dijk2.distsFromSrc.keys():

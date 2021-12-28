@@ -2,11 +2,10 @@ import math
 
 import pygame
 import sys
-sys.path.insert(0, '../src')
+
 from pygame import gfxdraw
 from src.Graph_Algo import GraphAlgo
 from src.DiGraph import DiGraph
-
 
 # Load and initialize the modules here
 pygame.init()
@@ -16,6 +15,7 @@ clock = pygame.time.Clock()
 FONT = pygame.font.SysFont('Arial', 15, bold=True)
 
 WIDTH, HEIGHT = 900, 740
+
 
 def scale(data, min_screen, max_screen, min_data, max_data):
     """get the scaled data with proportions min_data, max_data
@@ -210,7 +210,6 @@ class GUI:
                         Shortest_Path.title = "Shortest path"
                         TSP.title = "TSP"
                         Center.title = "Center"
-
 
             self.screen.fill(pygame.Color(screenColor))
 
