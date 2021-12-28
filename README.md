@@ -8,7 +8,7 @@ In Addition we were given a list of algorithms that we had to implement and then
 ## Implemented Algorithms
 
 for Information about the implemented algorithms: center, tsp, shortestPath, click here:</br>
-![Implemented Algorithms](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/wiki/Algorithms/_edit)
+[Implemented Algorithms](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/wiki/Algorithms/_edit)
 
 ## Interfaces and Classes
 
@@ -25,7 +25,7 @@ for Information about the implemented algorithms: center, tsp, shortestPath, cli
 
 ### UML
 
-![alt text](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/blob/master/src/Ex3.png)
+[alt text](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/blob/master/src/Ex3.png)
  
 ## Runtime of the Algorithms: Python VS Java
 
