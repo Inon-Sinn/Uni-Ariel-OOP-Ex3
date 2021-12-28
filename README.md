@@ -26,6 +26,8 @@ Inside the file we created the DiGraph object and Node object. We represented th
 
 ![alt text](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/blob/master/src/Ex3.png)
 
+### Runtime of the algorithms in python and java comparison:
+#### Python:
 | NodeSize | Center  | TSP (5 nodes)| shortestPath | LoadJson | SaveJson |
 | ---------- | --------- |--------- | --------- |--------- | --------- |
 | A0     |2 ms |3 ms  |0 ms  |0 ms  |3 ms   |
@@ -38,6 +40,15 @@ Inside the file we created the DiGraph object and Node object. We represented th
 | 10000  |     |4 s   |573 s |421 ms|2 s    |
 | 100000 |     |      |15.1 s|10.5 s|45 s   |
 
+#### Java:
+| NodeSize| center |TSP (5 nodes)|shortestPath|LoadJson|SaveJson|
+| ---------- | --------- |--------- | --------- |--------- | --------- |
+| G1      |5.57 ms          |7 ms    |0.245 ms|157 ms|320 ms|
+| G2      |11.75 ms         |4.25 ms |0.155 ms|41 ms |11 ms|
+| G3      |10.5 ms          |20.5 ms |0.435 ms|13 ms |26 ms|
+| 1,000   |6s               |176 ms  |8.53 ms |240 ms|210 ms|
+| 10,000  |aprox: 56.23 min |3.6 s   |337.4 ms|892 ms|581 ms|
+| 100,000 |approx 52 days   |80 min  |45 s    |6.8 s |9.2 s|
 
 ###  External Documents:
 [docs](https://docs.google.com/document/d/15sTWy_pa6Vg4r7phAC322vZA169V02yezjxxf4b9sJc/edit) <br />
