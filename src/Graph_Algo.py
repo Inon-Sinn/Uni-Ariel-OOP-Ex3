@@ -11,14 +11,18 @@ from src.Graph_Gui import GUI
 
 
 class GraphAlgo(GraphAlgoInterface):
+    """This Class Represents the Algorithms we can Run on the Graph we implemented,
+    This class implements the GraphAlgo Interface given in the Assignment"""
 
     def __init__(self, graph: DiGraph = None):
         self.graph = graph
 
     def get_graph(self) -> GraphInterface:
+        """Returns the Graph on which the Algorithms run"""
         return self.graph
 
     def load_from_json(self, file_name: str) -> bool:
+        """Given the name of a json file of a graph this algorithm will load the Graph"""
         graph = DiGraph()
         try:  # Checks if the file even Exists
             with open(file_name, "r+") as f:
@@ -39,6 +43,7 @@ class GraphAlgo(GraphAlgoInterface):
         return True
 
     def save_to_json(self, file_name: str) -> bool:
+        """This Algorithms Saves the Graph of this class into a json file with the given File Name"""
         # Checks the Input
         if file_name is None:
             return False
@@ -68,6 +73,14 @@ class GraphAlgo(GraphAlgoInterface):
             return False
 
     def shortest_path(self, id1: int, id2: int) -> (float, list):
+        """
+        shortestPath - O(|E|log|V|)
+        we are given two nodes id's of the source and the destination,
+        we then run Dijstra using those two id's and then return the path to get from the source to the destination.
+        :param id1: Id of the source/start node
+        :param id2: Id of the destination/end
+        :return: a Tuple(the distance of the shortest path, the path as list of node id's)
+        """
         dijkstra = Dijkstra(self.graph)
         # define distances From src as distance Of Shortest Paths
         distancesFromsrc = dijkstra.DijkstraAlgo(id1)
@@ -76,6 +89,16 @@ class GraphAlgo(GraphAlgoInterface):
         return distancesFromsrc.get(id2), dijkstra.ShortestPath(id1, id2)
 
     def TSP(self, node_lst: List[int]) -> (List[int], float):
+        """
+        tsp - O(n^2*|E|log|V|)
+        traveling salesman problem(almost), we get a list of cities(id's of nodes)
+        and have to return a path that passes through all cities(not the shortest just a path).
+        We do this using a greedy algorithem, we start from the first city,
+        the next city is the closest unvisited city to it, which we find with Dijkstra,
+        and we contuine like this until we went over all city's. After which we return the path we went.
+        :param node_lst: list of node id's representing the cities
+        :return: a Tuple(the path as list of node id's,the distance of the Path)
+        """
         if node_lst is None:
             return None, math.inf
         if node_lst.__len__() == 1:
@@ -117,6 +140,13 @@ class GraphAlgo(GraphAlgoInterface):
         return completePath, total_dist
 
     def centerPoint(self) -> (int, float):
+        """
+        center - O(|V||E|log|V|)
+        The center is the node which minimizes the max distance to all the other nodes.
+        First we check if the graph is even connected else there won't be a center at all. If the graph is connected
+        we run Dijkstra from every node we return the node minimizes the max distance to all the other nodes.
+        :return: Tuple(center node id, min-maximum distance)
+        """
         if self.isConnected() is False:
             return None, math.inf
         center_id = 0
@@ -131,6 +161,7 @@ class GraphAlgo(GraphAlgoInterface):
         return center_id, center_max_dis
 
     def plot_graph(self) -> None:
+        """Plots the Graph using the Amazing Gui we build"""
         plot = GUI(self, 900, 740)
 
     def isConnected(self) -> bool:
@@ -282,7 +313,7 @@ class Dijkstra:
         return shortestPath
 
     def MaxWeight(self) -> float:
-        " An Auxiliary function that returns the max weight found in this Dijkstra run"
+        """ An Auxiliary function that returns the max weight found in this Dijkstra run"""
         Max = 0
         for weight in self.distsFromSrc.values():
             if weight == math.inf:
