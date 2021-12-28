@@ -1,10 +1,12 @@
 import math
 
 import pygame
+<<<<<<< HEAD
 import sys
 
+=======
+>>>>>>> 83996ec88163f57e9ec355de8944ecde2f9c8910
 from pygame import gfxdraw
-from src.Graph_Algo import GraphAlgo
 from src.DiGraph import DiGraph
 
 # Load and initialize the modules here
@@ -55,7 +57,7 @@ class Button:
 
 class GUI:
 
-    def __init__(self, Algo: GraphAlgo, width: int, height: int):
+    def __init__(self, Algo, width: int, height: int):
         self.algo = Algo
         self.graph = self.algo.get_graph()
         self.width = width
@@ -339,7 +341,8 @@ class GUI:
 
 
 if __name__ == '__main__':
-    jsonFileName = "A1.json"
-    algo = GraphAlgo()
-    algo.load_from_json("../data/{}".format(jsonFileName))
-    gui = GUI(algo, WIDTH, HEIGHT)
+    print("hi")
+    # jsonFileName = "A1.json"
+    # algo = GraphAlgo()
+    # algo.load_from_json("../data/{}".format(jsonFileName))
+    # gui = GUI(algo, WIDTH, HEIGHT)
