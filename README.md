@@ -83,7 +83,6 @@ Python:
 
 
 <h1>Fin</h1> <p></p>
--------------------------
 </br>
 <h4>External Documents:</h4></br>
 <a href="https://docs.google.com/document/d/15sTWy_pa6Vg4r7phAC322vZA169V02yezjxxf4b9sJc/edit">[docs]</a> <br />
