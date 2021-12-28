@@ -15,17 +15,23 @@ for Information about the implemented algorithms: center, tsp, shortestPath, cli
 |Interfaces| Descripition |
 | ---------- | --------- |
 | GraphInterfave | interface for a Directed Weighted Graph|
-| GraphAlgoInterface  |  an Interface with the algorithms written above |
+| GraphAlgoInterface | an Interface with the ![algorithms](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/wiki/Algorithms) written in the wiki |
 
 
 |Classes| Descripition |
 | ---------- | --------- |
-| GraphInterfave | interface for a Directed Weighted Graph |
+| DiGraph | implements the GraphInterFace |
 | GraphAlgoInterface  |  an Interface with the algorithms that can ve used on a Graph |
+| GraphAlgo  |  implements the GraphAlgoInterface |
+|Node| A Class that represent a Node, used by DiGraph|
+|BFS|Implements the BFS Algorithm, used by GraphAlgo|
+|Dijkstra|Implements the Dijkstra Algorithm, used by GraphAlgo|
+|MinHeap| A Class that implements the MinHeap dataset|
+|GUI| The GUI|
 
 ### UML
 
-[alt text](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/blob/master/src/Ex3.png)
+![alt text](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/blob/master/Pictures/UML.png)
  
 ## Runtime of the Algorithms: Python VS Java
 
