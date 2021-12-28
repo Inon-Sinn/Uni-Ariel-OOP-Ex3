@@ -7,48 +7,25 @@ In Addition we were given a list of algorithms that we had to implement and then
 
 ## Implemented Algorithms
 
-E - the number of edges<br/>
-V - the number of vertexes
-
-_shortestPath_ - O(|E|log|V|)<br/>
-we are given two nodes id's of the source and the destination, we then run Dijstra using those two id's and then return the path to get from the source to the destination.
-
-_center_ - O(|V||E|log|V|)<br/>
-The cetnter is the node which minimizes the max distance to all the other nodes.<br/>
-First we check if the graph is even connected else there won't be a center at all.<br>
-If the graph is connected we run Dijkstra from every node we return the node minimizes the max distance to all the other nodes.
-
-_tsp_ - O(n^2*|E|log|V|)<br/>
-traveling salesman problem(almost), we get a list of cities(id's of nodes) and have to return a path that passes through all cities(not the shortest just a path).<br/>
-We do this using a greedy algorithem, we start from the first city, the next city is the closest unvisited city to it, which we find with Dijkstra, and we contuine like this until we went over all city's. After which we return the path we went.
-
-_Load from Json_
-
-_Save to Json_
-
-_plot_
+for Information about the implemented algorithms: center, tsp, shortestPath, click here:</br>
+[Implemented Algorithms](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/wiki/Algorithms/_edit)
 
 ## Interfaces and Classes
 
 |Interfaces| Descripition |
 | ---------- | --------- |
 | GraphInterfave | interface for a Directed Weighted Graph|
-| GraphAlgoInterface  |  an Interface with the ![algorithms](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/wiki/Algorithms) written in the wiki |
+| GraphAlgoInterface  |  an Interface with the algorithms written above |
 
 
 |Classes| Descripition |
 | ---------- | --------- |
-| DiGraph | implements the GraphInterFace |
-| GraphAlgo  |  implements the GraphAlgoInterface |
-|Node| A Class that represent a Node, used by DiGraph|
-|BFS|Implements the BFS Algorithm, used by GraphAlgo|
-|Dijkstra|Implements the Dijkstra Algorithm, used by GraphAlgo|
-|MinHeap| A Class that implements the MinHeap dataset|
-|GUI| The GUI|
+| GraphInterfave | interface for a Directed Weighted Graph |
+| GraphAlgoInterface  |  an Interface with the algorithms that can ve used on a Graph |
 
 ### UML
 
-![alt text](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/blob/master/Pictures/UML.png)
+[alt text](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/blob/master/src/Ex3.png)
  
 ## Runtime of the Algorithms: Python VS Java
 
@@ -78,15 +55,8 @@ __Python:__
 <h1>GUI</h1>
 
 <h2>GUI Instructional:</h2>
-<h3>Mouse Interaction: </h5>
-<p style="#2ac02a">When clicking Coordinates of the screen will be updated and displayed. This will replace "Coordinates:" 's place. If a node is clicked then its color will change to yellow.</p>
-<h3>Buttons:</h4>
-<h4>Add Edge:</h4> <p style="#2ac02a">Select two nodes with your mouse and click Add Edge. The first node is the source, and the second is the destination.</p>
-<h4>Add Node:</h4> <p style="#2ac02a">click on the screen and then click Add Node to add a new node to the graph.</p>
-<h4>Clean:</h4> <p style="#2ac02a">removes all the colors displayed.</p>
-<h4>Center:</h4> <p style="#2ac02a">Click on Center to see the Center node of the graph (The node with the least maximal distance to all other nodes).</p>
-<h4>ShortestPath:</h4> <p style="#2ac02a">Click on two nodes and then click on shortestPath to see the path with minimal distance to travel between source node to destination node.</p>
-<h4>TSP:</h4> <p style="#2ac02a">Click on finite number of nodes, and then click TSP. This will present a path that visits all the given nodes at least once.</p>
+For the gui instructional please click here: </br>
+
 
 ### How to run the GUI
 To Run the Gui directly from the Terminal enter the command python ``` Ex3.py <json file name> ``` , the json file will have to be in the data directory.<br/>
