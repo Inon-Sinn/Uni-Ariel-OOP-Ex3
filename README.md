@@ -49,3 +49,6 @@ Inside the file we created the DiGraph object and Node object. We represented th
 [pygame docs](https://www.pygame.org/docs/) <br />
 [Ex2 project](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex2)
 
+
+
+![gui Description](https://user-images.githubusercontent.com/82415308/147586389-772e82cc-5e72-4c06-bb41-dea38a6f5b4d.png)
