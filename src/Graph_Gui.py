@@ -1,11 +1,8 @@
 import math
 
 import pygame
-<<<<<<< HEAD
-import sys
 
-=======
->>>>>>> 83996ec88163f57e9ec355de8944ecde2f9c8910
+import sys
 from pygame import gfxdraw
 from src.DiGraph import DiGraph
 
@@ -108,10 +105,11 @@ class GUI:
         ButtonMargin = 6
         margin = + 50 + (self.screen.get_height() * (1 / OuterMargin))
         ArrowSize = 10
-        MarkedWidth = int(ArrowWidth * 5)
+        MarkedWidth = int(ArrowWidth * 10)
+        MarkedArrowSize = int(ArrowSize*1.5)
 
         # Compact
-        MarkedArrowSettings = {'size': ArrowSize, 'width': MarkedWidth, 'color': MarkedArrowColor}
+        MarkedArrowSettings = {'size': MarkedArrowSize, 'width': MarkedWidth, 'color': MarkedArrowColor}
         ArrowSettings = {'size': ArrowSize, 'width': ArrowWidth, 'color': ArrowColor}
 
         # Coordinates
@@ -185,7 +183,7 @@ class GUI:
                         if dist == math.inf:
                             Center.title = "No Center"
                         else:
-                            Center.title = "Dist: {:.5f}".format(dist)
+                            Center.title = "{}, Dist: {:.5f}".format(center_id,dist)
                             centerExists = True
 
                     # Check if the user Clicked on a Node

@@ -5,7 +5,7 @@ import sys
 
 def main(jsonFileName):
     algo = GraphAlgo()
-    algo.load_from_json("../data/{}".format(jsonFileName))
+    algo.load_from_json("data/{}".format(jsonFileName))
     algo.plot_graph()
 
 

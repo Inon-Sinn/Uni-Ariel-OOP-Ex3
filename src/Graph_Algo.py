@@ -7,6 +7,7 @@ from src.GraphAlgoInterface import GraphAlgoInterface
 from src.GraphInterface import GraphInterface
 from queue import Queue
 from src.Algorithms.Minheap import MinHeap
+from src.Graph_Gui import GUI
 
 
 class GraphAlgo(GraphAlgoInterface):
@@ -126,7 +127,7 @@ class GraphAlgo(GraphAlgoInterface):
         return center_id, center_max_dis
 
     def plot_graph(self) -> None:
-        pass
+        plot = GUI(self, 900, 740)
 
     def isConnected(self) -> bool:
         """An auxiliary function for center Point, Checks if the given Graph is Connected"""
