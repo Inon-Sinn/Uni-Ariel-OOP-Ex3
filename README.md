@@ -10,27 +10,33 @@ In Addition we were given a list of algorithms that we had to implement and then
 E - the number of edges
 V - the number of vertexes
 
-shortestPath - O(|E|log|V|)
+_shortestPath - O(|E|log|V|)_
 we are given two nodes id's of the source and the destination, we then run Dijstra using those two id's and then return the path to get from the source to the destination.
 
-center - O(|V||E|log|V|)
+_center - O(|V||E|log|V|)_
 The cetnter is the node which minimizes the max distance to all the other nodes.
 First we check if the graph is even connected else there won't be a center at all.
 If the graph is connected we run Dijkstra from every node we return the node minimizes the max distance to all the other nodes.
 
-tsp - O(n^2*|E|log|V|)
+_tsp - O(n^2*|E|log|V|)_
 traveling salesman problem(almost), we get a list of cities(id's of nodes) and have to return a path that passes through all cities(not the shortest just a path).
 We do this using a greedy algorithem, we start from the first city, the next city is the closest unvisited city to it, which we find with Dijkstra, and we contuine like this until we went over all city's. After which we return the path we went.
 
+_Load from Json_</br>
+loads the graph of a given json file of a graph
 
-## Interfaces
+_Save to Json_</br>
+Save the current Graph in json format with the naem given by the user
+
+_plot_</br>
+Plots the graph in the GUI
+
+## [Classes and Interfaces](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/wiki/Interfaces-and-Classes)
 
 |Interfaces| Descripition |
 | ---------- | --------- |
 | GraphInterfave | interface for a Directed Weighted Graph|
 | GraphAlgoInterface | an Interface with the [algorithms](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/wiki/Algorithms) written in the wiki |
-
-## Classes
 
 |Classes| Descripition |
 | ---------- | --------- |
@@ -47,7 +53,7 @@ We do this using a greedy algorithem, we start from the first city, the next cit
 
 ![alt text](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/blob/master/Pictures/UML.png)
  
-## Runtime of the Algorithms: Python VS Java
+## [Runtime of the Algorithms: Python VS Java](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/wiki/Runtime)
 
 __Python:__
 | NodeSize | Center  | TSP (5 nodes)| shortestPath | LoadJson | SaveJson |
