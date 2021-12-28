@@ -4,24 +4,26 @@
 In this assignment we were given a json file and had using it, to implement a Directed weighted graph using the given Interfaces.
 In Addition we were given a list of algorithms that we had to implement and then showcase all of it using GUI.
 
-### Contents
-We were given the files GraphInterface and GraphAlgoInterface and we started working from there:
+<h1> Contents and Classes</h1>
+<p>We were given the files GraphInterface and GraphAlgoInterface and we started working from there:
+  </p>
+<h3> -GraphInterface </h3> </br> <p>- interface for directed weighted graphs </p>
 
-#### GraphInterface - interface for directed weighted graphs
-
-#### GraphAlgoInterface - interface for algorithms that run on graphs
+<h3> -GraphAlgoInterface </h3></br> <p> interface for algorithms that run on graphs
 
 Contains methods for loading files and saving them in a JSON file, computes the shortest path from one node to the other using [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm), finds the node that has the shortest distance to its farthest node and plots the graph.
+   </p>
 
-#### DiGraph - implements GraphInterface:
+<h3> -DiGraph </h3> </br> <p> implements GraphInterface:
 
 Inside the file we created the DiGraph object and Node object. We represented the edges of the graph by a python dictionary inside the Node class, which contains the destination of the edge (coming out of the node) and its weight. 
+  </p
+-------------------------
+#### -GraphAlgo - implements GraphALgoInterface:
+-------------------------
 
-#### GraphAlgo - implements GraphALgoInterface:
-
-
-#### GraphGui - contains methods for running the gui visual
-
+#### -GraphGui - contains methods for running the gui visual
+-------------------------
 
 __Algorithms__<br/>
 
@@ -48,7 +50,8 @@ _tsp_ - O(n^2*|E|log|V|)<br/>
 traveling salesman problem(almost), we get a list of cities(id's of nodes) and have to return a path that passes through all cities(not the shortest just a path).<br/>
 We do this using a greedy algorithem, we start from the first city, the next city is the closest unvisited city to it, which we find with Dijkstra, and we contuine like this until we went over all city's. After which we return the path we went.
 
-### Runtime of the algorithms in python and java comparison:
+ -------------------------
+<h1> Runtime of the algorithms in python and java comparison: </h1>
 #### Python:
 | NodeSize | Center  | TSP (5 nodes)| shortestPath | LoadJson | SaveJson |
 | ---------- | --------- |--------- | --------- |--------- | --------- |
@@ -71,20 +74,26 @@ We do this using a greedy algorithem, we start from the first city, the next cit
 | 1,000   |6s               |176 ms  |8.53 ms |240 ms|210 ms|
 | 10,000  |aprox: 56.23 min |3.6 s   |337.4 ms|892 ms|581 ms|
 | 100,000 |approx 52 days   |80 min  |45 s    |6.8 s |9.2 s|
-
-###  External Documents:
-[docs](https://docs.google.com/document/d/15sTWy_pa6Vg4r7phAC322vZA169V02yezjxxf4b9sJc/edit) <br />
-### Contributers:
-[Inon Sinn](https://github.com/Inon-Sinn)<br />
-[Yan Naigebaver](https://github.com/Yannnyan) <br />
-[Yaron Sirota](https://github.com/Yaron-S)
-### temp links for devs
-[pygame docs](https://www.pygame.org/docs/) <br />
-[Ex2 project](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex2)
-
-
+---------------------------------
 ### Additional Visualization
 
 ![alt text](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex3/blob/master/src/Ex3.png)
 
 ![gui Description](https://user-images.githubusercontent.com/82415308/147586389-772e82cc-5e72-4c06-bb41-dea38a6f5b4d.png)
+
+
+<h1>Fin</h1> <p></p>
+-------------------------
+</br>
+<h4>External Documents:</h4></br>
+<a href="https://docs.google.com/document/d/15sTWy_pa6Vg4r7phAC322vZA169V02yezjxxf4b9sJc/edit">[docs]</a> <br />
+<h4> Contributers:</h4></br>
+<a href="https://github.com/Inon-Sinn">[Inon Sinn]</a><br />
+<a href="https://github.com/Yannnyan">[Yan Naigebaver]</a><br />
+<a href="https://github.com/Yaron-S">[Yaron Sirota]</a><br />
+<br />
+<h4> temp links for devs</h4></br>
+![pygame docs](https://www.pygame.org/docs/) <br />
+![Ex2 project](https://github.com/Inon-Sinn/Uni-Ariel-OOP-Ex2)
+
+
